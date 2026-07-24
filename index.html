@@ -38,6 +38,10 @@
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/images/favicon.png" />
 
+    <!-- Preconnect for fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <!-- Flaticon Uicons -->
     <link
       rel="stylesheet"
@@ -91,31 +95,19 @@
 
         <ul class="navbar-menu" id="navMenu">
           <li>
-            <a
-              href="#como-funciona"
-              class="navbar-link"
-              data-section="como-funciona"
-              >Cómo funciona</a
-            >
+            <a href="#como-funciona" class="navbar-link" data-section="como-funciona">Cómo funciona</a>
           </li>
           <li>
-            <a href="#beneficios" class="navbar-link" data-section="beneficios"
-              >Beneficios</a
-            >
+            <a href="#beneficios" class="navbar-link" data-section="beneficios">Beneficios</a>
           </li>
           <li>
-            <a
-              href="#caracteristicas"
-              class="navbar-link"
-              data-section="caracteristicas"
-              >Características</a
-            >
+            <a href="#caracteristicas" class="navbar-link" data-section="caracteristicas">Características</a>
           </li>
-          <li><a href="#faq" class="navbar-link" data-section="faq">FAQ</a></li>
           <li>
-            <a href="#contacto" class="btn btn-primary btn-sm"
-              >Únete al piloto</a
-            >
+            <a href="#faq" class="navbar-link" data-section="faq">FAQ</a>
+          </li>
+          <li>
+            <a href="#contacto" class="btn btn-primary btn-sm">Únete al piloto</a>
           </li>
           <div class="navbar-indicator"></div>
         </ul>
@@ -123,9 +115,7 @@
     </nav>
 
     <!-- ========================================
-       HERO SECTION (US12, US14)
-       Beneficio de autonomía y seguridad
-       Menos ansiedad del cuidado
+       HERO SECTION
        ======================================== -->
     <section class="hero" id="inicio">
       <div class="container">
@@ -133,7 +123,7 @@
           <div class="hero-text">
             <h1 class="hero-title">
               Seguridad que te acompaña.<br />
-              <span class="text-primary">Autonomía que te cuida.</span>
+              <span class="text-gradient">Autonomía que te cuida.</span>
             </h1>
             <p class="hero-subtitle">
               Monitoreo continuo 24/7 de tus signos vitales con detección
@@ -144,15 +134,7 @@
             <div class="hero-cta">
               <a href="#contacto" class="btn btn-primary btn-lg">
                 <span>Soy paciente</span>
-                <svg
-                  width="20"
-                  height="20"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </a>
@@ -163,24 +145,17 @@
           </div>
 
           <div class="hero-image">
-            <!-- Heartbeat Animation Background -->
-            <div class="heartbeat-monitor">
-              <svg
-                version="1.0"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                x="0px"
-                y="0px"
-                viewBox="0 0 150 73"
-                xml:space="preserve"
-              >
-                <polyline
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="3"
-                  stroke-miterlimit="10"
-                  points="0,45.486 38.514,45.486 44.595,33.324 50.676,45.486 57.771,45.486 62.838,55.622 71.959,9 80.067,63.729 84.122,45.486 97.297,45.486 103.379,40.419 110.473,45.486 150,45.486"
-                />
+            <!-- Pulse rings -->
+            <div class="pulse-rings" aria-hidden="true">
+              <div class="pulse-ring"></div>
+              <div class="pulse-ring"></div>
+              <div class="pulse-ring"></div>
+            </div>
+
+            <!-- Heartbeat / ECG Animation -->
+            <div class="heartbeat-monitor" aria-hidden="true">
+              <svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 73" xml:space="preserve">
+                <polyline fill="none" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" points="0,45.486 38.514,45.486 44.595,33.324 50.676,45.486 57.771,45.486 62.838,55.622 71.959,9 80.067,63.729 84.122,45.486 97.297,45.486 103.379,40.419 110.473,45.486 150,45.486" />
               </svg>
             </div>
 
@@ -189,6 +164,7 @@
               alt="Pulsera inteligente AllinBand monitoreando signos vitales"
               width="500"
               height="500"
+              loading="eager"
             />
           </div>
         </div>
@@ -196,8 +172,7 @@
     </section>
 
     <!-- ========================================
-       CÓMO FUNCIONA (US13)
-       Funcionamiento sencillo
+       CÓMO FUNCIONA — Timeline
        ======================================== -->
     <section class="section-alt" id="como-funciona">
       <div class="container">
@@ -224,35 +199,38 @@
           </div>
 
           <div class="how-it-works-steps">
-            <!-- Paso 1 -->
             <div class="step reveal">
               <div class="step-number">1</div>
-              <h3 class="step-title">Monitorea</h3>
-              <p class="step-description">
-                La pulsera mide continuamente tu frecuencia cardíaca, saturación
-                de oxígeno y temperatura. Sin que tengas que hacer nada.
-              </p>
+              <div class="step-content">
+                <h3 class="step-title">Monitorea</h3>
+                <p class="step-description">
+                  La pulsera mide continuamente tu frecuencia cardíaca, saturación
+                  de oxígeno y temperatura. Sin que tengas que hacer nada.
+                </p>
+              </div>
             </div>
 
-            <!-- Paso 2 -->
             <div class="step reveal">
               <div class="step-number">2</div>
-              <h3 class="step-title">Detecta</h3>
-              <p class="step-description">
-                Machine Learning analiza tus patrones personales y detecta
-                anomalías críticas antes de que se conviertan en emergencias.
-              </p>
+              <div class="step-content">
+                <h3 class="step-title">Detecta</h3>
+                <p class="step-description">
+                  Machine Learning analiza tus patrones personales y detecta
+                  anomalías críticas antes de que se conviertan en emergencias.
+                </p>
+              </div>
             </div>
 
-            <!-- Paso 3 -->
             <div class="step reveal">
               <div class="step-number">3</div>
-              <h3 class="step-title">Activa ayuda</h3>
-              <p class="step-description">
-                Alerta en la pulsera, notificaciones a tu red de contactos con
-                tus datos y ubicación, y conexión automática con servicios de
-                emergencia.
-              </p>
+              <div class="step-content">
+                <h3 class="step-title">Activa ayuda</h3>
+                <p class="step-description">
+                  Alerta en la pulsera, notificaciones a tu red de contactos con
+                  tus datos y ubicación, y conexión automática con servicios de
+                  emergencia.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -260,13 +238,12 @@
     </section>
 
     <!-- ========================================
-       BENEFICIOS PARA PACIENTES (US12)
-       Beneficio de autonomía y seguridad
+       BENEFICIOS PARA PACIENTES
        ======================================== -->
     <section id="beneficios" class="section-with-background">
       <div class="container">
         <div class="benefits-intro">
-          <h2 class="section-title">
+          <h2 class="section-title text-gradient">
             Vive con libertad, protegido en todo momento
           </h2>
           <p class="section-subtitle">
@@ -276,8 +253,7 @@
         </div>
 
         <div class="features-grid">
-          <!-- Beneficio 1 -->
-          <article class="card reveal">
+          <article class="card card--violet reveal">
             <div class="card-icon card-icon--primary">
               <i class="fi fi-sr-shield-check"></i>
             </div>
@@ -288,9 +264,8 @@
             </p>
           </article>
 
-          <!-- Beneficio 2 -->
-          <article class="card reveal">
-            <div class="card-icon card-icon--primary">
+          <article class="card card--cyan reveal">
+            <div class="card-icon card-icon--cyan">
               <i class="fi fi-sr-bell-ring"></i>
             </div>
             <h3 class="card-title">Alerta local inmediata</h3>
@@ -300,21 +275,19 @@
             </p>
           </article>
 
-          <!-- Beneficio 3 -->
-          <article class="card reveal">
-            <div class="card-icon card-icon--primary">
+          <article class="card card--warm reveal">
+            <div class="card-icon card-icon--secondary">
               <i class="fi fi-sr-life-ring"></i>
             </div>
-            <h3 class="card-title">Ayuda automática garantizada</h3>
+            <h3 class="card-title">Ayuda automática</h3>
             <p class="card-description">
               Aunque no puedas responder, el sistema contacta a tus familiares y
               servicios de emergencia con tu ubicación exacta.
             </p>
           </article>
 
-          <!-- Beneficio 4 -->
-          <article class="card reveal">
-            <div class="card-icon card-icon--secondary">
+          <article class="card card--violet reveal">
+            <div class="card-icon card-icon--primary">
               <i class="fi fi-sr-chart-histogram"></i>
             </div>
             <h3 class="card-title">Historial para tu médico</h3>
@@ -324,9 +297,8 @@
             </p>
           </article>
 
-          <!-- Beneficio 5 -->
-          <article class="card reveal">
-            <div class="card-icon card-icon--secondary">
+          <article class="card card--cyan reveal">
+            <div class="card-icon card-icon--cyan">
               <i class="fi fi-sr-marker"></i>
             </div>
             <h3 class="card-title">Centros de salud cercanos</h3>
@@ -336,8 +308,7 @@
             </p>
           </article>
 
-          <!-- Beneficio 6 -->
-          <article class="card reveal">
+          <article class="card card--warm reveal">
             <div class="card-icon card-icon--secondary">
               <i class="fi fi-sr-brain"></i>
             </div>
@@ -352,9 +323,7 @@
     </section>
 
     <!-- ========================================
-       BENEFICIOS PARA CUIDADORES (US14, US15)
-       Menos ansiedad del cuidado
-       Herramientas de supervisión
+       BENEFICIOS PARA CUIDADORES
        ======================================== -->
     <section class="section-alt" id="beneficios-cuidadores">
       <div class="container">
@@ -370,9 +339,8 @@
         </div>
 
         <div class="features-grid">
-          <!-- Beneficio Cuidador 1 -->
-          <article class="card reveal">
-            <div class="card-icon card-icon--secondary">
+          <article class="card card--violet reveal">
+            <div class="card-icon card-icon--primary">
               <i class="fi fi-sr-smartphone"></i>
             </div>
             <h3 class="card-title">Notificaciones automáticas</h3>
@@ -382,9 +350,8 @@
             </p>
           </article>
 
-          <!-- Beneficio Cuidador 2 -->
-          <article class="card reveal">
-            <div class="card-icon card-icon--secondary">
+          <article class="card card--cyan reveal">
+            <div class="card-icon card-icon--cyan">
               <i class="fi fi-sr-heart"></i>
             </div>
             <h3 class="card-title">Datos vitales en emergencias</h3>
@@ -394,8 +361,7 @@
             </p>
           </article>
 
-          <!-- Beneficio Cuidador 3 -->
-          <article class="card reveal">
+          <article class="card card--warm reveal">
             <div class="card-icon card-icon--secondary">
               <i class="fi fi-sr-users-alt"></i>
             </div>
@@ -410,8 +376,7 @@
     </section>
 
     <!-- ========================================
-       CARACTERÍSTICAS DE LA APP (US15)
-       Herramientas de supervisión
+       CARACTERÍSTICAS DE LA APP
        ======================================== -->
     <section id="caracteristicas">
       <div class="container">
@@ -425,8 +390,7 @@
         </div>
 
         <div class="features-grid">
-          <!-- Característica 1 -->
-          <article class="card reveal">
+          <article class="card card--violet reveal">
             <div class="card-icon card-icon--primary">
               <i class="fi fi-sr-bolt"></i>
             </div>
@@ -437,9 +401,8 @@
             </p>
           </article>
 
-          <!-- Característica 2 -->
-          <article class="card reveal">
-            <div class="card-icon card-icon--primary">
+          <article class="card card--cyan reveal">
+            <div class="card-icon card-icon--cyan">
               <i class="fi fi-sr-chart-line-up"></i>
             </div>
             <h3 class="card-title">Historial y tendencias</h3>
@@ -449,9 +412,8 @@
             </p>
           </article>
 
-          <!-- Característica 3 -->
-          <article class="card reveal">
-            <div class="card-icon card-icon--primary">
+          <article class="card card--warm reveal">
+            <div class="card-icon card-icon--secondary">
               <i class="fi fi-sr-map-marker"></i>
             </div>
             <h3 class="card-title">Geolocalización en emergencias</h3>
@@ -465,9 +427,9 @@
     </section>
 
     <!-- ========================================
-       TECNOLOGÍA Y PRIVACIDAD
+       TECNOLOGÍA Y PRIVACIDAD — Stats + Trust
        ======================================== -->
-    <section class="section-primary">
+    <section class="section-primary" id="tecnologia">
       <div class="container">
         <div class="section-header">
           <h2 class="section-title">
@@ -479,78 +441,61 @@
           </p>
         </div>
 
-        <div class="features-grid">
-          <article class="card">
-            <div class="card-icon card-icon--primary">
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-item reveal">
+            <div class="stat-value">
+              <span data-count="24">24</span><span class="stat-unit">h</span>
+            </div>
+            <div class="stat-label">Batería por carga</div>
+            <div class="stat-detail">Uso continuo con monitoreo activo</div>
+          </div>
+
+          <div class="stat-item reveal">
+            <div class="stat-value">
+              <span data-count="5">≤5</span><span class="stat-unit">s</span>
+            </div>
+            <div class="stat-label">Latencia de notificación</div>
+            <div class="stat-detail">Desde detección hasta alerta a contactos</div>
+          </div>
+
+          <div class="stat-item reveal">
+            <div class="stat-value">
+              <span data-count="99.5">99.5</span><span class="stat-unit">%</span>
+            </div>
+            <div class="stat-label">Disponibilidad</div>
+            <div class="stat-detail">Infraestructura confiable en la nube</div>
+          </div>
+        </div>
+
+        <!-- Trust row -->
+        <div class="trust-row">
+          <div class="trust-item reveal">
+            <div class="trust-icon">
               <i class="fi fi-sr-lock"></i>
             </div>
-            <h3 class="card-title">Cifrado AES-256</h3>
-            <p class="card-description">
-              Tus datos de salud están protegidos con cifrado de nivel bancario
-              durante transmisión y almacenamiento.
-            </p>
-          </article>
+            <div class="trust-text">Cifrado de datos en transmisión y almacenamiento</div>
+          </div>
 
-          <article class="card">
-            <div class="card-icon card-icon--primary">
+          <div class="trust-item reveal">
+            <div class="trust-icon">
               <i class="fi fi-sr-shield-check"></i>
             </div>
-            <h3 class="card-title">Autenticación segura</h3>
-            <p class="card-description">
-              Acceso mediante PIN o biometría. Solo tú y tus contactos
-              autorizados pueden ver la información.
-            </p>
-          </article>
+            <div class="trust-text">Autenticación por PIN o biometría</div>
+          </div>
 
-          <article class="card">
-            <div class="card-icon card-icon--secondary">
+          <div class="trust-item reveal">
+            <div class="trust-icon">
               <i class="fi fi-sr-mobile-button"></i>
             </div>
-            <h3 class="card-title">Compatibilidad total</h3>
-            <p class="card-description">
-              Android 10+ e iOS 14+. Conectividad Bluetooth Low Energy (BLE) y
-              actualizaciones remotas (OTA).
-            </p>
-          </article>
-
-          <article class="card">
-            <div class="card-icon card-icon--secondary">
-              <i class="fi fi-sr-battery-full"></i>
-            </div>
-            <h3 class="card-title">Batería de 24 horas</h3>
-            <p class="card-description">
-              Autonomía de un día completo por carga. Notificaciones de batería
-              baja para que nunca te quedes sin protección.
-            </p>
-          </article>
-
-          <article class="card">
-            <div class="card-icon card-icon--primary">
-              <i class="fi fi-sr-bolt"></i>
-            </div>
-            <h3 class="card-title">Latencia ≤ 5 segundos</h3>
-            <p class="card-description">
-              Desde la detección de una anomalía hasta la notificación a tus
-              contactos, en menos de 5 segundos.
-            </p>
-          </article>
-
-          <article class="card">
-            <div class="card-icon card-icon--secondary">
-              <i class="fi fi-sr-cloud-check"></i>
-            </div>
-            <h3 class="card-title">Disponibilidad 99.5%</h3>
-            <p class="card-description">
-              Infraestructura confiable con respaldo en la nube. Tus datos
-              siempre accesibles cuando los necesites.
-            </p>
-          </article>
+            <div class="trust-text">Android 10+ e iOS 14+ con Bluetooth LE</div>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- ========================================
-       FAQ (US13)
+       FAQ
        ======================================== -->
     <section class="section-alt" id="faq">
       <div class="container">
@@ -560,13 +505,12 @@
         </div>
 
         <div class="faq-list">
-          <!-- FAQ 1 -->
           <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-1">
               <span>¿Qué pasa si la alerta es una falsa alarma?</span>
               <span class="faq-icon">▼</span>
             </button>
-            <div class="faq-answer">
+            <div class="faq-answer" id="faq-1" role="region">
               <div class="faq-answer-content">
                 <p>
                   Cuando la pulsera detecta una anomalía, primero te alerta
@@ -579,13 +523,12 @@
             </div>
           </div>
 
-          <!-- FAQ 2 -->
           <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-2">
               <span>¿Necesito tener siempre el móvil cerca?</span>
               <span class="faq-icon">▼</span>
             </button>
-            <div class="faq-answer">
+            <div class="faq-answer" id="faq-2" role="region">
               <div class="faq-answer-content">
                 <p>
                   No necesariamente. La pulsera almacena datos localmente y
@@ -598,17 +541,16 @@
             </div>
           </div>
 
-          <!-- FAQ 3 -->
           <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-3">
               <span>¿Cuánto dura la batería?</span>
               <span class="faq-icon">▼</span>
             </button>
-            <div class="faq-answer">
+            <div class="faq-answer" id="faq-3" role="region">
               <div class="faq-answer-content">
                 <p>
-                  La autonomía de AllinBand es de 24 horas de uso continuo con
-                  monitoreo activo. Recibirás notificaciones cuando la batería
+                  La autonomía de AllinBand es de hasta 24 horas de uso continuo
+                  con monitoreo activo. Recibirás notificaciones cuando la batería
                   esté por debajo del 20% para que puedas cargarla. La carga
                   completa toma aproximadamente 2 horas.
                 </p>
@@ -616,16 +558,15 @@
             </div>
           </div>
 
-          <!-- FAQ 4 -->
           <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-4">
               <span>¿Es resistente al agua?</span>
               <span class="faq-icon">▼</span>
             </button>
-            <div class="faq-answer">
+            <div class="faq-answer" id="faq-4" role="region">
               <div class="faq-answer-content">
                 <p>
-                  Sí, AllinBand cuenta con certificación IPX7, lo que significa
+                  AllinBand cuenta con certificación IPX7, lo que significa
                   que es resistente a inmersión en agua hasta 1 metro de
                   profundidad durante 30 minutos. Puedes lavarte las manos,
                   ducharte o usarla bajo la lluvia sin problemas.
@@ -634,15 +575,12 @@
             </div>
           </div>
 
-          <!-- FAQ 5 -->
           <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">
-              <span
-                >¿Cómo funciona la personalización con Machine Learning?</span
-              >
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-5">
+              <span>¿Cómo funciona la personalización con Machine Learning?</span>
               <span class="faq-icon">▼</span>
             </button>
-            <div class="faq-answer">
+            <div class="faq-answer" id="faq-5" role="region">
               <div class="faq-answer-content">
                 <p>
                   Durante las primeras semanas de uso, AllinBand recopila tus
@@ -655,13 +593,12 @@
             </div>
           </div>
 
-          <!-- FAQ 6 -->
           <div class="faq-item">
-            <button class="faq-question" aria-expanded="false">
+            <button class="faq-question" aria-expanded="false" aria-controls="faq-6">
               <span>¿Puedo agregar múltiples contactos de emergencia?</span>
               <span class="faq-icon">▼</span>
             </button>
-            <div class="faq-answer">
+            <div class="faq-answer" id="faq-6" role="region">
               <div class="faq-answer-content">
                 <p>
                   Sí, puedes configurar una red jerarquizada de hasta 5
@@ -683,38 +620,20 @@
     <section class="cta-section" id="contacto">
       <div class="container">
         <h2 class="cta-title">Únete al piloto de AllinBand</h2>
-        <p class="text-lg text-gray mb-8">
+        <p class="text-lg mb-8" style="color: var(--text-body);">
           Completa el formulario y nos pondremos en contacto contigo para
           integrar AllinBand en tu día a día.
         </p>
 
-        <form
-          class="cta-form"
-          id="contactForm"
-          aria-label="Formulario de contacto"
-        >
+        <form class="cta-form" id="contactForm" aria-label="Formulario de contacto">
           <div class="form-group">
             <label for="name" class="form-label">Nombre completo *</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              class="form-input"
-              required
-              aria-required="true"
-            />
+            <input type="text" id="name" name="name" class="form-input" required aria-required="true" />
           </div>
 
           <div class="form-group">
             <label for="email" class="form-label">Correo electrónico *</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="form-input"
-              required
-              aria-required="true"
-            />
+            <input type="email" id="email" name="email" class="form-input" required aria-required="true" />
           </div>
 
           <div class="form-group">
@@ -724,13 +643,7 @@
 
           <div class="form-group">
             <label for="role" class="form-label">Soy *</label>
-            <select
-              id="role"
-              name="role"
-              class="form-select"
-              required
-              aria-required="true"
-            >
+            <select id="role" name="role" class="form-select" required aria-required="true">
               <option value="">Selecciona una opción</option>
               <option value="patient">Paciente</option>
               <option value="caregiver">Cuidador/Familiar</option>
@@ -740,19 +653,14 @@
 
           <div class="form-group">
             <label for="message" class="form-label">Mensaje (opcional)</label>
-            <textarea
-              id="message"
-              name="message"
-              class="form-textarea"
-              placeholder="Cuéntanos sobre tu situación o necesidades específicas"
-            ></textarea>
+            <textarea id="message" name="message" class="form-textarea" placeholder="Cuéntanos sobre tu situación o necesidades específicas"></textarea>
           </div>
 
           <button type="submit" class="btn btn-primary btn-lg w-full">
             Solicitar información
           </button>
 
-          <p class="text-sm text-gray mt-4">
+          <p class="text-sm mt-4" style="color: var(--text-muted);">
             * Campos obligatorios. Tus datos están protegidos según nuestra
             política de privacidad.
           </p>
@@ -766,7 +674,6 @@
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
-          <!-- Columna 1: Sobre Vivessence -->
           <div class="footer-section">
             <h3>AllinBand</h3>
             <p>
@@ -775,7 +682,6 @@
             </p>
           </div>
 
-          <!-- Columna 2: Enlaces -->
           <div class="footer-section">
             <h3>Enlaces</h3>
             <nav class="footer-links" aria-label="Enlaces del pie de página">
@@ -787,7 +693,6 @@
             </nav>
           </div>
 
-          <!-- Columna 3: Legal -->
           <div class="footer-section">
             <h3>Legal</h3>
             <nav class="footer-links" aria-label="Enlaces legales">
@@ -800,10 +705,7 @@
         </div>
 
         <div class="footer-bottom">
-          <p>
-            &copy; 2025 Vivessence - AllinBand. Todos los derechos reservados.
-            Proyecto académico.
-          </p>
+          <p>&copy; 2025 Vivessence - AllinBand. Todos los derechos reservados. Proyecto académico.</p>
         </div>
       </div>
     </footer>
@@ -813,26 +715,9 @@
       id="backToTop"
       class="btn btn-primary"
       aria-label="Volver arriba"
-      style="
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        z-index: 999;
-        padding: 12px;
-        border-radius: 50%;
-        display: none;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      "
+      style="position: fixed; bottom: 30px; right: 30px; z-index: 999; padding: 12px; border-radius: 50%; display: none; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);"
     >
-      <svg
-        width="24"
-        height="24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18 15l-6-6-6 6" />
       </svg>
     </button>

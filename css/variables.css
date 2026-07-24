@@ -1,106 +1,86 @@
 /**
  * AllinBand — Sistema de Variables de Diseño
- * 🎨 PERSONALIZACIÓN FÁCIL: Cambia estos valores para modificar todo el diseño
- * 
- * Relacionado con US12, US13, US14, US15 (EP05 - Experiencia del visitante)
+ * Dark Premium Health Tech
  */
 
 :root {
   /* ========================================
-     COLORES PRINCIPALES - Paleta Análoga Mejorada
+     DARK THEME SURFACES
      ======================================== */
 
-  /* Colores de Marca - Nuevo Logo (#8c82fc) */
-  --color-primary: #8c82fc; /* Azul/Violeta Logo - Principal */
-  --color-primary-light: #bab4fd; /* Lavanda claro - Hover/Light */
-  --color-primary-dark: #5e50fb; /* Violeta intenso - Activo/Dark */
-  --color-primary-alpha: rgba(140, 130, 252, 0.1); /* Con transparencia */
-  --color-primary-tint: #e8e6fe; /* Fondo muy claro */
+  --bg-deep: #0b0f1a;
+  --bg-surface: #111827;
+  --bg-surface-alt: #1f2937;
+  --bg-elevated: #1a2332;
 
-  /* Colores Análogos - Celeste/Cyan (Ajustados para armonizar) */
-  --color-cyan: #06b6d4; /* Celeste vibrante - Secundario */
-  --color-cyan-light: #67e8f9; /* Celeste claro */
-  --color-cyan-dark: #0e7490; /* Celeste oscuro */
-  --color-cyan-alpha: rgba(6, 182, 212, 0.1);
+  /* ========================================
+     COLORES DE MARCA
+     ======================================== */
 
-  /* Colores Análogos - Morado/Violeta (Sincronizados con la paleta) */
-  --color-violet: #5e50fb; /* Violeta intenso - Acentos */
-  --color-violet-light: #8c82fc; /* Violeta claro (Primary) */
-  --color-violet-dark: #4c1d95; /* Violeta muy oscuro */
-  --color-violet-alpha: rgba(94, 80, 251, 0.1);
+  --color-primary: #8b5cf6;
+  --color-primary-light: #a78bfa;
+  --color-primary-dark: #7c3aed;
+  --color-primary-alpha: rgba(139, 92, 246, 0.15);
 
-  /* Color Secundario - Verde (mantenido para éxito) */
-  --color-secondary: #10b981; /* Verde seguridad - Secundario */
+  --color-cyan: #06b6d4;
+  --color-cyan-light: #22d3ee;
+  --color-cyan-dark: #0891b2;
+  --color-cyan-alpha: rgba(6, 182, 212, 0.12);
+
+  --color-violet: #8b5cf6;
+  --color-violet-light: #a78bfa;
+  --color-violet-dark: #6d28d9;
+  --color-violet-alpha: rgba(139, 92, 246, 0.12);
+
+  --color-secondary: #10b981;
   --color-secondary-light: #34d399;
   --color-secondary-dark: #059669;
-  --color-secondary-alpha: rgba(16, 185, 129, 0.1);
+  --color-secondary-alpha: rgba(16, 185, 129, 0.12);
 
-  /* Color de Acento - Degradado entre Primary y Dark */
-  --color-accent: #5e50fb; /* Violeta oscuro como acento principal */
-  --color-accent-light: #8c82fc;
-  --color-accent-dark: #4338ca;
-  --color-accent-secondary: #bab4fd; /* Lavanda como acento secundario */
+  --color-accent: #f59e0b;
+  --color-accent-light: #fbbf24;
+  --color-accent-dark: #d97706;
+  --color-accent-ink: #111827;
 
-  /* Colores Neutros */
-  --color-white: #ffffff;
-  --color-black: #111827;
-  --color-gray-50: #f9fafb;
-  --color-gray-100: #f3f4f6;
-  --color-gray-200: #e6e6e6; /* Actualizado según paleta */
-  --color-gray-300: #d1d5db;
-  --color-gray-400: #9ca3af;
-  --color-gray-500: #6b7280;
-  --color-gray-600: #4b5563;
-  --color-gray-700: #374151;
-  --color-gray-800: #1f2937;
-  --color-gray-900: #111827;
+  /* ========================================
+     TEXTOS
+     ======================================== */
 
-  /* Colores Semánticos */
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-error: #ef4444;
-  --color-info: #8c82fc; /* Primary para información */
+  --text-primary: #f9fafb;
+  --text-body: #d1d5db;
+  --text-muted: #9ca3af;
 
-  /* Gradientes de Colores Análogos */
-  --gradient-primary: linear-gradient(
-    135deg,
-    #8c82fc 0%,
-    #5e50fb 100%
-  ); /* Primary a Dark */
-  --gradient-accent: linear-gradient(
-    135deg,
-    #bab4fd 0%,
-    #8c82fc 100%
-  ); /* Light a Primary */
-  --gradient-vibrant: linear-gradient(
-    135deg,
-    #5e50fb 0%,
-    #8c82fc 50%,
-    #bab4fd 100%
-  ); /* Dark-Primary-Light */
+  /* ========================================
+     BORDES Y GLOW
+     ======================================== */
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.12);
+  --focus-ring: #c4b5fd;
+
+  --glow-violet: rgba(139, 92, 246, 0.25);
+  --glow-cyan: rgba(6, 182, 212, 0.15);
+  --glow-warm: rgba(245, 158, 11, 0.2);
 
   /* ========================================
      TIPOGRAFÍA
      ======================================== */
 
-  /* Familias de Fuente */
-  --font-primary: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  --font-headings: "Poppins", "Inter", sans-serif;
+  --font-display: 'Space Grotesk', 'Poppins', system-ui, sans-serif;
+  --font-primary: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', monospace;
 
-  /* Tamaños de Fuente - Sistema Escalable */
-  --text-xs: 0.75rem; /* 12px */
-  --text-sm: 0.875rem; /* 14px */
-  --text-base: 1rem; /* 16px */
-  --text-lg: 1.125rem; /* 18px */
-  --text-xl: 1.25rem; /* 20px */
-  --text-2xl: 1.5rem; /* 24px */
-  --text-3xl: 1.875rem; /* 30px */
-  --text-4xl: 2.25rem; /* 36px */
-  --text-5xl: 3rem; /* 48px */
-  --text-6xl: 3.75rem; /* 60px */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 3.75rem;
 
-  /* Pesos de Fuente */
   --font-light: 300;
   --font-normal: 400;
   --font-medium: 500;
@@ -108,30 +88,32 @@
   --font-bold: 700;
   --font-extrabold: 800;
 
-  /* Line Heights */
-  --leading-tight: 1.25;
-  --leading-snug: 1.375;
+  --leading-tight: 1.2;
+  --leading-snug: 1.3;
   --leading-normal: 1.5;
   --leading-relaxed: 1.625;
-  --leading-loose: 2;
+
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
 
   /* ========================================
      ESPACIADO
      ======================================== */
 
-  --space-1: 0.25rem; /* 4px */
-  --space-2: 0.5rem; /* 8px */
-  --space-3: 0.75rem; /* 12px */
-  --space-4: 1rem; /* 16px */
-  --space-5: 1.25rem; /* 20px */
-  --space-6: 1.5rem; /* 24px */
-  --space-8: 2rem; /* 32px */
-  --space-10: 2.5rem; /* 40px */
-  --space-12: 3rem; /* 48px */
-  --space-16: 4rem; /* 64px */
-  --space-20: 5rem; /* 80px */
-  --space-24: 6rem; /* 96px */
-  --space-32: 8rem; /* 128px */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
 
   /* ========================================
      LAYOUT
@@ -139,19 +121,18 @@
 
   --container-max-width: 1280px;
   --container-padding: var(--space-6);
-
-  --section-padding-y: var(--space-20);
-  --section-padding-y-mobile: var(--space-12);
+  --section-padding-y: var(--space-24);
+  --section-padding-y-mobile: var(--space-16);
 
   /* ========================================
      BORDES Y RADIOS
      ======================================== */
 
-  --radius-sm: 0.25rem; /* 4px */
-  --radius-md: 0.5rem; /* 8px */
-  --radius-lg: 0.75rem; /* 12px */
-  --radius-xl: 1rem; /* 16px */
-  --radius-2xl: 1.5rem; /* 24px */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
   --radius-full: 9999px;
 
   --border-width: 1px;
@@ -162,22 +143,18 @@
      SOMBRAS
      ======================================== */
 
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
 
-  /* Sombra de Elevación (Material Design) */
-  --elevation-1: 0 2px 4px rgba(0, 0, 0, 0.08);
-  --elevation-2: 0 4px 8px rgba(0, 0, 0, 0.12);
-  --elevation-3: 0 8px 16px rgba(0, 0, 0, 0.16);
+  --elevation-1: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --elevation-2: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --elevation-3: 0 8px 16px rgba(0, 0, 0, 0.5);
 
   /* ========================================
-     TRANSICIONES Y ANIMACIONES
+     TRANSICIONES
      ======================================== */
 
   --transition-fast: 150ms ease-in-out;
@@ -203,7 +180,7 @@
   --z-tooltip: 1070;
 
   /* ========================================
-     BREAKPOINTS (para uso en media queries)
+     BREAKPOINTS
      ======================================== */
 
   --breakpoint-sm: 640px;
@@ -212,43 +189,3 @@
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
 }
-
-/* ========================================
-   TEMAS ALTERNATIVOS (OPCIONAL)
-   Descomenta para usar tema oscuro
-   ======================================== */
-
-/* [data-theme="dark"] {
-  --color-primary: #3B82F6;
-  --color-white: #111827;
-  --color-black: #F9FAFB;
-  --color-gray-50: #1F2937;
-  --color-gray-100: #374151;
-  --color-gray-800: #F3F4F6;
-  --color-gray-900: #F9FAFB;
-} */
-
-/* ========================================
-   GUÍA RÁPIDA DE USO
-   ======================================== 
-   
-   En tu CSS:
-   --------------------------------------
-   .my-button {
-     background-color: var(--color-primary);
-     padding: var(--space-4) var(--space-6);
-     border-radius: var(--radius-md);
-     transition: var(--transition-base);
-   }
-   
-   .my-button:hover {
-     background-color: var(--color-primary-dark);
-     box-shadow: var(--shadow-lg);
-   }
-   
-   Para cambiar todo el esquema de color:
-   --------------------------------------
-   Solo modifica los valores en las líneas 12-26
-   y automáticamente toda la página se actualiza.
-   
-   ======================================== */
