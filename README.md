@@ -2,6 +2,10 @@
   <img src="assets/images/vivessense-logo.png" alt="AllinBand Logo" width="120" />
 </div>
 
+<div align="center">
+  <img src="assets/images/allin-band-landing.png" alt="AllinBand Landing Preview" width="900" />
+</div>
+
 # AllinBand
 
 > Seguridad que te acompana. Autonomia que te cuida.
