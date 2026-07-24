@@ -1,6 +1,6 @@
 /**
  * AllinBand — Clases Utilitarias
- * Helpers y modificadores rápidos
+ * Dark Premium Health Tech
  */
 
 /* ========================================
@@ -8,273 +8,122 @@
    ======================================== */
 
 /* Margin */
-.mt-1 {
-  margin-top: var(--space-1);
-}
-.mt-2 {
-  margin-top: var(--space-2);
-}
-.mt-3 {
-  margin-top: var(--space-3);
-}
-.mt-4 {
-  margin-top: var(--space-4);
-}
-.mt-6 {
-  margin-top: var(--space-6);
-}
-.mt-8 {
-  margin-top: var(--space-8);
-}
-.mt-12 {
-  margin-top: var(--space-12);
-}
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+.mt-12 { margin-top: var(--space-12); }
 
-.mb-1 {
-  margin-bottom: var(--space-1);
-}
-.mb-2 {
-  margin-bottom: var(--space-2);
-}
-.mb-3 {
-  margin-bottom: var(--space-3);
-}
-.mb-4 {
-  margin-bottom: var(--space-4);
-}
-.mb-6 {
-  margin-bottom: var(--space-6);
-}
-.mb-8 {
-  margin-bottom: var(--space-8);
-}
-.mb-12 {
-  margin-bottom: var(--space-12);
-}
+.mb-1 { margin-bottom: var(--space-1); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
+.mb-12 { margin-bottom: var(--space-12); }
 
 /* Padding */
-.p-4 {
-  padding: var(--space-4);
-}
-.p-6 {
-  padding: var(--space-6);
-}
-.p-8 {
-  padding: var(--space-8);
-}
+.p-4 { padding: var(--space-4); }
+.p-6 { padding: var(--space-6); }
+.p-8 { padding: var(--space-8); }
 
 /* ========================================
    TEXTO
    ======================================== */
 
-.text-center {
-  text-align: center;
-}
-.text-left {
-  text-align: left;
-}
-.text-right {
-  text-align: right;
-}
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
 
-.text-primary {
-  color: var(--color-primary);
-}
-.text-secondary {
-  color: var(--color-secondary);
-}
-.text-cyan {
-  color: var(--color-cyan);
-}
-.text-violet {
-  color: var(--color-violet);
-}
-.text-gray {
-  color: var(--color-gray-600);
-}
-.text-white {
-  color: var(--color-white);
-}
+.text-primary { color: var(--color-primary-light); }
+.text-secondary { color: var(--color-secondary-light); }
+.text-cyan { color: var(--color-cyan-light); }
+.text-violet { color: var(--color-violet-light); }
+.text-gray { color: var(--text-muted); }
+.text-white { color: var(--text-primary); }
 
-/* Fondos con colores análogos */
-.bg-primary {
-  background-color: var(--color-primary);
-}
-.bg-cyan {
-  background-color: var(--color-cyan);
-}
-.bg-violet {
-  background-color: var(--color-violet);
-}
-.bg-gradient-primary {
-  background: var(--gradient-primary);
-}
-.bg-gradient-accent {
-  background: var(--gradient-accent);
-}
-.bg-gradient-vibrant {
-  background: var(--gradient-vibrant);
-}
+.text-sm { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg { font-size: var(--text-lg); }
+.text-xl { font-size: var(--text-xl); }
+.text-2xl { font-size: var(--text-2xl); }
 
-.text-sm {
-  font-size: var(--text-sm);
-}
-.text-base {
-  font-size: var(--text-base);
-}
-.text-lg {
-  font-size: var(--text-lg);
-}
-.text-xl {
-  font-size: var(--text-xl);
-}
-.text-2xl {
-  font-size: var(--text-2xl);
-}
+.font-light { font-weight: var(--font-light); }
+.font-normal { font-weight: var(--font-normal); }
+.font-medium { font-weight: var(--font-medium); }
+.font-semibold { font-weight: var(--font-semibold); }
+.font-bold { font-weight: var(--font-bold); }
 
-.font-light {
-  font-weight: var(--font-light);
-}
-.font-normal {
-  font-weight: var(--font-normal);
-}
-.font-medium {
-  font-weight: var(--font-medium);
-}
-.font-semibold {
-  font-weight: var(--font-semibold);
-}
-.font-bold {
-  font-weight: var(--font-bold);
-}
+/* Fondos */
+.bg-primary { background-color: var(--color-primary); }
+.bg-cyan { background-color: var(--color-cyan); }
+.bg-violet { background-color: var(--color-violet); }
+.bg-deep { background-color: var(--bg-deep); }
+.bg-surface { background-color: var(--bg-surface); }
 
 /* ========================================
    DISPLAY
    ======================================== */
 
-.block {
-  display: block;
-}
-.inline-block {
-  display: inline-block;
-}
-.flex {
-  display: flex;
-}
-.inline-flex {
-  display: inline-flex;
-}
-.grid {
-  display: grid;
-}
-.hidden {
-  display: none;
-}
+.block { display: block; }
+.inline-block { display: inline-block; }
+.flex { display: flex; }
+.inline-flex { display: inline-flex; }
+.grid { display: grid; }
+.hidden { display: none; }
 
 /* ========================================
    FLEXBOX
    ======================================== */
 
-.flex-row {
-  flex-direction: row;
-}
-.flex-col {
-  flex-direction: column;
-}
+.flex-row { flex-direction: row; }
+.flex-col { flex-direction: column; }
 
-.items-start {
-  align-items: flex-start;
-}
-.items-center {
-  align-items: center;
-}
-.items-end {
-  align-items: flex-end;
-}
+.items-start { align-items: flex-start; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
 
-.justify-start {
-  justify-content: flex-start;
-}
-.justify-center {
-  justify-content: center;
-}
-.justify-end {
-  justify-content: flex-end;
-}
-.justify-between {
-  justify-content: space-between;
-}
+.justify-start { justify-content: flex-start; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.justify-between { justify-content: space-between; }
 
-.gap-2 {
-  gap: var(--space-2);
-}
-.gap-4 {
-  gap: var(--space-4);
-}
-.gap-6 {
-  gap: var(--space-6);
-}
-.gap-8 {
-  gap: var(--space-8);
-}
+.gap-2 { gap: var(--space-2); }
+.gap-4 { gap: var(--space-4); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
 
 /* ========================================
    ANCHO
    ======================================== */
 
-.w-full {
-  width: 100%;
-}
-.w-auto {
-  width: auto;
-}
+.w-full { width: 100%; }
+.w-auto { width: auto; }
 
-.max-w-sm {
-  max-width: 640px;
-}
-.max-w-md {
-  max-width: 768px;
-}
-.max-w-lg {
-  max-width: 1024px;
-}
-.max-w-xl {
-  max-width: 1280px;
-}
+.max-w-sm { max-width: 640px; }
+.max-w-md { max-width: 768px; }
+.max-w-lg { max-width: 1024px; }
+.max-w-xl { max-width: 1280px; }
 
 /* ========================================
    BORDES
    ======================================== */
 
-.rounded {
-  border-radius: var(--radius-md);
-}
-.rounded-lg {
-  border-radius: var(--radius-lg);
-}
-.rounded-xl {
-  border-radius: var(--radius-xl);
-}
-.rounded-full {
-  border-radius: var(--radius-full);
-}
+.rounded { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-xl { border-radius: var(--radius-xl); }
+.rounded-full { border-radius: var(--radius-full); }
 
 /* ========================================
    SOMBRAS
    ======================================== */
 
-.shadow-sm {
-  box-shadow: var(--shadow-sm);
-}
-.shadow-md {
-  box-shadow: var(--shadow-md);
-}
-.shadow-lg {
-  box-shadow: var(--shadow-lg);
-}
-.shadow-xl {
-  box-shadow: var(--shadow-xl);
-}
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+.shadow-xl { box-shadow: var(--shadow-xl); }
 
 /* ========================================
    ANIMACIONES
@@ -289,27 +138,17 @@
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* ========================================
-   SCROLL REVEAL (para usar con JS)
+   SCROLL REVEAL
    ======================================== */
 
 .reveal {
@@ -327,16 +166,10 @@
    RESPONSIVE
    ======================================== */
 
-/* Ocultar en móvil */
 @media (max-width: 767px) {
-  .hidden-mobile {
-    display: none;
-  }
+  .hidden-mobile { display: none; }
 }
 
-/* Ocultar en desktop */
 @media (min-width: 768px) {
-  .hidden-desktop {
-    display: none;
-  }
+  .hidden-desktop { display: none; }
 }
