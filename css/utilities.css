@@ -1,6 +1,6 @@
 /**
  * AllinBand — Clases Utilitarias
- * Dark Premium Health Tech
+ * Mundo "Claro de mañana"
  */
 
 /* ========================================
@@ -37,10 +37,13 @@
 .text-left { text-align: left; }
 .text-right { text-align: right; }
 
-.text-primary { color: var(--color-primary-light); }
-.text-secondary { color: var(--color-secondary-light); }
-.text-cyan { color: var(--color-cyan-light); }
-.text-violet { color: var(--color-violet-light); }
+/* Texto sobre claro: siempre variantes oscuras (≥4.5:1).
+   Las variantes light solo sirven sobre tinta oscura. */
+.text-primary { color: var(--color-primary-dark); }
+.text-secondary { color: var(--color-secondary-dark); }
+.text-cyan { color: var(--color-cyan-dark); }
+.text-violet { color: var(--color-violet-dark); }
+.text-success { color: var(--color-success-dark); }
 .text-gray { color: var(--text-muted); }
 .text-white { color: var(--text-primary); }
 

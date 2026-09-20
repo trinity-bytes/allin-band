@@ -57,79 +57,110 @@
     <link rel="stylesheet" href="css/utilities.css" />
   </head>
   <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
     <!-- ========================================
-       NAVEGACIÓN
+       NAVEGACIÓN — cápsula flotante de vidrio
        ======================================== -->
-    <nav class="navbar" role="navigation" aria-label="Navegación principal">
-      <div class="container navbar-container">
-        <a href="#" class="navbar-logo" aria-label="AllinBand - Inicio">
+    <header class="navbar" id="navbar">
+      <nav class="navbar-capsule" aria-label="Navegación principal">
+        <a href="#inicio" class="navbar-brand">
           <img
-            src="assets/images/vivessense-logo.png"
-            alt="AllinBand"
-            class="navbar-logo-icon"
-            width="40"
-            height="40"
+            src="assets/images/vivessence-mark.png"
+            alt=""
+            class="navbar-brand-mark"
+            width="200"
+            height="199"
+            aria-hidden="true"
           />
+          <span class="navbar-brand-lockup">
+            <span class="navbar-brand-name">AllinBand</span>
+            <span class="navbar-brand-house">
+              <span class="navbar-brand-house-inner">de Vivessence</span>
+            </span>
+          </span>
         </a>
 
         <button
           class="navbar-toggle"
           id="navToggle"
-          aria-label="Abrir menú de navegación"
+          type="button"
+          aria-controls="navMenu"
           aria-expanded="false"
+          aria-label="Abrir menú de navegación"
         >
-          <svg
-            width="24"
-            height="24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
+          <span class="navbar-toggle-bars" aria-hidden="true">
+            <span></span>
+            <span></span>
+          </span>
         </button>
 
-        <ul class="navbar-menu" id="navMenu">
-          <li>
-            <a href="#como-funciona" class="navbar-link" data-section="como-funciona">Cómo funciona</a>
-          </li>
-          <li>
-            <a href="#beneficios" class="navbar-link" data-section="beneficios">Beneficios</a>
-          </li>
-          <li>
-            <a href="#caracteristicas" class="navbar-link" data-section="caracteristicas">Características</a>
-          </li>
-          <li>
-            <a href="#faq" class="navbar-link" data-section="faq">FAQ</a>
-          </li>
-          <li>
-            <a href="#contacto" class="btn btn-primary btn-sm">Únete al piloto</a>
-          </li>
-          <div class="navbar-indicator"></div>
-        </ul>
-      </div>
-    </nav>
+        <div class="navbar-nav" id="navMenu">
+          <span class="navbar-indicator" aria-hidden="true"></span>
+          <ul class="navbar-menu">
+            <li>
+              <a href="#como-funciona" class="navbar-link" data-section="como-funciona">Cómo funciona</a>
+            </li>
+            <li>
+              <a href="#beneficios" class="navbar-link" data-section="beneficios">Beneficios</a>
+            </li>
+            <li>
+              <a href="#caracteristicas" class="navbar-link" data-section="caracteristicas">Características</a>
+            </li>
+            <li>
+              <a href="#faq" class="navbar-link" data-section="faq">FAQ</a>
+            </li>
+          </ul>
+          <a href="#contacto" class="btn btn-primary btn-sm navbar-cta">Únete al piloto</a>
+        </div>
+      </nav>
+    </header>
 
+    <main id="contenido">
     <!-- ========================================
        HERO SECTION
        ======================================== -->
     <section class="hero" id="inicio">
+      <div class="hero-backdrop" aria-hidden="true">
+        <img
+          src="assets/images/hero-section-back.jpeg"
+          alt=""
+          width="1672"
+          height="941"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          data-hero-parallax="back"
+        />
+        <img
+          src="assets/images/hero-section-front.png"
+          alt=""
+          width="1672"
+          height="941"
+          loading="eager"
+          fetchpriority="low"
+          decoding="async"
+          data-hero-parallax="front"
+          onerror="this.remove()"
+        />
+      </div>
       <div class="container">
         <div class="hero-content">
           <div class="hero-text">
             <h1 class="hero-title">
-              Seguridad que te acompaña.<br />
-              <span class="text-gradient">Autonomía que te cuida.</span>
+              Seguridad que te acompaña. Autonomía que te cuida.
             </h1>
             <p class="hero-subtitle">
               Monitoreo continuo 24/7 de tus signos vitales con detección
               temprana mediante Machine Learning y respuesta automática ante
               emergencias. Vive con libertad, protegido siempre.
             </p>
+
+            <ul class="hero-pills" aria-label="Capacidades de AllinBand">
+              <li>Frecuencia, SpO2 y temperatura 24/7</li>
+              <li>Alerta cancelable desde la pulsera</li>
+              <li>Red de hasta 5 contactos</li>
+            </ul>
 
             <div class="hero-cta">
               <a href="#contacto" class="btn btn-primary btn-lg">
@@ -142,31 +173,11 @@
                 <span>Soy cuidador</span>
               </a>
             </div>
+            <p class="hero-honesty">
+              *Proyecto piloto de Vivessence
+            </p>
           </div>
 
-          <div class="hero-image">
-            <!-- Pulse rings -->
-            <div class="pulse-rings" aria-hidden="true">
-              <div class="pulse-ring"></div>
-              <div class="pulse-ring"></div>
-              <div class="pulse-ring"></div>
-            </div>
-
-            <!-- Heartbeat / ECG Animation -->
-            <div class="heartbeat-monitor" aria-hidden="true">
-              <svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 73" xml:space="preserve">
-                <polyline fill="none" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" points="0,45.486 38.514,45.486 44.595,33.324 50.676,45.486 57.771,45.486 62.838,55.622 71.959,9 80.067,63.729 84.122,45.486 97.297,45.486 103.379,40.419 110.473,45.486 150,45.486" />
-              </svg>
-            </div>
-
-            <img
-              src="assets/images/BandSample.png"
-              alt="Pulsera inteligente AllinBand monitoreando signos vitales"
-              width="500"
-              height="500"
-              loading="eager"
-            />
-          </div>
         </div>
       </div>
     </section>
@@ -177,7 +188,6 @@
     <section class="section-alt" id="como-funciona">
       <div class="container">
         <div class="section-header">
-          <span class="badge">Simple y automático</span>
           <h2 class="section-title">
             Usa tu pulsera como siempre. Nosotros vigilamos por ti.
           </h2>
@@ -243,7 +253,7 @@
     <section id="beneficios" class="section-with-background">
       <div class="container">
         <div class="benefits-intro">
-          <h2 class="section-title text-gradient">
+          <h2 class="section-title">
             Vive con libertad, protegido en todo momento
           </h2>
           <p class="section-subtitle">
@@ -328,13 +338,12 @@
     <section class="section-alt" id="beneficios-cuidadores">
       <div class="container">
         <div class="benefits-intro">
-          <span class="badge badge--success">Para familiares y cuidadores</span>
           <h2 class="section-title">
             Tranquilidad con información en tiempo real
           </h2>
           <p class="section-subtitle">
-            Si algo pasa, te avisamos de inmediato con la información que
-            necesitas: señal vital y ubicación.
+            Para familiares y cuidadores: si algo pasa, te avisamos de
+            inmediato con la información que necesitas: señal vital y ubicación.
           </p>
         </div>
 
@@ -449,14 +458,16 @@
             </div>
             <div class="stat-label">Batería por carga</div>
             <div class="stat-detail">Uso continuo con monitoreo activo</div>
+            <span class="stat-honesty">Objetivo del piloto</span>
           </div>
 
           <div class="stat-item reveal">
             <div class="stat-value">
-              <span data-count="5">≤5</span><span class="stat-unit">s</span>
+              ≤<span data-count="5">5</span><span class="stat-unit">s</span>
             </div>
             <div class="stat-label">Latencia de notificación</div>
             <div class="stat-detail">Desde detección hasta alerta a contactos</div>
+            <span class="stat-honesty">Objetivo del piloto</span>
           </div>
 
           <div class="stat-item reveal">
@@ -465,6 +476,7 @@
             </div>
             <div class="stat-label">Disponibilidad</div>
             <div class="stat-detail">Infraestructura confiable en la nube</div>
+            <span class="stat-honesty">Objetivo del piloto</span>
           </div>
         </div>
 
@@ -671,6 +683,8 @@
     <!-- ========================================
        FOOTER
        ======================================== -->
+    </main>
+
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
@@ -715,7 +729,7 @@
       id="backToTop"
       class="btn btn-primary"
       aria-label="Volver arriba"
-      style="position: fixed; bottom: 30px; right: 30px; z-index: 999; padding: 12px; border-radius: 50%; display: none; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);"
+      style="position: fixed; bottom: 30px; right: 30px; z-index: 999; padding: 12px; border-radius: 50%; display: none; box-shadow: var(--shadow-lg);"
     >
       <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18 15l-6-6-6 6" />

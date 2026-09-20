@@ -1,10 +1,10 @@
 /**
  * AllinBand — Estilos Base
- * Dark Premium Health Tech
+ * Mundo "Claro violeta": luz violeta diurna, tinta legible, vidrio simple
  */
 
-/* Font loading */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+/* Font loading: Bricolage promete, Public Sans explica, JetBrains mide */
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Public+Sans:ital,wght@0,300..800;1,400..600&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
 html {
   font-size: 16px;
@@ -20,6 +20,33 @@ body {
   line-height: var(--leading-relaxed);
   color: var(--text-body);
   background-color: var(--bg-deep);
+  /* Luz diurna en capas tenues: el vidrio necesita algo que refractar.
+     Malla violeta del logo + sol tenue, tintes ≤10% para no teñir
+     el texto ni enfriar la escena. Las fotos reales viven en las
+     bandas (hero, beneficios, tecnología); aquí solo el velo. */
+  background-image:
+    radial-gradient(900px 460px at 12% -80px, rgba(233, 161, 59, 0.09), transparent 62%),
+    radial-gradient(1000px 520px at 96% 6%, rgba(138, 129, 250, 0.1), transparent 62%),
+    radial-gradient(860px 520px at 50% 112%, rgba(90, 75, 214, 0.08), transparent 60%);
+  caret-color: var(--color-primary-dark);
+}
+
+/* Las superficies que no dibujamos también son diseño */
+::selection {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-dark);
+  border-radius: var(--radius-full);
+  border: 3px solid var(--bg-deep);
 }
 
 /* Typography */
@@ -28,13 +55,22 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: var(--font-bold);
   line-height: var(--leading-tight);
   color: var(--text-primary);
+  margin-top: var(--space-12);
   margin-bottom: var(--space-4);
   letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+
+/* Más aire arriba del titular que debajo: el patio respira */
+section h2:first-child,
+section h1:first-child {
+  margin-top: 0;
 }
 
 h1 {
   font-size: var(--text-5xl);
   font-weight: var(--font-extrabold);
+  max-width: 20ch;
 }
 
 h2 {
@@ -43,6 +79,7 @@ h2 {
 
 h3 {
   font-size: var(--text-2xl);
+  margin-top: var(--space-8);
 }
 
 h4 {
@@ -60,6 +97,7 @@ h6 {
 p {
   margin-bottom: var(--space-4);
   color: var(--text-body);
+  max-width: 72ch;
 }
 
 strong {
@@ -68,8 +106,10 @@ strong {
 }
 
 a {
-  color: var(--color-primary-light);
-  text-decoration: none;
+  color: var(--color-primary-dark);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
   transition: color var(--transition-base);
 }
 
@@ -78,9 +118,21 @@ a:hover {
 }
 
 a:focus-visible,
-button:focus-visible {
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
   outline: 2px solid var(--focus-ring);
-  outline-offset: 2px;
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* Datos tabulares: el mono solo mide */
+.stat-value,
+.step-number,
+.trust-icon,
+.demo-vitals dd {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Container */
@@ -93,7 +145,7 @@ button:focus-visible {
   padding-right: var(--container-padding);
 }
 
-/* Section Spacing */
+/* Section Spacing: grupos juntos, secciones separadas */
 section {
   padding-top: var(--section-padding-y-mobile);
   padding-bottom: var(--section-padding-y-mobile);
@@ -104,55 +156,12 @@ section {
     padding-top: var(--section-padding-y);
     padding-bottom: var(--section-padding-y);
   }
-}
 
-/* Responsive Typography */
-@media (max-width: 767px) {
   h1 {
-    font-size: var(--text-4xl);
-  }
-
-  h2 {
-    font-size: var(--text-3xl);
-  }
-
-  h3 {
-    font-size: var(--text-2xl);
+    font-size: var(--text-6xl);
   }
 }
 
-/* Selection */
-::selection {
-  background-color: var(--color-primary-alpha);
-  color: var(--text-primary);
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg-surface);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-primary-dark);
-  border-radius: var(--radius-full);
-  border: 2px solid var(--bg-surface);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary);
-}
-
-* {
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-primary-dark) var(--bg-surface);
-}
-
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
