@@ -1,138 +1,65 @@
 <div align="center">
-  <img src="assets/images/vivessense-logo.png" alt="AllinBand Logo" width="120" />
-</div>
-
-<div align="center">
-  <img src="assets/images/allin-band-landing.png" alt="AllinBand Landing Preview" width="900" />
+  <img src="assets/brand/mark.svg" alt="AllinBand" width="96" />
 </div>
 
 # AllinBand
 
-> Seguridad que te acompana. Autonomia que te cuida.
+> Antes de avisar a tu familia, AllinBand te pregunta a ti.
 
-Pulsera inteligente para monitoreo continuo de signos vitales con deteccion temprana mediante Machine Learning y respuesta automatica ante emergencias.
+Landing del concepto AllinBand: una pulsera que vigila los signos vitales, pregunta a quien la lleva si está bien y, si no responde, avisa en orden a sus contactos.
 
-[Live Demo](https://trinity-bytes.github.io/AllinBand-Landing/)
+**Es un proyecto académico.** No es un dispositivo médico, no está a la venta y la página no recoge datos. Las cifras son objetivos de diseño, no resultados medidos.
 
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white) ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white) ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+[Ver la demo](https://trinity-bytes.github.io/allin-band/)
 
-## Overview
+![Vista de la landing](assets/images/og-image.jpg)
 
-AllinBand es un sistema de cuidado saludable disenado para pacientes con condiciones de riesgo y adultos mayores. La pulsera monitorea frecuencia cardiaca, saturacion de oxigeno y temperatura de forma continua y silenciosa.
+## Cómo funciona la página
 
-**Flujo principal:**
+La página es el chat de una familia. Abre con la pulsera preguntando "¿Estás bien?" y la respuesta del visitante decide lo que pasa:
 
-1. La pulsera mide signos vitales 24/7 sin accion del usuario
-2. ML analiza patrones personales y detecta anomalias criticas
-3. Se activa alerta local + notificaciones a contactos + ubicacion
+- **Estoy bien:** la alerta se cancela y nadie recibe nada.
+- **No puedo responder:** la alerta sube por la red de contactos hasta que alguien confirma.
 
-**Audiencias:**
+Nombres, datos y tiempos de la conversación son ficticios.
 
-- **Pacientes:** independencia con proteccion silenciosa
-- **Cuidadores:** notificaciones precisas solo ante emergencias reales
+## Ejecutar en local
 
-## Getting Started
-
-No se requiere instalacion. Es un sitio estatico puro (HTML + CSS + JS).
+Es un sitio estático, sin instalación ni paso de build. Los enlaces y fuentes funcionan mejor con un servidor:
 
 ```bash
-# Clonar el repositorio
-git clone https://github.com/trinity-bytes/AllinBand-Landing.git
-cd AllinBand-Landing
-
-# Abrir en navegador
-open index.html        # macOS
-start index.html       # Windows
-xdg-open index.html    # Linux
+git clone https://github.com/trinity-bytes/allin-band.git
+cd allin-band
+python3 -m http.server 8000
 ```
 
-No hay paso de build, dependencias npm, ni servidor de desarrollo. Los archivos CSS y JS se cargan directamente.
-
-## Project Structure
+## Estructura
 
 ```
-allin-band/
-  index.html                 # Pagina principal (single-page)
-  css/
-    variables.css            # Design tokens: colores, tipografia, espaciados, breakpoints
-    reset.css                # CSS reset + prefers-reduced-motion
-    base.css                 # Tipografia, container, scrollbar, estilos globales
-    components.css           # Botones, cards, badges, forms, grid de features
-    sections.css             # Estilos por seccion: navbar, hero, FAQ, footer, etc.
-    utilities.css            # Clases utilitarias (margin, padding, text, flex, display)
-  js/
-    main.js                  # Navegacion, smooth scroll, FAQ accordion, back-to-top
-    animations.js            # IntersectionObserver scroll reveal, stat counters
-    form.js                  # Validacion y envio simulado del formulario de contacto
-  assets/
-    images/                  # Logo, favicon, producto, imagenes de contenido
-    icons/                   # Favicon.ico
-  docs/
-    DESIGN-PLAN.md           # Design blueprint y decisiones de arquitectura visual
+index.html            Página única
+css/
+  variables.css       Tokens: color, tipografía, espacio, forma, movimiento
+  reset.css           Reset
+  base.css            Fuentes, tipografía, foco, salto al contenido
+  chat.css            Burbujas, avisos, confirmaciones, botones de respuesta
+  sections.css        Cabecera, fondos de pantalla y secciones
+js/
+  main.js             Menú, sección activa, botón flotante
+  demo.js             Reproduce la alerta según la respuesta
+assets/
+  brand/              Logo, favicon y fondo de pantalla (SVG)
+  fonts/              Atkinson Hyperlegible Next, Bricolage Grotesque
+  images/             Pulsera y fotos ilustrativas (WebP), imagen para compartir
 ```
 
-## Architecture
+## Decisiones
 
-### Design System (CSS Custom Properties)
+- **Sin JavaScript se lee todo:** la conversación completa está en el HTML y `demo.js` solo la reproduce.
+- **Sin terceros:** las fuentes se sirven desde el proyecto, así que la página no hace peticiones externas.
+- **Texto que escala:** los tamaños van en `rem` y los cortes en `em`, por lo que respetan el tamaño de letra del navegador. El cuerpo parte en 18 px.
+- **Movimiento:** solo se anima la llegada de los mensajes, y respeta `prefers-reduced-motion`.
+- **Accesibilidad:** objetivo WCAG 2.2 AA.
 
-Todo el diseno se rige por tokens en `css/variables.css`. Cambiar un valor ahi actualiza toda la pagina.
+## Equipo
 
-**Paleta dark premium:**
-- Superficies: `#0b0f1a` (deep), `#111827` (surface), `#1f2937` (alt), `#1a2332` (elevated)
-- Texto: `#f9fafb` (primary), `#d1d5db` (body), `#9ca3af` (muted)
-- Acentos: `#8b5cf6` (violet), `#06b6d4` (cyan), `#f59e0b` (warm/CTA)
-
-**Tipografia:**
-- Display: Space Grotesk (headings, numeros de stats)
-- Body: Inter (texto general)
-- Mono: JetBrains Mono (datos tecnicos, contadores)
-
-### CSS Architecture
-
-- **Modular**: Cada archivo CSS tiene una responsabilidad unica
-- **Mobile-first**: breakpoints en 640, 768, 1024, 1280px
-- **Sin frameworks**: CSS puro con Custom Properties, Flexbox y Grid
-- **Reduced motion**: respetado en animaciones CSS y JS via `prefers-reduced-motion`
-
-### JavaScript
-
-Vanilla JS sin dependencias. Tres archivos con responsabilidades separadas:
-
-- `main.js`: navegacion, scroll, FAQ, back-to-top
-- `animations.js`: scroll reveal (IntersectionObserver), contadores animados
-- `form.js`: validacion de formulario, envio simulado
-
-### Accessibility
-
-- `lang="es"` preservado
-- headings semanticos (h1 > h2 > h3)
-- `aria-expanded` y `aria-controls` sincronizados en FAQ
-- `aria-hidden` en elementos decorativos (ECG, pulse rings)
-- focus visible con `outline` en todos los controles interactivos
-- contraste de texto >= 4.5:1 en todas las superficies dark
-
-## Key Features
-
-| Feature | Implementation |
-|---|---|
-| Dark premium theme | CSS custom properties, aurora gradient backgrounds |
-| Glassmorphic cards | `backdrop-filter: blur()` con fallback solido |
-| ECG animation | SVG polyline + CSS `@keyframes ecgSweep` |
-| Pulse rings | CSS `@keyframes pulseExpand` con delays escalonados |
-| Scroll reveal | IntersectionObserver, 15% threshold, unobserve after trigger |
-| Stat counters | IntersectionObserver + `requestAnimationFrame` con ease-out |
-| FAQ accordion | max-height transition + aria-expanded/aria-controls |
-| Responsive | Mobile-first grid, 4 breakpoints |
-
-## Browser Support
-
-- Chrome 80+
-- Firefox 80+
-- Safari 14+
-- Edge 80+
-
-Requiere soporte para `backdrop-filter` (con fallback solido si no esta disponible).
-
-## Team
-
-Desarrollado por **Vivessence** — Arquitectura de Computadoras, UPC 2025.
+Desarrollado por **Vivessence** para el curso Arquitectura de Computadoras, UPC 2025.
