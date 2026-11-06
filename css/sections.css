@@ -172,7 +172,6 @@ html:not(.js) .nav__link {
   max-width: 84rem;
   margin-inline: auto;
   padding: var(--gap-2) var(--gutter);
-  font-size: 1rem;
   line-height: 1.4;
 }
 

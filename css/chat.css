@@ -221,7 +221,6 @@
   justify-self: center;
   max-width: 34rem;
   padding: var(--gap-1) var(--gap-4);
-  font-size: var(--text-sm);
   font-weight: 600;
   text-align: center;
   color: var(--ink);

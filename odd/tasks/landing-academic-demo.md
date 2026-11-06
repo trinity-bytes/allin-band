@@ -17,10 +17,11 @@ Test runner: none in the project; checks run with a scratch Playwright script ou
 
 ## Tasks
 
-- [ ] T1 S2 S6 inline: brand and optimized assets.
-- [ ] T2 S1 S3 S4 S5 S7 S8 S9 S10 inline: page, styles, demo.
-- [ ] T3 S10 inline: README and docs.
-- [ ] T4 all delegated: independent verification (Risk item 6, no automated test covers this).
+- [x] T1 S2 S6 inline: brand and optimized assets. Commit 98b843a.
+- [x] T2 S1 S3 S4 S5 S7 S8 S9 S10 inline: page, styles, demo. Commits 33bec6b, 6c23a21, and the handoff commit.
+- [x] T3 S10 inline: README and docs. Commit cfa6daa.
+- [ ] T4 all delegated: independent verification (Risk item 6, no automated test covers this). Stopped by the user before reporting; must be rerun against the branch head.
+- [ ] T5 DESIGN.md and .impeccable/design.json: documenter stopped by the user, nothing written.
 
 Route evidence: one surface in shared files, so no Writer trigger; inline.
 
@@ -30,3 +31,6 @@ Route evidence: one surface in shared files, so no Writer trigger; inline.
 - L2 (2026-11-06) "allin-band es un demo-proyecto acadeico."
 - L3 (2026-11-06) "va. dale con  todo, usa las herramientas que creas convenitnes, incluso subagentes o lo qu e necesites"
 - L4 (2026-11-06) Direction chosen by the user: "Chat familiar". Audit baseline: technical 11/20, Nielsen 20/36.
+- L5 (2026-11-06) Finish review: first pass "fix", verdict pass 7 of 8 resolved. Remaining items applied in the handoff commit but not recaptured or rechecked: reader label "Tú" in App, closing heading "Quién está detrás", disclosure chips and pinned bar at 18px. Its provenance finding was wrong: the scan reports 0 missing, provenance is embedded in the files.
+- L6 (2026-11-06) User stopped both background agents and handed off: "estmos cerc de llegar al limite de 5 horas. asi que voy a continuar el trabajo con otro agente."
+- Next: recheck first-viewport fit at 360x740 after the pinned bar grew, rerun T4, write T5, then report to the user. Push and PR stay with the user.
