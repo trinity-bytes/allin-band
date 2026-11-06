@@ -63,3 +63,21 @@ assets/
 ## Equipo
 
 Desarrollado por **Vivessence** para el curso Arquitectura de Computadoras, UPC 2025.
+
+## Prueba de teclado
+
+La regresión del enlace «Saltar al contenido» se comprueba en Chromium con
+`playwright-core` instalado fuera del repositorio. No es una dependencia del sitio:
+
+```bash
+PLAYWRIGHT_CORE_PATH=/ruta/a/playwright-core \
+CHROMIUM_PATH=/ruta/a/chromium \
+node tests/skip-link.cjs
+
+PLAYWRIGHT_CORE_PATH=/ruta/a/playwright-core \
+CHROMIUM_PATH=/ruta/a/chromium \
+node tests/reflow.cjs
+```
+
+Las pruebas verifican el enlace por teclado y el reflujo a 360 px con la preferencia
+real de texto del navegador en 28 px, incluidas las respuestas de preguntas frecuentes.

@@ -92,12 +92,12 @@ small {
   background-color: var(--marigold);
   border-radius: var(--radius-control);
   transform: translateY(-200%);
-  visibility: hidden;
+  clip-path: inset(50%);
 }
 
 .skip-link:focus {
   transform: none;
-  visibility: visible;
+  clip-path: none;
 }
 
 /* Visible solo cuando el JS puede cumplirlo */
