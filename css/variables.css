@@ -1,241 +1,60 @@
 /**
- * AllinBand — Sistema de Variables de Diseño
- * Mundo: "Claro violeta" — luz diurna calma que orbita el logo #8a81fa
- *
- * Escena que fuerza el claro: una mujer de 72 años desayuna junto a una
- * ventana con sol de mañana; lee cada titular sin entrecerrar los ojos.
- * Estrategia de color: Committed — la niebla violeta clara carga la
- * superficie, el violeta del logo lidera (marca, enlaces, nodos, foco),
- * el verde queda como éxito, el petróleo como información y el terracota
- * como única acción humana. El vidrio es translúcido simple con blur de
- * 12px: nunca decoración fría. Contrastes verificados con script sobre
- * blanco y niebla (tinta 16.5, cuerpo 10.7, sordo 6.9, violeta oscuro 9.9,
- * terracota 6.0, verde 6.5, petróleo oscuro 7.7). Todo ≥4.5:1.
+ * AllinBand — Tokens
+ * Mundo "Grupo familiar": la página es el chat de la familia.
+ * Fondo de pantalla índigo plano, burbujas blancas que reciben,
+ * burbujas caléndula que envía quien lee. Sin vidrio ni degradados.
  */
 
 :root {
-  /* ========================================
-     SUPERFICIES CLARAS — niebla violeta diurna
-     (vidrio legible, nunca clínica fría)
-     ======================================== */
+  /* Fondos de pantalla */
+  --indigo-900: #221a78;
+  --indigo-800: #2c2392;
+  --indigo-700: #3a2fb0;
+  --lilac-200: #dcd7ff;
+  --lilac-100: #ece9ff;
+  --pale: #f7f6ff;
+  --marigold: #ffc53d;
+  --marigold-deep: #f2ab0f;
 
-  --bg-deep: #f4f2ff;
-  --bg-surface: #ffffff;
-  --bg-surface-alt: #e9e6fb;
-  --bg-elevated: #ffffff;
+  /* Tinta */
+  --ink: #1b1650;
+  --ink-soft: #453f73;
+  --white: #ffffff;
+  --on-indigo: #e4e1ff;
+  --alert: #b3261e;
+  --person: #0a6b62;
 
-  /* Revoque y línea del claro */
-  --patio-wash: #ece9fd;
-  --patio-line: rgba(45, 40, 95, 0.12);
-  --sunmark: #e9a13b;
+  /* Tipografía: Bricolage habla fuerte, Atkinson se lee sin esfuerzo */
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+  --font-body: "Atkinson Hyperlegible Next", Verdana, sans-serif;
 
-  /* Violeta del logo: unión vinculante, solo decoración y
-     rampa clara. Nunca texto sobre claro (3.18:1 sobre blanco). */
-  --logo-violet: #8a81fa;
+  --text-sm: 0.9375rem;
+  --text-base: 1.125rem;
+  --text-lg: 1.3125rem;
+  --text-xl: clamp(1.5rem, 1.25rem + 1vw, 2rem);
+  --text-2xl: clamp(1.875rem, 1.4rem + 2vw, 3rem);
 
-  /* Vidrio diurno teñido de violeta: translúcido simple, borde
-     sutil, sombra suave. El texto siempre va en tinta sobre vidrio
-     ≥62% blanco violeta, por lo que los contrastes verificados
-     sobre niebla se mantienen (cuerpo 10.0, sordo 6.5). */
-  --glass-card: rgba(248, 247, 255, 0.62);
-  --glass-card-strong: rgba(248, 247, 255, 0.76);
-  --glass-nav: rgba(244, 242, 255, 0.66);
-  --glass-border: rgba(45, 40, 95, 0.14);
-  --glass-shadow: 0 8px 28px -12px rgba(38, 34, 80, 0.18), 0 2px 6px rgba(38, 34, 80, 0.08);
-  --glass-shadow-lift: 0 2px 4px -1px rgba(38, 34, 80, 0.1), 0 16px 36px -16px rgba(38, 34, 80, 0.24);
+  /* Espacio */
+  --gap-1: 0.25rem;
+  --gap-2: 0.5rem;
+  --gap-3: 0.75rem;
+  --gap-4: 1rem;
+  --gap-6: 1.5rem;
+  --gap-8: 2rem;
+  --gap-12: 3rem;
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --wall-pad: clamp(3.5rem, 8vw, 7rem);
 
-  /* ========================================
-     COLORES DE MARCA — violeta que lidera;
-     verde éxito, petróleo información,
-     terracota única acción
-     ======================================== */
+  /* Forma */
+  --radius-bubble: 1.25rem;
+  --radius-corner: 0.25rem;
+  --radius-control: 0.875rem;
+  --bubble-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --float-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.45);
 
-  --color-primary: #5a4bd6;
-  --color-primary-light: #8a81fa;
-  --color-primary-dark: #3730a3;
-  --color-primary-alpha: rgba(90, 75, 214, 0.1);
+  /* Movimiento: un solo gesto, la llegada del mensaje */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --arrive: 420ms;
 
-  --color-violet: #5a4bd6;
-  --color-violet-light: #8a81fa;
-  --color-violet-dark: #3730a3;
-  --color-violet-alpha: rgba(90, 75, 214, 0.1);
-
-  --color-secondary: #5a4bd6;
-  --color-secondary-light: #8a81fa;
-  --color-secondary-dark: #3730a3;
-  --color-secondary-alpha: rgba(90, 75, 214, 0.1);
-
-  /* Éxito: solo sellos y estados de éxito, nunca marca */
-  --color-success: #166b4d;
-  --color-success-dark: #0e4e37;
-  --color-success-alpha: rgba(22, 107, 77, 0.1);
-
-  /* Información: solo datos secundarios, nunca marca */
-  --color-cyan: #0e7c86;
-  --color-cyan-light: #1595a0;
-  --color-cyan-dark: #0a5c63;
-  --color-cyan-alpha: rgba(14, 124, 134, 0.1);
-
-  --color-accent: #b23a1f;
-  --color-accent-light: #c64a26;
-  --color-accent-dark: #93301a;
-  --color-accent-ink: #ffffff;
-
-  /* ========================================
-     TEXTOS — tinta violeta sobre el claro
-     Contrastes verificados con script sobre
-     blanco/niebla: tinta 16.5, cuerpo 10.7,
-     sordo 6.9, blanco sobre violeta 6.15,
-     blanco sobre terracota 5.97. Todo ≥4.5:1.
-     ======================================== */
-
-  --text-primary: #1f1c33;
-  --text-body: #3f3a5a;
-  --text-muted: #5b557c;
-
-  /* ========================================
-     BORDES Y FOCO
-     ======================================== */
-
-  --border-subtle: rgba(45, 40, 95, 0.12);
-  --border-medium: rgba(45, 40, 95, 0.2);
-  --focus-ring: #3730a3;
-
-  /* Señal contenida: brillo solo como respuesta, nunca sobre 10% */
-  --glow-violet: rgba(90, 75, 214, 0.1);
-  --glow-cyan: rgba(14, 124, 134, 0.1);
-  --glow-warm: rgba(178, 58, 31, 0.1);
-
-  /* ========================================
-     TIPOGRAFÍA — Bricolage promete,
-     Public Sans explica, JetBrains mide
-     ======================================== */
-
-  --font-display: 'Bricolage Grotesque', 'Public Sans', system-ui, sans-serif;
-  --font-primary: 'Public Sans', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', monospace;
-
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
-  --text-6xl: 3.75rem;
-
-  --font-light: 300;
-  --font-normal: 400;
-  --font-medium: 500;
-  --font-semibold: 600;
-  --font-bold: 700;
-  --font-extrabold: 800;
-
-  --leading-tight: 1.15;
-  --leading-snug: 1.3;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.65;
-
-  --tracking-tight: -0.02em;
-  --tracking-normal: 0;
-  --tracking-wide: 0.025em;
-
-  /* ========================================
-     ESPACIADO
-     ======================================== */
-
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
-  --space-24: 6rem;
-  --space-32: 8rem;
-
-  /* ========================================
-     LAYOUT
-     ======================================== */
-
-  --container-max-width: 1280px;
-  --container-padding: var(--space-6);
-  --section-padding-y: var(--space-24);
-  --section-padding-y-mobile: var(--space-16);
-
-  /* ========================================
-     BORDES Y RADIOS — geometría amable,
-     una sola arista de ficha técnica
-     ======================================== */
-
-  --radius-sm: 0.25rem;
-  --radius-md: 0.625rem;
-  --radius-lg: 0.875rem;
-  --radius-xl: 1.25rem;
-  --radius-2xl: 1.75rem;
-  --radius-full: 9999px;
-
-  --border-width: 1px;
-  --border-width-2: 2px;
-  --border-width-4: 4px;
-
-  /* ========================================
-     SOMBRAS — siempre con offset y blur
-     violeta suave; planas por defecto, el
-     vidrio carga su propia sombra
-     ======================================== */
-
-  --shadow-sm: 0 1px 2px 0 rgba(38, 34, 80, 0.08);
-  --shadow-md: 0 2px 4px -1px rgba(38, 34, 80, 0.1), 0 12px 28px -12px rgba(38, 34, 80, 0.18);
-  --shadow-lg: 0 4px 8px -2px rgba(38, 34, 80, 0.1), 0 20px 44px -16px rgba(38, 34, 80, 0.2);
-  --shadow-xl: 0 8px 16px -4px rgba(38, 34, 80, 0.12), 0 30px 60px -24px rgba(38, 34, 80, 0.22);
-  --shadow-2xl: 0 12px 24px -6px rgba(38, 34, 80, 0.14), 0 44px 76px -28px rgba(38, 34, 80, 0.26);
-
-  --elevation-1: 0 2px 6px rgba(38, 34, 80, 0.08);
-  --elevation-2: 0 6px 18px -6px rgba(38, 34, 80, 0.18);
-  --elevation-3: 0 14px 34px -12px rgba(38, 34, 80, 0.24);
-
-  /* ========================================
-     TRANSICIONES — un momento autorado,
-     ease exponencial desde visible
-     ======================================== */
-
-  --transition-fast: 150ms ease-in-out;
-  --transition-base: 250ms ease-in-out;
-  --transition-slow: 350ms ease-in-out;
-
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in: cubic-bezier(0.4, 0, 1, 1);
-  --ease-out: cubic-bezier(0, 0, 0.2, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* ========================================
-     Z-INDEX
-     ======================================== */
-
-  --z-negative: -1;
-  --z-base: 0;
-  --z-dropdown: 1000;
-  --z-sticky: 1020;
-  --z-fixed: 1030;
-  --z-modal-backdrop: 1040;
-  --z-modal: 1050;
-  --z-popover: 1060;
-  --z-tooltip: 1070;
-
-  /* ========================================
-     BREAKPOINTS
-     ======================================== */
-
-  --breakpoint-sm: 640px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1280px;
-  --breakpoint-2xl: 1536px;
+  --header-h: 4.5rem;
 }

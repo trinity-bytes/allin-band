@@ -1,1289 +1,691 @@
 /**
- * AllinBand — Estilos de Secciones
- * Mundo "Claro violeta": secuencia medida calma → prueba → acción
+ * AllinBand — Secciones
+ * Cada sección es un tramo de la conversación sobre su fondo de pantalla.
+ * Los cortes en em siguen al tamaño de letra del navegador.
  */
 
-/* ========================================
-   NAVEGACIÓN — cápsula flotante de vidrio.
-   La barra no toca el borde: la foto del hero
-   corre hasta arriba sin costura. Al hacer
-   scroll la cápsula se asienta (sube, el vidrio
-   toma cuerpo y la sombra gana profundidad);
-   nunca se anima layout, solo transform, opacidad,
-   sombra, fondo y blur.
-   ======================================== */
+/* ---- Cabecera del chat ---- */
 
-:root {
-  /* Alto real reservado por la cápsula + su aire superior */
-  --navbar-space: 5rem;
-}
-
-@media (min-width: 768px) {
-  :root {
-    --navbar-space: 6rem;
-  }
-}
-
-@property --nav-ind-scale {
-  syntax: "<number>";
-  inherits: false;
-  initial-value: 1;
-}
-
-/* Salto al contenido: existe para el teclado, visible solo al enfocarlo */
-.skip-link {
-  position: fixed;
-  top: var(--space-3);
-  left: var(--space-3);
-  z-index: calc(var(--z-sticky) + 10);
-  padding: 0.75rem 1.25rem;
-  background: var(--color-primary-dark);
-  color: #ffffff;
-  font-size: var(--text-sm);
-  font-weight: var(--font-semibold);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  text-decoration: none;
-  transform: translateY(calc(-100% - var(--space-4)));
-  transition: transform 0.3s var(--ease-out-expo);
-}
-
-/* `a:hover` global gana por especificidad: el salto conserva su tinta */
-.skip-link:hover,
-.skip-link:focus,
-.skip-link:focus-visible {
-  color: #ffffff;
-}
-
-.skip-link:focus-visible {
-  transform: translateY(0);
-}
-
-.navbar {
-  position: fixed;
+.chat-header {
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
-  z-index: var(--z-sticky);
-  padding: clamp(0.625rem, 1.6vw, 1.125rem) var(--container-padding);
-  /* El aire alrededor de la cápsula no intercepta clicks del hero */
-  pointer-events: none;
+  z-index: 50;
+  color: var(--white);
+  background-color: var(--indigo-900);
 }
 
-.navbar-capsule {
-  pointer-events: auto;
+.chat-header__row {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-6);
-  width: 100%;
-  /* El borde de la cápsula cae justo sobre el borde de la columna de
-     contenido: flotante, pero alineada con el titular que hay debajo. */
-  max-width: calc(var(--container-max-width) - var(--container-padding) * 2);
-  margin: 0 auto;
-  padding: 0.4375rem 0.5rem 0.4375rem 1.125rem;
-  background: var(--glass-nav);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
-  backdrop-filter: blur(14px) saturate(160%);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-full);
-  box-shadow:
-    0 8px 28px -12px rgba(38, 34, 80, 0.18),
-    0 2px 6px rgba(38, 34, 80, 0.08);
-  transition:
-    transform 0.5s var(--ease-out-expo),
-    background-color 0.5s var(--ease-out-expo),
-    box-shadow 0.5s var(--ease-out-expo),
-    -webkit-backdrop-filter 0.5s var(--ease-out-expo),
-    backdrop-filter 0.5s var(--ease-out-expo);
+  flex-wrap: wrap;
+  gap: var(--gap-2) var(--gap-4);
+  max-width: 84rem;
+  min-height: var(--header-h);
+  margin-inline: auto;
+  padding: var(--gap-2) var(--gutter);
 }
 
-@supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
-  .navbar-capsule {
-    background: rgba(244, 242, 255, 0.95);
-  }
-}
-
-/* Asentada: el único momento autorado de la barra */
-.navbar.is-condensed .navbar-capsule {
-  transform: translateY(-5px);
-  background-color: rgba(244, 242, 255, 0.86);
-  -webkit-backdrop-filter: blur(20px) saturate(170%);
-  backdrop-filter: blur(20px) saturate(170%);
-  box-shadow:
-    0 2px 4px -1px rgba(38, 34, 80, 0.1),
-    0 16px 36px -16px rgba(38, 34, 80, 0.24);
-}
-
-/* ---- Lockup: el producto manda, la casa respalda ---- */
-
-.navbar-brand {
+.brand {
   display: inline-flex;
   align-items: center;
-  gap: 0.625rem;
-  flex-shrink: 0;
+  gap: var(--gap-3);
+  min-height: 2.75rem;
+  color: inherit;
   text-decoration: none;
-  color: var(--text-primary);
-  border-radius: var(--radius-full);
 }
 
-.navbar-brand-mark {
-  width: 34px;
-  height: 34px;
-  object-fit: contain;
-  flex-shrink: 0;
-  transition: transform 0.5s var(--ease-out-expo);
+.brand__mark {
+  flex: none;
+  width: 2.625rem;
+  height: 2.625rem;
 }
 
-.navbar-brand:hover .navbar-brand-mark {
-  transform: scale(1.06) rotate(-4deg);
+.brand__text {
+  display: grid;
+  line-height: 1.15;
 }
 
-.navbar-brand-lockup {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  line-height: 1;
-}
-
-.navbar-brand-name {
+.brand__name {
   font-family: var(--font-display);
   font-size: var(--text-lg);
-  font-weight: var(--font-bold);
-  letter-spacing: -0.01em;
-  color: var(--text-primary);
-  transition: color var(--transition-base);
+  font-weight: 800;
+  letter-spacing: -0.015em;
 }
 
-.navbar-brand:hover .navbar-brand-name {
-  color: var(--color-primary-dark);
+.brand__by {
+  font-size: var(--text-sm);
+  color: var(--on-indigo);
 }
 
-/* El respaldo de la casa se pliega al asentarse la cápsula.
-   grid-template-rows (no max-height) para no golpear el layout. */
-.navbar-brand-house {
-  display: grid;
-  grid-template-rows: 1fr;
-  overflow: hidden;
-  transition:
-    grid-template-rows 0.45s var(--ease-out-expo),
-    opacity 0.3s var(--ease-out-expo);
-}
-
-.navbar-brand-house-inner {
-  min-height: 0;
-  display: block;
-  padding-top: 0.125rem;
-  font-family: var(--font-primary);
-  font-size: var(--text-xs);
-  font-weight: var(--font-medium);
-  line-height: 1.2;
-  color: var(--text-muted);
-}
-
-.navbar.is-condensed .navbar-brand-house {
-  grid-template-rows: 0fr;
-  opacity: 0;
-}
-
-/* ---- Enlaces y píldora activa ---- */
-
-.navbar-nav {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-}
-
-.navbar-menu {
-  display: flex;
-  align-items: center;
-  gap: 0.125rem;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.navbar-link {
-  position: relative;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  min-height: 40px;
-  padding: 0.5rem 0.8125rem;
-  font-size: var(--text-base);
-  font-weight: var(--font-medium);
-  color: var(--text-body);
-  text-decoration: none;
-  white-space: nowrap;
-  border-radius: var(--radius-full);
-  transition:
-    color var(--transition-base),
-    background-color var(--transition-base);
-}
-
-.navbar-link:hover {
-  color: var(--text-primary);
-  background-color: rgba(90, 75, 214, 0.06);
-}
-
-.navbar-link.active {
-  color: var(--color-primary-dark);
-  font-weight: var(--font-semibold);
-  background-color: transparent;
-}
-
-/* Píldora que acompaña a la sección activa. Se mueve con
-   translateX + scaleX (cero layout); el radio se contra-escala
-   para que la píldora no se deforme al estirarse. */
-.navbar-indicator {
-  --nav-ind-scale: 1;
-  --nav-ind-x: 0px;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  z-index: 0;
-  width: 100px;
-  height: 40px;
-  margin-top: -20px;
-  background-color: var(--color-primary-alpha);
-  border-radius: calc(20px / var(--nav-ind-scale)) / 20px;
-  transform: translateX(var(--nav-ind-x)) scaleX(var(--nav-ind-scale));
-  transform-origin: left center;
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    --nav-ind-scale 0.45s var(--ease-out-expo),
-    transform 0.45s var(--ease-out-expo),
-    opacity var(--transition-base);
-}
-
-.navbar-indicator.visible {
-  opacity: 1;
-}
-
-.navbar-cta {
-  flex-shrink: 0;
-  white-space: nowrap;
-}
-
-/* ---- Toggle: dos barras que se cruzan ---- */
-
-.navbar-toggle {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  flex-shrink: 0;
-  background: none;
-  border: none;
-  border-radius: var(--radius-full);
+.nav-toggle {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding-inline: var(--gap-4);
+  font: inherit;
+  font-weight: 700;
+  color: var(--ink);
+  background-color: var(--white);
+  border: 0;
+  border-radius: var(--radius-control);
   cursor: pointer;
-  color: var(--text-primary);
-  transition: background-color var(--transition-base);
 }
 
-.navbar-toggle:hover {
-  background-color: rgba(90, 75, 214, 0.06);
+.nav {
+  display: none;
 }
 
-.navbar-toggle-bars {
-  position: relative;
-  display: block;
-  width: 20px;
-  height: 14px;
-}
-
-.navbar-toggle-bars span {
+.nav.is-open {
   position: absolute;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  border-radius: var(--radius-full);
-  background-color: currentColor;
-  transition: transform 0.4s var(--ease-out-expo);
+  top: 100%;
+  right: var(--gutter);
+  left: var(--gutter);
+  display: grid;
+  gap: var(--gap-1);
+  padding: var(--gap-2);
+  background-color: var(--white);
+  border-radius: var(--radius-bubble);
+  box-shadow: var(--float-shadow);
 }
 
-.navbar-toggle-bars span:first-child {
-  top: 0;
+.nav__link {
+  display: flex;
+  align-items: center;
+  min-height: 3rem;
+  padding: var(--gap-2) var(--gap-4);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  border-radius: var(--radius-control);
 }
 
-.navbar-toggle-bars span:last-child {
-  bottom: 0;
+.nav__link[aria-current="true"] {
+  background-color: var(--lilac-200);
 }
 
-.navbar-toggle[aria-expanded="true"] .navbar-toggle-bars span:first-child {
-  transform: translateY(6px) rotate(45deg);
+/* Sin JS el menú no se puede abrir: se muestra siempre */
+html:not(.js) .nav-toggle {
+  display: none;
 }
 
-.navbar-toggle[aria-expanded="true"] .navbar-toggle-bars span:last-child {
-  transform: translateY(-6px) rotate(-45deg);
+html:not(.js) .nav {
+  display: flex;
+  flex-wrap: wrap;
 }
 
-/* ---- Hoja móvil: panel de vidrio bajo la cápsula ---- */
+html:not(.js) .nav__link {
+  color: var(--white);
+}
 
-@media (max-width: 899px) {
-  .navbar-toggle {
-    display: inline-flex;
-  }
-
-  .navbar-capsule {
-    gap: var(--space-4);
-    padding-right: 0.375rem;
-  }
-
-  .navbar-nav {
-    position: absolute;
-    top: calc(100% + 0.625rem);
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    align-items: stretch;
-    gap: var(--space-2);
-    padding: var(--space-4);
-    background: rgba(252, 251, 255, 0.97);
-    -webkit-backdrop-filter: blur(20px) saturate(170%);
-    backdrop-filter: blur(20px) saturate(170%);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-2xl);
-    box-shadow:
-      0 2px 4px -1px rgba(38, 34, 80, 0.1),
-      0 16px 36px -16px rgba(38, 34, 80, 0.24);
-    /* Cerrada: sin layout animado, solo transform + opacidad */
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px) scale(0.97);
-    transform-origin: top center;
-    transition:
-      opacity 0.32s var(--ease-out-expo),
-      transform 0.32s var(--ease-out-expo),
-      visibility 0s linear 0.32s;
-  }
-
-  .navbar-nav.is-open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
-    transition:
-      opacity 0.38s var(--ease-out-expo),
-      transform 0.38s var(--ease-out-expo),
-      visibility 0s;
-  }
-
-  .navbar-menu {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.125rem;
-  }
-
-  .navbar-link {
-    min-height: 48px;
-    padding: 0.75rem 1rem;
-    font-size: var(--text-base);
-    border-radius: var(--radius-lg);
-  }
-
-  .navbar-link.active {
-    background-color: var(--color-primary-alpha);
-  }
-
-  .navbar-cta {
-    margin-top: var(--space-2);
-    justify-content: center;
-    width: 100%;
-  }
-
-  .navbar-indicator {
+@media (min-width: 60em) {
+  .nav-toggle {
     display: none;
   }
 
-  @supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
-    .navbar-nav {
-      background: #fcfbff;
+  .nav,
+  .nav.is-open {
+    position: static;
+    display: flex;
+    gap: var(--gap-1);
+    padding: 0;
+    background: none;
+    box-shadow: none;
+  }
+
+  .nav__link {
+    min-height: 2.75rem;
+    color: var(--white);
+  }
+
+  .nav__link[aria-current="true"] {
+    color: var(--ink);
+    background-color: var(--marigold);
+  }
+
+  @media (hover: hover) {
+    .nav__link:not([aria-current="true"]):hover {
+      background-color: var(--indigo-700);
     }
   }
 }
 
-@media (max-width: 420px) {
-  .navbar-capsule {
-    padding-left: 0.875rem;
+/* Con poca altura, o con letra muy grande, la cabecera deja de ser fija
+   para no tapar media pantalla */
+@media (max-height: 34em) {
+  .chat-header {
+    position: static;
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .navbar-capsule,
-  .navbar-brand-mark,
-  .navbar-brand-house,
-  .navbar-indicator,
-  .navbar-toggle-bars span,
-  .skip-link {
-    transition-duration: 0.01ms;
-  }
+/* ---- Mensaje fijado: la honestidad va arriba ---- */
 
-  .navbar-nav {
-    transition:
-      opacity 0.01ms linear,
-      visibility 0s;
-  }
+.pinned {
+  color: var(--ink);
+  background-color: var(--marigold);
 }
 
-/* ========================================
-   HERO — la tesis, no un encabezado:
-   promesa a la izquierda, patio a la derecha
-   ======================================== */
-
-.hero {
-  --hero-image-height: 110%;
-  --hero-image-position: 78% 32%;
-  --hero-overlay-angle: 100deg;
-  --hero-overlay-start: rgba(244, 242, 255, 0.97);
-  --hero-overlay-mid: rgba(244, 242, 255, 0.58);
-  --hero-overlay-open: rgba(244, 242, 255, 0.22);
-  --hero-overlay-end: rgba(244, 242, 255, 0.28);
-  --hero-fade-height: clamp(140px, 24vh, 260px);
-  --hero-fade-start: rgba(244, 242, 255, 0);
-  --hero-fade-mid: rgba(244, 242, 255, 0.45);
-  --hero-fade-end: rgba(250, 249, 255, 1);
-  position: relative;
-  isolation: isolate;
-  min-height: 100vh;
-  min-height: 100svh;
+.pinned__row {
   display: flex;
-  align-items: center;
-  padding-top: calc(var(--section-padding-y-mobile) + var(--navbar-space));
-  padding-bottom: var(--section-padding-y-mobile);
-  background-color: transparent;
-  overflow: hidden;
+  align-items: flex-start;
+  gap: var(--gap-2);
+  max-width: 84rem;
+  margin-inline: auto;
+  padding: var(--gap-2) var(--gutter);
+  font-size: 1rem;
+  line-height: 1.4;
 }
 
-.hero .container {
-  width: 100%;
+.pinned__icon {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.0625rem;
 }
 
-/* Capa fotográfica: la banda del fondo ES la hero. Foto expuesta a
-    opacidad plena; el velo solo sostiene la lectura en la zona de texto
-    (96% en franja izquierda estrecha) y abre la derecha a 0.15-0.3 para
-    que la banda respire. Soporte de 2 capas parallax: back (cielo/suelo)
-    + front (recorte con alfa, mismo canvas y posición, pixel-perfect). */
-.hero-backdrop {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-}
-
-.hero-backdrop img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: var(--hero-image-height);
-  object-fit: cover;
-  object-position: var(--hero-image-position);
-  opacity: 1;
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
-}
-
-.hero-backdrop img[data-hero-parallax="back"] {
-  z-index: 1;
-}
-
-.hero-backdrop img[data-hero-parallax="front"] {
-  z-index: 2;
-}
-
-.hero-backdrop::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  background:
-    linear-gradient(
-      var(--hero-overlay-angle),
-      var(--hero-overlay-start) 0%,
-      rgba(244, 242, 255, 0.94) 32%,
-      var(--hero-overlay-mid) 54%,
-      var(--hero-overlay-open) 75%,
-      var(--hero-overlay-end) 100%
-    );
-}
-
-/* Transición suave hero → siguiente sección: disuelve el corte duro
-   con un degradado a niebla. Vive sobre el velo (z 0 sobre backdrop
-   z -1) y bajo el contenido (z 1); solo transform+opacity en JS. */
-.hero::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: var(--hero-fade-height);
-  z-index: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    180deg,
-    var(--hero-fade-start) 0%,
-    var(--hero-fade-mid) 48%,
-    rgba(248, 247, 255, 0.85) 76%,
-    var(--hero-fade-end) 100%
-  );
-}
-
-/* La costura hero + blanca no lleva borde: el degradado es la unión */
-.hero + .section-alt {
-  border-top: none;
-  margin-top: -1px;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  gap: var(--space-10);
-  align-items: center;
-  grid-template-columns: minmax(0, 680px);
-  justify-content: start;
-  will-change: transform, opacity;
-}
-
-@media (min-width: 1024px) {
-  .hero-content {
-    grid-template-columns: minmax(0, 680px);
-  }
-}
-
-.hero-text {
-  max-width: 640px;
-}
-
-.hero-title {
-  margin-top: 0;
-  text-wrap: balance;
-}
-
-/* Compat: el viejo gradiente ahora es peso, no color */
-.hero-title .text-gradient,
-.text-gradient {
-  background: none;
-  -webkit-text-fill-color: currentColor;
-  color: var(--color-primary-dark);
-}
-
-.hero-subtitle {
-  font-size: var(--text-lg);
-  max-width: 56ch;
-}
-
-.hero-cta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-4);
-  margin-top: var(--space-8);
-}
-
-@media (max-width: 640px) {
-  .hero-cta {
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
-
-.hero-honesty {
-  margin-top: var(--space-6);
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-  max-width: 52ch;
-}
-
-/* Píldoras de vidrio: capacidades reales, nunca grado médico.
-   Estáticas, no interactivas; viven dentro del copy, no sobre el titular. */
-.hero-pills {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  list-style: none;
-  margin: var(--space-6) 0 0;
-  padding: 0;
-}
-
-.hero-pills li {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.375rem 0.875rem;
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  line-height: var(--leading-normal);
-  color: var(--color-primary-dark);
-  background-color: var(--glass-card);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
-  backdrop-filter: blur(12px) saturate(150%);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-full);
-  box-shadow: 0 1px 2px 0 rgba(38, 34, 80, 0.08);
+.pinned a {
+  font-weight: 700;
   white-space: nowrap;
 }
 
-@supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
-  .hero-pills li {
-    background-color: #ffffff;
-  }
-}
+/* ---- Fondos de pantalla ---- */
 
-/* Placa de vidrio (retirada del hero: la banda del fondo es la hero).
-   Estilos conservados para reutilización futura; el hero mantiene la
-   derecha como aire vacío para que respire la foto. */
-.hero-image {
-  display: none;
-}
-
-.patio-plate {
+.wall {
   position: relative;
-  background-color: var(--glass-card-strong);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
-  backdrop-filter: blur(12px) saturate(150%);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-2xl);
-  box-shadow: var(--glass-shadow);
-  overflow: hidden;
+  isolation: isolate;
+  padding-block: var(--wall-pad);
+  padding-inline: var(--gutter);
+  background-color: var(--wall);
 }
 
-@supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
-  .patio-plate {
-    background-color: #ffffff;
+.wall::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-color: var(--doodle);
+  -webkit-mask: url("../assets/brand/wallpaper.svg") 0 0 / 17.5rem;
+  mask: url("../assets/brand/wallpaper.svg") 0 0 / 17.5rem;
+  opacity: var(--doodle-opacity);
+  pointer-events: none;
+}
+
+.wall--indigo {
+  --wall: var(--indigo-800);
+  --doodle: var(--white);
+  --doodle-opacity: 0.09;
+  --day-bg: var(--indigo-900);
+  --day-ink: var(--white);
+  color: var(--white);
+}
+
+.wall--lilac {
+  --wall: var(--lilac-100);
+  --doodle: var(--indigo-700);
+  --doodle-opacity: 0.08;
+  --day-bg: var(--indigo-700);
+  --day-ink: var(--white);
+}
+
+.wall--marigold {
+  --wall: var(--marigold);
+  --doodle: var(--ink);
+  --doodle-opacity: 0.08;
+  --day-bg: var(--ink);
+  --day-ink: var(--white);
+}
+
+.wall--pale {
+  --wall: var(--pale);
+  --doodle: var(--indigo-700);
+  --doodle-opacity: 0.05;
+  --day-bg: var(--ink);
+  --day-ink: var(--white);
+}
+
+.thread-col {
+  max-width: 60rem;
+  margin-inline: auto;
+}
+
+.thread-col--wide {
+  max-width: 72rem;
+}
+
+/* El titular es el separador de día del chat, a escala de página */
+.day {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto var(--gap-8);
+  padding: var(--gap-3) var(--gap-6);
+  font-size: var(--text-2xl);
+  text-align: center;
+  color: var(--day-ink);
+  background-color: var(--day-bg);
+  border-radius: var(--radius-bubble);
+}
+
+.stack {
+  display: grid;
+  gap: var(--gap-3);
+  align-content: start;
+  /* Hueco para la cola de las burbujas */
+  padding-inline: 0.625rem;
+}
+
+.demo-note {
+  margin-top: var(--gap-6);
+  font-size: var(--text-sm);
+  text-align: center;
+  color: var(--on-indigo);
+}
+
+/* ---- Hero: la alerta ---- */
+
+.hero {
+  padding-block: clamp(1.25rem, 4vw, 3rem);
+}
+
+.hero__grid {
+  display: grid;
+  gap: var(--gap-6);
+  /* Mismo borde que la cabecera: la cola queda en el margen */
+  max-width: calc(84rem - var(--gutter) * 2);
+  margin-inline: auto;
+}
+
+.hero__ask {
+  container-type: inline-size;
+  width: 100%;
+  max-width: none;
+  padding: clamp(1rem, 3vw, 2.25rem);
+  border-radius: 2rem;
+  border-top-left-radius: var(--radius-corner);
+}
+
+.hero__ask > * + * {
+  margin-top: var(--gap-3);
+}
+
+.hero__title {
+  display: grid;
+  gap: var(--gap-3);
+}
+
+.hero__question {
+  font-size: clamp(3rem, 15.5cqi, 9rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
+}
+
+.hero__claim {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--indigo-700);
+}
+
+.hero__intro {
+  max-width: 34rem;
+  font-size: var(--text-lg);
+  color: var(--ink-soft);
+}
+
+.hero__ask .replies {
+  margin-top: var(--gap-4);
+}
+
+.hero__photo {
+  width: 100%;
+  max-width: 24rem;
+}
+
+.hero__photo img {
+  aspect-ratio: 1;
+  object-fit: contain;
+  padding: var(--gap-3);
+}
+
+.hero__photo figcaption {
+  color: var(--ink);
+}
+
+.thread-col--demo {
+  padding-inline: 0.625rem;
+}
+
+.thread-col--demo .thread {
+  margin-top: var(--gap-6);
+}
+
+.js .thread-col--demo .thread:not(.is-active) {
+  margin-top: 0;
+}
+
+.replies--end {
+  justify-content: center;
+  max-width: 34rem;
+  margin: var(--gap-6) auto 0;
+}
+
+@media (min-width: 60em) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
+    align-items: start;
+    gap: var(--gap-8);
+  }
+
+  .hero__photo {
+    justify-self: end;
+    margin-top: clamp(2rem, 9vh, 5.5rem);
   }
 }
 
-.patio-plate img {
+/* ---- Cómo funciona ---- */
+
+.msg--wide {
+  max-width: 100%;
+}
+
+.msg--step {
+  max-width: min(100%, 40rem);
+  padding-block: var(--gap-4);
+}
+
+.msg h3 {
+  font-size: var(--text-xl);
+}
+
+/* ---- Familia ---- */
+
+.family {
+  display: grid;
+  gap: var(--gap-6);
+}
+
+.chain {
+  display: grid;
+  gap: var(--gap-2);
+  list-style: none;
+}
+
+.chain li {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-3);
+  font-weight: 600;
+}
+
+.avatar {
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-family: var(--font-display);
+  font-weight: 800;
+  color: var(--white);
+  background-color: var(--indigo-700);
+  border-radius: 50%;
+}
+
+@media (min-width: 52em) {
+  .family {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    align-items: start;
+  }
+}
+
+/* ---- App ---- */
+
+.screens {
+  display: grid;
+  gap: var(--gap-6);
+  padding-inline: 0.625rem;
+}
+
+.screen-msg {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 24rem;
+  margin-inline: auto;
+  padding: 0.375rem 0.375rem var(--gap-3);
+}
+
+.screen-msg figcaption {
+  padding-inline: var(--gap-3);
+}
+
+.screen {
+  flex: 1;
+  display: grid;
+  align-content: start;
+  gap: var(--gap-3);
+  padding: var(--gap-4);
+  background-color: var(--pale);
+  border-radius: 0.875rem;
+}
+
+.screen svg {
   display: block;
   width: 100%;
   height: auto;
 }
 
-/* Línea de sol: el único momento autorado — barre una vez */
-.sun-line {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(105deg, transparent 42%, rgba(233, 161, 59, 0.35) 50%, transparent 58%);
-  transform: translateX(-110%);
-  animation: sun-sweep 1.6s var(--ease-out-expo) 0.3s 1 forwards;
-}
-
-@keyframes sun-sweep {
-  from { transform: translateX(-110%); }
-  to { transform: translateX(110%); }
-}
-
-/* Franja de demostración: vidrio violeta sobre la foto del producto */
-.demo-strip {
-  border-top: 1px solid var(--glass-border);
-  background-color: rgba(248, 247, 255, 0.55);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
-  backdrop-filter: blur(12px) saturate(150%);
-  padding: var(--space-4) var(--space-6);
-}
-
-@supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
-  .demo-strip {
-    background-color: #ffffff;
-  }
-}
-
-.demo-vitals {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-4);
-  margin: 0;
-}
-
-.demo-vitals div {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.demo-vitals dt {
-  font-size: var(--text-xs);
-  font-weight: var(--font-medium);
-  color: var(--text-muted);
-}
-
-.demo-vitals dd {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: var(--text-xl);
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.demo-note {
-  margin-top: var(--space-3);
-  margin-bottom: 0;
-  font-size: var(--text-sm);
-  color: var(--text-muted);
-}
-
-/* Compat: el viejo monitor y los anillos ya descansan */
-.heartbeat-monitor,
-.pulse-rings,
-.pulse-ring {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .hero {
-    padding-top: calc(var(--section-padding-y) + var(--navbar-space));
-    padding-bottom: var(--section-padding-y);
-  }
-}
-
-@media (max-width: 1023px) {
-  .hero-image {
-    display: none;
-  }
-
-  /* En móvil el texto apila sobre la foto: velo más cerrado */
-  .hero-backdrop img {
-    opacity: 1;
-    /* Parallax desactivado en móvil: capa estática */
-    transform: none !important;
-  }
-
-  .hero-backdrop::after {
-    background:
-      linear-gradient(180deg, rgba(244, 242, 255, 0.88) 0%, rgba(244, 242, 255, 0.72) 45%, rgba(244, 242, 255, 0.45) 100%);
-  }
-}
-
-/* ========================================
-   ENCABEZADOS DE SECCIÓN — el titular habla
-   solo; sin kickers
-   ======================================== */
-
-.section-header {
-  max-width: 800px;
-  margin-bottom: var(--space-12);
-}
-
-.section-title {
-  margin-top: 0;
-  text-wrap: balance;
-}
-
-.section-subtitle {
+.screen__title {
+  font-family: var(--font-display);
   font-size: var(--text-lg);
-  color: var(--text-body);
-  max-width: 62ch;
-  margin-bottom: 0;
+  font-weight: 700;
 }
 
-/* Bandas que alternan calma y prueba: el vidrio respira sobre
-   foto real con velo violeta o malla tenue */
-.section-alt {
-  background-color: rgba(255, 255, 255, 0.45);
-  background-image: radial-gradient(800px 320px at 10% 0%, rgba(90, 75, 214, 0.07), transparent 65%);
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
+.screen--alert .screen__title {
+  color: var(--alert);
 }
 
-.section-primary {
-  position: relative;
-  background-color: var(--bg-surface-alt);
-  background-image:
-    linear-gradient(rgba(233, 230, 251, 0.82), rgba(233, 230, 251, 0.86)),
-    url("../assets/images/allin-band-landing.png"),
-    radial-gradient(900px 360px at 90% 0%, rgba(233, 161, 59, 0.08), transparent 62%);
-  background-size: cover, cover, auto;
-  background-position: center 30%, center 30%, center;
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
-}
+@media (min-width: 52em) {
+  .screens {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+  }
 
-.section-with-background {
-  position: relative;
-  background-color: var(--bg-deep);
-  background-image:
-    linear-gradient(rgba(244, 242, 255, 0.8), rgba(244, 242, 255, 0.86)),
-    url("../assets/images/ancianos-haciendo-deporte.jpg"),
-    radial-gradient(1000px 420px at 8% 12%, rgba(90, 75, 214, 0.08), transparent 62%);
-  background-size: cover, cover, auto;
-  background-position: center 35%, center 35%, center;
-}
+  .screen-msg {
+    max-width: none;
+  }
 
-/* Compat con variantes anteriores */
-.section-cyan,
-.section-violet {
-  background-color: rgba(255, 255, 255, 0.45);
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
-}
+  /* La fila baja en escalera, como mensajes que van llegando */
+  .screen-msg:nth-child(2) {
+    margin-top: var(--gap-8);
+    margin-bottom: calc(var(--gap-8) * -1);
+  }
 
-.accent-line,
-.accent-line-left {
-  display: none;
-}
+  .screen-msg:nth-child(3) {
+    margin-top: calc(var(--gap-8) * 2);
+    margin-bottom: calc(var(--gap-8) * -2);
+  }
 
-/* ========================================
-   CÓMO FUNCIONA — sendero de sol, la
-   secuencia sí lleva números porque
-   Monitorea → Detecta → Activa es el mecanismo
-   ======================================== */
-
-.how-it-works-content {
-  display: grid;
-  gap: var(--space-12);
-}
-
-@media (min-width: 992px) {
-  .how-it-works-content {
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
+  #app .demo-note {
+    margin-top: calc(var(--gap-8) * 2 + var(--gap-6));
   }
 }
 
-.how-it-works-image img {
+/* ---- Límites ---- */
+
+.honest {
+  display: grid;
+  gap: var(--gap-6);
+  padding-inline: 0.625rem;
+}
+
+.honest .msg {
+  max-width: none;
   width: 100%;
-  height: auto;
-  border-radius: var(--radius-2xl);
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-lg);
-  transition: box-shadow var(--transition-base);
+  padding: var(--gap-6);
 }
 
-.how-it-works-image img:hover {
-  box-shadow: var(--shadow-xl);
+.msg--limits {
+  background-color: var(--ink);
+  color: var(--white);
 }
 
-.how-it-works-steps {
+.msg--limits .msg__from {
+  color: var(--marigold);
+}
+
+.goals > div {
   display: grid;
-  gap: var(--space-8);
-  position: relative;
+  gap: 0 var(--gap-4);
+  padding-block: var(--gap-2);
+  border-top: 1px solid var(--lilac-200);
 }
 
-.step {
-  display: grid;
-  grid-template-columns: 64px 1fr;
-  gap: var(--space-4);
-  align-items: start;
-  position: relative;
-  padding-bottom: var(--space-8);
-}
-
-.step:last-child {
-  padding-bottom: 0;
-}
-
-/* Sendero continuo entre pasos */
-.step:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  left: 31px;
-  top: 68px;
-  bottom: 0;
-  width: 2px;
-  background: linear-gradient(var(--color-primary-alpha), var(--border-subtle));
-}
-
-.step-number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  font-family: var(--font-mono);
-  font-size: var(--text-xl);
-  font-weight: 600;
-  color: #ffffff;
-  background-color: var(--color-primary);
-  border-radius: 50%;
-  box-shadow: 0 4px 14px -4px rgba(90, 75, 214, 0.22), 0 2px 6px rgba(38, 34, 80, 0.12);
-}
-
-.step-content {
-  padding-top: var(--space-1);
-}
-
-.step-title {
-  margin-top: 0;
-  margin-bottom: var(--space-2);
-}
-
-.step-description {
-  margin-bottom: 0;
-  max-width: 56ch;
-}
-
-/* ========================================
-   BENEFICIOS — retícula que encastra:
-   protagonista horizontal + fichas
-   ======================================== */
-
-.benefits-intro {
-  max-width: 800px;
-  margin-bottom: var(--space-12);
-}
-
-.benefits-intro .section-title {
-  margin-top: 0;
-}
-
-.features-grid {
-  display: grid;
-  gap: var(--space-6);
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 768px) {
-  .features-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (min-width: 1024px) {
-  .features-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  /* La primera ficha de cada grupo manda y ocupa dos */
-  #beneficios .features-grid > :first-child,
-  #caracteristicas .features-grid > :first-child {
-    grid-column: span 2;
-  }
-}
-
-/* ========================================
-   TECNOLOGÍA — tarjetas de vidrio simples:
-   sin libro pesado ni divisiones, cada
-   objetivo respira en su propio vidrio
-   ======================================== */
-
-.stats-grid {
-  display: grid;
-  gap: var(--space-6);
-  background-color: transparent;
-  border: none;
-  margin-bottom: var(--space-12);
-}
-
-@media (min-width: 768px) {
-  .stats-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.stat-item {
-  padding: var(--space-8);
-  background-color: var(--glass-card);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
-  backdrop-filter: blur(12px) saturate(150%);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--glass-shadow);
-  transition: transform var(--transition-base), box-shadow var(--transition-base), background-color var(--transition-base);
-}
-
-@supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
-  .stat-item {
-    background-color: #ffffff;
-  }
-}
-
-.stat-item:hover {
-  transform: translateY(-4px);
-  background-color: var(--glass-card-strong);
-  box-shadow: var(--glass-shadow-lift);
-}
-
-.stat-value {
-  font-family: var(--font-mono);
-  font-size: var(--text-4xl);
-  font-weight: 600;
-  color: var(--text-primary);
-  line-height: 1;
-  margin-bottom: var(--space-2);
-}
-
-.stat-value .stat-unit {
-  font-size: var(--text-xl);
-  color: var(--color-primary-dark);
-  margin-left: var(--space-1);
-}
-
-.stat-label {
-  font-weight: var(--font-semibold);
-  color: var(--text-primary);
-  margin-bottom: var(--space-1);
-}
-
-.stat-detail {
+.goals dt {
   font-size: var(--text-sm);
-  color: var(--text-muted);
-  margin-bottom: var(--space-3);
+  color: var(--ink-soft);
 }
 
-.stat-honesty {
-  display: inline-block;
-  font-size: var(--text-xs);
-  font-weight: var(--font-medium);
-  color: var(--color-primary-dark);
-  background-color: var(--color-primary-alpha);
-  border-radius: var(--radius-full);
-  padding: 2px var(--space-3);
+.goals dd {
+  font-weight: 700;
 }
 
-/* Fila de confianza: renglones compactos */
-.trust-row {
+.limits {
   display: grid;
-  gap: var(--space-4);
-  grid-template-columns: 1fr;
-  max-width: 900px;
+  gap: var(--gap-3);
+  padding-left: 1.25rem;
+  list-style: disc;
 }
 
-@media (min-width: 768px) {
-  .trust-row {
-    grid-template-columns: repeat(3, 1fr);
+.limits li::marker {
+  color: var(--marigold);
+}
+
+@media (min-width: 52em) {
+  .honest {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: start;
   }
 }
 
-.trust-item {
-  display: flex;
-  gap: var(--space-3);
-  align-items: flex-start;
-  padding: var(--space-4);
-  background-color: var(--glass-card);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
-  backdrop-filter: blur(12px) saturate(150%);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--glass-shadow);
-  transition: transform var(--transition-base), box-shadow var(--transition-base), background-color var(--transition-base);
+/* ---- Preguntas: <details> nativo, sin alturas fijas ---- */
+
+.faq {
+  display: grid;
+  gap: var(--gap-3);
+  padding-inline: 0.625rem;
 }
 
-@supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
-  .trust-item {
-    background-color: #ffffff;
-  }
+.faq__item {
+  max-width: 44rem;
+  background-color: var(--white);
+  border-radius: var(--radius-bubble);
+  border-top-left-radius: var(--radius-corner);
+  box-shadow: var(--bubble-shadow);
 }
 
-.trust-item:hover {
-  transform: translateY(-4px);
-  background-color: var(--glass-card-strong);
-  box-shadow: var(--glass-shadow-lift);
-}
-
-.trust-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  flex: none;
-  width: 44px;
-  height: 44px;
-  font-size: 1.125rem;
-  color: var(--color-primary-dark);
-  background-color: var(--color-primary-alpha);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-full);
-}
-
-.trust-text {
-  font-size: var(--text-sm);
-  font-weight: var(--font-medium);
-  color: var(--text-primary);
-  line-height: var(--leading-normal);
-}
-
-/* ========================================
-   FAQ — calma con divisiones
-   ======================================== */
-
-.faq-list {
-  max-width: 800px;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.faq-item {
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.faq-question {
+.faq__item summary {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-4);
-  width: 100%;
-  min-height: 56px;
-  padding: var(--space-4) var(--space-2);
+  gap: var(--gap-4);
+  min-height: 3.5rem;
+  padding: var(--gap-3) 1.125rem;
   font-family: var(--font-display);
   font-size: var(--text-lg);
-  font-weight: var(--font-semibold);
-  color: var(--text-primary);
-  background: transparent;
-  border: none;
+  font-weight: 700;
+  line-height: 1.25;
+  list-style: none;
+  border-radius: inherit;
   cursor: pointer;
-  text-align: left;
-  transition: color var(--transition-base);
 }
 
-.faq-question:hover {
-  color: var(--color-primary-dark);
+.faq__item summary::-webkit-details-marker {
+  display: none;
 }
 
-.faq-icon {
+.faq__chevron {
   flex: none;
-  color: var(--text-muted);
-  transition: transform var(--transition-base);
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--indigo-700);
 }
 
-.faq-item.active .faq-icon {
+.faq__item[open] .faq__chevron {
   transform: rotate(180deg);
 }
 
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.35s var(--ease-out-expo);
+.faq__item p {
+  padding: 0 1.125rem var(--gap-4);
 }
 
-.faq-item.active .faq-answer {
-  max-height: 500px;
-}
-
-.faq-answer-content {
-  padding: 0 var(--space-2) var(--space-6);
-  color: var(--text-body);
-  max-width: 68ch;
-}
-
-/* ========================================
-   CTA FINAL — pared de sol con formulario
-   ======================================== */
-
-.cta-section {
-  background-color: var(--bg-surface-alt);
-  background-image:
-    linear-gradient(rgba(233, 230, 251, 0.84), rgba(233, 230, 251, 0.24)),
-    url("../assets/images/band-in-landscape.png"),
-    radial-gradient(800px 320px at 50% 0%, rgba(138, 129, 250, 0.08), transparent 62%);
-  background-size: cover, cover, auto;
-  background-position: center 40%, center 40%, center;
-  border-top: 1px solid var(--border-subtle);
-}
-
-.cta-section .container {
-  max-width: 760px;
-}
-
-.cta-title {
-  margin-top: 0;
-  text-wrap: balance;
-}
-
-.cta-form {
-  margin-top: var(--space-8);
-  background-color: var(--glass-card-strong);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
-  backdrop-filter: blur(12px) saturate(150%);
-  border: 1px solid var(--glass-border);
-  border-radius: var(--radius-2xl);
-  box-shadow: var(--glass-shadow);
-  padding: var(--space-8);
-}
-
-@supports not ((backdrop-filter: blur(12px)) or (-webkit-backdrop-filter: blur(12px))) {
-  .cta-form {
-    background-color: #ffffff;
+@media (hover: hover) {
+  .faq__item summary:hover {
+    color: var(--indigo-700);
   }
 }
 
-@media (min-width: 768px) {
-  .cta-form {
-    padding: var(--space-10);
-  }
+/* ---- Cierre ---- */
+
+.closing .thread-col {
+  max-width: 44rem;
+  text-align: center;
 }
 
-/* ========================================
-   FOOTER — zócalo de tinta pozo
-   ======================================== */
+.closing__title {
+  font-size: clamp(2.5rem, 1.5rem + 5vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.closing__text {
+  margin-top: var(--gap-4);
+  font-size: var(--text-lg);
+  color: var(--on-indigo);
+}
+
+.closing__text strong {
+  color: var(--white);
+}
+
+.closing .replies {
+  justify-content: center;
+  margin-top: var(--gap-8);
+}
+
+.closing .btn {
+  flex: 0 1 auto;
+}
 
 .footer {
-  background-color: #1f1c33;
-  color: #e6e3fb;
-  padding-top: var(--space-16);
-  padding-bottom: var(--space-8);
+  padding: var(--gap-6) var(--gutter);
+  font-size: var(--text-sm);
+  text-align: center;
+  color: var(--on-indigo);
+  background-color: var(--indigo-900);
 }
 
-.footer-content {
-  display: grid;
-  gap: var(--space-8);
-  grid-template-columns: 1fr;
-  margin-bottom: var(--space-12);
-}
+/* ---- Respuesta flotante: vuelve a la alerta desde cualquier punto ---- */
 
-@media (min-width: 768px) {
-  .footer-content {
-    grid-template-columns: 1.4fr 1fr 1fr;
-  }
-}
-
-.footer-section h3 {
-  font-size: var(--text-lg);
-  color: #ffffff;
-  margin-top: 0;
-}
-
-.footer-section p {
-  color: #cfcbf0;
-  max-width: 44ch;
-}
-
-.footer-section strong {
-  color: #ffffff;
-}
-
-.footer-links {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.footer-link {
-  color: #cfcbf0;
-  text-decoration: none;
-  min-height: 44px;
+.floating-reply {
+  position: fixed;
+  right: var(--gutter);
+  bottom: max(var(--gap-4), env(safe-area-inset-bottom));
+  z-index: 40;
   display: inline-flex;
   align-items: center;
+  gap: var(--gap-2);
+  min-height: 3rem;
+  padding: var(--gap-2) var(--gap-4);
+  font-weight: 700;
+  color: var(--ink);
+  text-decoration: none;
+  background-color: var(--marigold);
+  border-radius: 999px;
+  box-shadow: var(--float-shadow);
 }
 
-.footer-link:hover {
-  color: #ffffff;
-}
-
-.footer-bottom {
-  border-top: 1px solid rgba(230, 227, 251, 0.2);
-  padding-top: var(--space-6);
-}
-
-.footer-bottom p {
-  color: #cfcbf0;
-  font-size: var(--text-sm);
-  margin-bottom: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sun-line {
-    animation: none;
-    display: none;
-  }
-
-  .hero-backdrop img {
-    transform: none !important;
-  }
-
-  .hero-content {
-    transform: none !important;
-    opacity: 1 !important;
-  }
+.floating-reply svg {
+  width: 1.25rem;
+  height: 1.25rem;
 }
