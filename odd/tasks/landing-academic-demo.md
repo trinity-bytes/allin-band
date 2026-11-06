@@ -20,7 +20,7 @@ Test runner: none in the project; checks run with a scratch Playwright script ou
 - [x] T1 S2 S6 inline: brand and optimized assets. Commit 98b843a.
 - [x] T2 S1 S3 S4 S5 S7 S8 S9 S10 inline: page, styles, demo. Commits 33bec6b, 6c23a21, and the handoff commit.
 - [x] T3 S10 inline: README and docs. Commit cfa6daa.
-- [x] T4 all delegated: independent browser verification and bounded correction recheck completed; parent regression tests and final suite pass. Risk item 6; coverage limits recorded in L8. Correction commit recorded below.
+- [x] T4 all delegated: independent browser verification and bounded correction recheck completed; parent regression tests and final suite pass. Risk item 6; coverage limits recorded in L8. Correction commit: ce190a1.
 - [x] T5 inline: DESIGN.md and .impeccable/design.json generated from implemented tokens and components; canonical headings and JSON readback pass. Both remain local under existing gitignore policy.
 
 Route evidence: one surface in shared files, so no Writer trigger; inline.
