@@ -235,11 +235,19 @@ html:not(.js) .nav__link {
   --day-ink: var(--white);
 }
 
+.wall--lilac-deep {
+  --wall: var(--lilac-200);
+  --doodle: var(--indigo-700);
+  --doodle-opacity: 0.09;
+  --day-bg: var(--ink);
+  --day-ink: var(--white);
+}
+
 .wall--pale {
   --wall: var(--pale);
   --doodle: var(--indigo-700);
   --doodle-opacity: 0.05;
-  --day-bg: var(--ink);
+  --day-bg: var(--indigo-700);
   --day-ink: var(--white);
 }
 
@@ -269,15 +277,14 @@ html:not(.js) .nav__link {
   display: grid;
   gap: var(--gap-3);
   align-content: start;
+  justify-items: start;
   /* Hueco para la cola de las burbujas */
   padding-inline: 0.625rem;
 }
 
-.demo-note {
-  margin-top: var(--gap-6);
-  font-size: var(--text-sm);
-  text-align: center;
-  color: var(--on-indigo);
+.sys--note {
+  width: fit-content;
+  margin: var(--gap-6) auto 0;
 }
 
 /* ---- Hero: la alerta ---- */
@@ -353,7 +360,7 @@ html:not(.js) .nav__link {
 }
 
 .thread-col--demo {
-  padding-inline: 0.625rem;
+  max-width: calc(84rem - var(--gutter) * 2);
 }
 
 .thread-col--demo .thread {
@@ -368,6 +375,7 @@ html:not(.js) .nav__link {
   justify-content: center;
   max-width: 34rem;
   margin: var(--gap-6) auto 0;
+  scroll-margin-bottom: var(--gap-12);
 }
 
 @media (min-width: 60em) {
@@ -383,26 +391,17 @@ html:not(.js) .nav__link {
   }
 }
 
-/* ---- Cómo funciona ---- */
-
-.msg--wide {
-  max-width: 100%;
-}
-
-.msg--step {
-  max-width: min(100%, 40rem);
-  padding-block: var(--gap-4);
-}
-
-.msg h3 {
-  font-size: var(--text-xl);
-}
-
 /* ---- Familia ---- */
 
 .family {
   display: grid;
   gap: var(--gap-6);
+}
+
+.family__members {
+  width: 100%;
+  max-width: 24rem;
+  margin-inline: 0.625rem;
 }
 
 .chain {
@@ -433,40 +432,33 @@ html:not(.js) .nav__link {
 
 @media (min-width: 52em) {
   .family {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
     align-items: start;
+  }
+
+  .family__members {
+    position: sticky;
+    top: calc(var(--header-h) + var(--gap-4));
   }
 }
 
-/* ---- App ---- */
+/* ---- App: las pantallas llegan como imágenes dentro del hilo ---- */
 
-.screens {
-  display: grid;
-  gap: var(--gap-6);
-  padding-inline: 0.625rem;
-}
-
-.screen-msg {
-  display: flex;
-  flex-direction: column;
+.msg--screen {
   width: 100%;
-  max-width: 24rem;
-  margin-inline: auto;
-  padding: 0.375rem 0.375rem var(--gap-3);
-}
-
-.screen-msg figcaption {
-  padding-inline: var(--gap-3);
+  max-width: 30rem;
 }
 
 .screen {
-  flex: 1;
   display: grid;
-  align-content: start;
   gap: var(--gap-3);
   padding: var(--gap-4);
-  background-color: var(--pale);
+  background-color: var(--lilac-100);
   border-radius: 0.875rem;
+}
+
+.screen .vitals > div {
+  background-color: var(--white);
 }
 
 .screen svg {
@@ -485,58 +477,38 @@ html:not(.js) .nav__link {
   color: var(--alert);
 }
 
-@media (min-width: 52em) {
-  .screens {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: stretch;
-  }
+/* ---- Límites: mensajes sueltos y un documento adjunto ---- */
 
-  .screen-msg {
-    max-width: none;
-  }
-
-  /* La fila baja en escalera, como mensajes que van llegando */
-  .screen-msg:nth-child(2) {
-    margin-top: var(--gap-8);
-    margin-bottom: calc(var(--gap-8) * -1);
-  }
-
-  .screen-msg:nth-child(3) {
-    margin-top: calc(var(--gap-8) * 2);
-    margin-bottom: calc(var(--gap-8) * -2);
-  }
-
-  #app .demo-note {
-    margin-top: calc(var(--gap-8) * 2 + var(--gap-6));
-  }
-}
-
-/* ---- Límites ---- */
-
-.honest {
-  display: grid;
-  gap: var(--gap-6);
-  padding-inline: 0.625rem;
-}
-
-.honest .msg {
-  max-width: none;
+.msg--doc {
   width: 100%;
-  padding: var(--gap-6);
+  max-width: 38rem;
 }
 
-.msg--limits {
-  background-color: var(--ink);
-  color: var(--white);
+.doc {
+  padding: var(--gap-4);
+  background-color: var(--lilac-100);
+  border-radius: 0.875rem;
 }
 
-.msg--limits .msg__from {
-  color: var(--marigold);
+.doc__title {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-2);
+}
+
+.doc__title svg {
+  flex: none;
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--indigo-700);
+}
+
+.goals {
+  margin-top: var(--gap-2);
 }
 
 .goals > div {
   display: grid;
-  gap: 0 var(--gap-4);
   padding-block: var(--gap-2);
   border-top: 1px solid var(--lilac-200);
 }
@@ -550,25 +522,7 @@ html:not(.js) .nav__link {
   font-weight: 700;
 }
 
-.limits {
-  display: grid;
-  gap: var(--gap-3);
-  padding-left: 1.25rem;
-  list-style: disc;
-}
-
-.limits li::marker {
-  color: var(--marigold);
-}
-
-@media (min-width: 52em) {
-  .honest {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-    align-items: start;
-  }
-}
-
-/* ---- Preguntas: <details> nativo, sin alturas fijas ---- */
+/* ---- Preguntas: la pregunta sale y la respuesta llega ---- */
 
 .faq {
   display: grid;
@@ -577,26 +531,20 @@ html:not(.js) .nav__link {
 }
 
 .faq__item {
-  max-width: 44rem;
-  background-color: var(--white);
-  border-radius: var(--radius-bubble);
-  border-top-left-radius: var(--radius-corner);
-  box-shadow: var(--bubble-shadow);
+  display: grid;
+  gap: var(--gap-2);
 }
 
 .faq__item summary {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--gap-4);
+  gap: var(--gap-3);
   min-height: 3.5rem;
-  padding: var(--gap-3) 1.125rem;
   font-family: var(--font-display);
   font-size: var(--text-lg);
   font-weight: 700;
   line-height: 1.25;
   list-style: none;
-  border-radius: inherit;
   cursor: pointer;
 }
 
@@ -608,53 +556,49 @@ html:not(.js) .nav__link {
   flex: none;
   width: 1.5rem;
   height: 1.5rem;
-  color: var(--indigo-700);
 }
 
 .faq__item[open] .faq__chevron {
   transform: rotate(180deg);
 }
 
-.faq__item p {
-  padding: 0 1.125rem var(--gap-4);
+.faq__item .msg--in {
+  margin-top: var(--gap-2);
 }
 
 @media (hover: hover) {
   .faq__item summary:hover {
-    color: var(--indigo-700);
+    background-color: var(--marigold-deep);
   }
 }
 
-/* ---- Cierre ---- */
+/* ---- Cierre: el hilo termina donde empezó ---- */
 
-.closing .thread-col {
-  max-width: 44rem;
-  text-align: center;
+.closing__ask {
+  container-type: inline-size;
+  width: 100%;
+  max-width: 40rem;
+  margin-top: var(--gap-6);
+  padding: var(--gap-6);
+  border-radius: 2rem;
+  border-top-left-radius: var(--radius-corner);
 }
 
-.closing__title {
-  font-size: clamp(2.5rem, 1.5rem + 5vw, 5rem);
+.closing__question {
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 15cqi, 5.5rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
+  line-height: 1;
+  letter-spacing: -0.035em;
 }
 
-.closing__text {
+.closing__ask .replies {
   margin-top: var(--gap-4);
-  font-size: var(--text-lg);
-  color: var(--on-indigo);
 }
 
-.closing__text strong {
-  color: var(--white);
-}
-
-.closing .replies {
-  justify-content: center;
-  margin-top: var(--gap-8);
-}
-
-.closing .btn {
-  flex: 0 1 auto;
+/* Sin JS la pregunta no se puede responder: no se muestra */
+html:not(.js) .closing__ask {
+  display: none;
 }
 
 .footer {

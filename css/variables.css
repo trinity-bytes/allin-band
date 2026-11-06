@@ -23,12 +23,13 @@
   --on-indigo: #e4e1ff;
   --alert: #b3261e;
   --person: #0a6b62;
+  --mom: #8a2b7a;
 
   /* Tipografía: Bricolage habla fuerte, Atkinson se lee sin esfuerzo */
   --font-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
   --font-body: "Atkinson Hyperlegible Next", Verdana, sans-serif;
 
-  --text-sm: 0.9375rem;
+  --text-sm: 1rem;
   --text-base: 1.125rem;
   --text-lg: 1.3125rem;
   --text-xl: clamp(1.5rem, 1.25rem + 1vw, 2rem);

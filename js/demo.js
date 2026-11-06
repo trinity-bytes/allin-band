@@ -7,11 +7,13 @@
 (function () {
   "use strict";
 
+  var hero = document.getElementById("inicio");
   var thread = document.getElementById("demoThread");
   var replies = document.getElementById("demoReplies");
   var end = document.getElementById("demoEnd");
   var replay = document.getElementById("demoReplay");
   var okTemplate = document.getElementById("demoOk");
+  var noticeLuis = document.getElementById("noticeLuis");
 
   var alertItems = Array.prototype.slice.call(thread.children);
   var calm = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -20,7 +22,11 @@
   var follow = true;
 
   // Con JS, Luis todavía no confirma hasta que llega su mensaje
-  document.getElementById("noticeLuis").classList.remove("is-read");
+  noticeLuis.classList.remove("is-read");
+
+  function behavior() {
+    return calm.matches ? "auto" : "smooth";
+  }
 
   function wait(ms) {
     return new Promise(function (resolve) {
@@ -30,10 +36,7 @@
 
   function reveal(item) {
     if (follow) {
-      item.scrollIntoView({
-        block: "nearest",
-        behavior: calm.matches ? "auto" : "smooth",
-      });
+      item.scrollIntoView({ block: "nearest", behavior: behavior() });
     }
   }
 
@@ -71,8 +74,30 @@
     }, Promise.resolve());
   }
 
+  // Deja el hilo vacío y cancela cualquier reproducción en curso
+  function clear() {
+    runId += 1;
+    Array.prototype.slice.call(thread.children).forEach(function (item) {
+      if (alertItems.indexOf(item) === -1) {
+        item.remove();
+      } else {
+        item.classList.remove("is-shown");
+      }
+    });
+    noticeLuis.classList.remove("is-read");
+    thread.classList.remove("is-active");
+    end.hidden = true;
+  }
+
+  function rearm() {
+    clear();
+    replies.hidden = false;
+  }
+
   function start(path) {
-    var id = ++runId;
+    clear();
+
+    var id = runId;
     var items = alertItems;
 
     lastPath = path;
@@ -97,25 +122,23 @@
     });
   }
 
-  function reset() {
-    Array.prototype.slice.call(thread.children).forEach(function (item) {
-      if (alertItems.indexOf(item) === -1) {
-        item.remove();
-      } else {
-        item.classList.remove("is-shown");
-      }
-    });
-    document.getElementById("noticeLuis").classList.remove("is-read");
-    end.hidden = true;
-  }
+  document.addEventListener("click", function (event) {
+    var reply = event.target.closest("[data-path]");
 
-  replies.addEventListener("click", function (event) {
-    var button = event.target.closest("[data-path]");
-    if (button) start(button.dataset.path);
+    if (reply) {
+      // Desde el cierre, la respuesta se vive arriba, donde está el hilo
+      if (!hero.contains(reply)) {
+        hero.scrollIntoView({ behavior: behavior() });
+      }
+      start(reply.dataset.path);
+      return;
+    }
+
+    // Volver a la alerta siempre deja la pregunta lista para responder
+    if (event.target.closest('a[href="#inicio"]')) rearm();
   });
 
   replay.addEventListener("click", function () {
-    reset();
     start(lastPath === "ok" ? "alert" : "ok");
   });
 

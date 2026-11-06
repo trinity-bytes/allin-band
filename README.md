@@ -49,7 +49,7 @@ js/
 assets/
   brand/              Logo, favicon y fondo de pantalla (SVG)
   fonts/              Atkinson Hyperlegible Next, Bricolage Grotesque
-  images/             Pulsera y fotos ilustrativas (WebP), imagen para compartir
+  images/             Pulsera (WebP), imagen para compartir
 ```
 
 ## Decisiones
