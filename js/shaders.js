@@ -34,7 +34,7 @@
     "uniform float time;" +
     "uniform float unit;" +
     "float shaft(vec2 px, float x0, float width, float phase) {" +
-    "  vec2 dir = normalize(vec2(-0.62, -1.0));" +
+    "  vec2 dir = normalize(vec2(-0.67, -1.0));" +
     "  vec2 origin = vec2((x0 + 0.03 * sin(time * 0.23 + phase)) * size.x, size.y);" +
     "  vec2 d = px - origin;" +
     "  float across = abs(d.x * dir.y - d.y * dir.x);" +

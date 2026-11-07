@@ -62,11 +62,12 @@
     linear-gradient(110deg, rgba(240, 181, 89, 0) 52%, rgba(240, 181, 89, 0.16) 57%, rgba(240, 181, 89, 0) 63%),
     linear-gradient(110deg, rgba(240, 181, 89, 0) 66%, rgba(240, 181, 89, 0.2) 72%, rgba(240, 181, 89, 0) 79%),
     linear-gradient(110deg, rgba(240, 181, 89, 0) 81%, rgba(240, 181, 89, 0.16) 87%, rgba(240, 181, 89, 0) 94%);
-  mask-image: linear-gradient(to bottom, #000, rgba(0, 0, 0, 0.4) 55%, transparent);
+  /* No light behind the title: it would drop it under 3:1 (T10 B1) */
+  mask-image: linear-gradient(to bottom, transparent 12rem, #000 20rem, rgba(0, 0, 0, 0.4) 70%, transparent);
 }
 
 .shader--rays.is-live {
-  mask-image: none;
+  mask-image: linear-gradient(to bottom, transparent 12rem, #000 20rem);
 }
 
 .shader--mist {
@@ -248,7 +249,7 @@
   .emergency__rays.is-live {
     inset: 0 0 auto;
     height: 26.25rem;
-    mask-image: linear-gradient(to bottom, #000 55%, transparent);
+    mask-image: linear-gradient(to bottom, transparent 10rem, #000 15rem, #000 55%, transparent);
   }
 
   .emergency__scrim {
