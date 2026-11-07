@@ -24,7 +24,7 @@ Design source: Figma file IEIOIHCnxY7dYDObgHVwAi, page "Redesign / Hero v2" (21:
 ## Tasks
 
 - [x] T0 assets inline: 24 responsive WebP files in assets/images/web. Commit b0f25e4. Upscaled PNG and original JPEG sources moved to ../allin-band-sources, outside the repo.
-- [x] T1 S2 S3 S4 inline: tokens, fonts (self-host Host Grotesk), base styles, navbar, footer. Also the static hero layers and callouts, because the navbar is designed over the hero sky. Commit: see L10.
+- [x] T1 S2 S3 S4 inline: tokens, fonts (self-host Host Grotesk), base styles, navbar, footer. Also the static hero layers and callouts, because the navbar is designed over the hero sky. Commit 2fdbecd.
 - [ ] T2 S1 S5 S10 S11 S12 inline: middle sections structure and copy, hero motion (static layers already done in T1).
 - [ ] T3 S6 S7 inline: pulse component and horizontal journey.
 - [ ] T4 S8 S9 inline: goals curve, limits, FAQ, closing.
