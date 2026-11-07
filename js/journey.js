@@ -347,6 +347,27 @@
 
   if (!motion) return;
 
+  // Reveals play once per entry: the list has to be well in view to start and
+  // completely gone to reset. Stacked lists can be taller than the screen, so
+  // there a quarter is enough. The right margin keeps the sideways journey from
+  // playing them at the very edge.
+  function replayOnEntry(el) {
+    if (!("IntersectionObserver" in window)) {
+      el.classList.add("is-seen");
+      return;
+    }
+    new IntersectionObserver(
+      function (entries) {
+        var entry = entries[entries.length - 1];
+        if (!entry.isIntersecting) el.classList.remove("is-seen");
+        else if (entry.intersectionRatio >= (horizontal ? 0.9 : 0.25)) el.classList.add("is-seen");
+      },
+      { threshold: [0, 0.25, 0.9], rootMargin: "0px -5% 0px 0px" }
+    ).observe(el);
+  }
+
+  Array.prototype.forEach.call(journey.querySelectorAll(".rail, .steps, .app-panel"), replayOnEntry);
+
   var wide = window.matchMedia("(min-width: 64rem) and (min-height: 37.5rem) and (hover: hover) and (pointer: fine)");
   var horizontal = false;
   var failedAt = "";
