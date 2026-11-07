@@ -24,7 +24,8 @@
     "varying vec2 uv;" +
     "void main() { uv = p * 0.5 + 0.5; gl_Position = vec4(p, 0.0, 1.0); }";
 
-  // Three slanted shafts from the top, brighter near the window, fading as
+  // Three shafts from the window on the right, slanting left as they fall
+  // (across 40 % of the width at any aspect); brighter near the window, fading as
   // they fall. Each one breathes and sways on its own slow clock
   var RAYS =
     "precision mediump float;" +
@@ -32,20 +33,22 @@
     "uniform vec2 size;" +
     "uniform float time;" +
     "float shaft(vec2 px, float x0, float width, float phase) {" +
-    "  vec2 dir = normalize(vec2(0.36, -1.0));" +
-    "  vec2 origin = vec2((x0 + 0.012 * sin(time * 0.11 + phase)) * size.x, size.y);" +
+    "  vec2 dir = normalize(vec2(-0.4 * size.x / size.y, -1.0));" +
+    "  vec2 origin = vec2((x0 + 0.03 * sin(time * 0.23 + phase)) * size.x, size.y);" +
     "  vec2 d = px - origin;" +
     "  float across = abs(d.x * dir.y - d.y * dir.x);" +
     "  float w = width * size.x;" +
     "  float body = 1.0 - smoothstep(w * 0.25, w, across);" +
-    "  float breathe = 0.72 + 0.28 * sin(time * 0.37 + phase + px.y / size.y * 2.4);" +
-    "  return body * breathe;" +
+    "  float breathe = 0.6 + 0.4 * sin(time * 0.55 + phase + px.y / size.y * 2.4);" +
+    "  float along = d.x * dir.x + d.y * dir.y;" +
+    "  float dust = 0.82 + 0.18 * sin(along / size.y * 26.0 - time * 0.9 + phase) * sin(across / w * 5.0 + time * 0.4);" +
+    "  return body * breathe * dust;" +
     "}" +
     "void main() {" +
     "  vec2 px = uv * size;" +
     "  float fall = 0.15 + 0.85 * pow(clamp(uv.y, 0.0, 1.0), 1.1);" +
-    "  float light = shaft(px, 0.50, 0.17, 0.0) * 0.8 + shaft(px, 0.66, 0.2, 2.1) + shaft(px, 0.82, 0.19, 4.2) * 0.85;" +
-    "  float a = clamp(light * fall * 0.34, 0.0, 0.3);" +
+    "  float light = shaft(px, 0.8, 0.15, 0.0) * 0.8 + shaft(px, 0.95, 0.19, 2.1) + shaft(px, 1.1, 0.17, 4.2) * 0.85;" +
+    "  float a = clamp(light * fall * 0.8, 0.0, 0.6);" +
     "  gl_FragColor = vec4(vec3(0.941, 0.71, 0.349) * a, a);" +
     "}";
 
