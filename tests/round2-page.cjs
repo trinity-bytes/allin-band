@@ -296,6 +296,263 @@ const tests = {
     assert.deepEqual(after, { expanded: 'false', label: 'Menú', overflow: 'visible', inert: false, position: 'static' });
     await context.close();
   },
+  'the light shaders draw only while their section is in view': async browser => {
+    const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 });
+    await context.addInitScript(() => {
+      window.__draws = new Map();
+      for (const proto of [WebGLRenderingContext.prototype, window.WebGL2RenderingContext && WebGL2RenderingContext.prototype]) {
+        if (!proto) continue;
+        const draw = proto.drawArrays;
+        proto.drawArrays = function (...args) {
+          const key = this.canvas.dataset.shader;
+          window.__draws.set(key, (window.__draws.get(key) || 0) + 1);
+          return draw.apply(this, args);
+        };
+      }
+    });
+    const page = await context.newPage();
+    await page.goto(`${base}/index.html`);
+    await page.waitForLoadState('load');
+    const draws = key => page.evaluate(k => window.__draws.get(k) || 0, key);
+    const webgl = await page.evaluate(() => Boolean(document.createElement('canvas').getContext('webgl')));
+    const kinds = await page.evaluate(() => Array.from(document.querySelectorAll('canvas[data-shader]')).map(c => c.dataset.shader));
+    assert.deepEqual(kinds.sort(), ['mist', 'mist', 'rays']);
+
+    assert.equal(await draws('rays'), 0, 'nothing draws before the section is near');
+    await jump(page, await sectionTop(page, 'emergencia'));
+    await page.waitForTimeout(800);
+    if (!webgl) {
+      console.log('     (no WebGL in this browser: checking the CSS fallback only)');
+    } else {
+      const running = await draws('rays');
+      assert(running > 3, `the rays draw in view, ${running}`);
+      const size = await page.evaluate(() => {
+        const c = document.querySelector('canvas[data-shader="rays"]');
+        return { ratio: c.width / c.clientWidth, live: c.classList.contains('is-live') };
+      });
+      assert(size.ratio <= 1.5 + 0.01, `DPR capped, ${size.ratio}`);
+      assert(size.live, 'the live canvas drops its fallback');
+      await jump(page, 0);
+      await page.waitForTimeout(300);
+      const stopped = await draws('rays');
+      await page.waitForTimeout(900);
+      assert.equal(await draws('rays'), stopped, 'the rays stop once the section leaves the screen');
+    }
+    await context.close();
+
+    const calm = await open(browser, [1440, 900], { reducedMotion: 'reduce' });
+    await jump(calm.page, await sectionTop(calm.page, 'emergencia'));
+    await calm.page.waitForTimeout(400);
+    const still = await calm.page.evaluate(() => {
+      const c = document.querySelector('canvas[data-shader="rays"]');
+      return { live: c.classList.contains('is-live'), image: getComputedStyle(c).backgroundImage };
+    });
+    assert.equal(still.live, false, 'no shader under reduced motion');
+    assert.match(still.image, /gradient/, 'a static gradient stays instead');
+    await calm.context.close();
+  },
+
+  'emergency blocks reveal as soon as they show at 1366 and 1024': async browser => {
+    for (const size of [[1366, 768], [1024, 768], [1440, 900]]) {
+      const { context, page } = await open(browser, size);
+      const start = await sectionTop(page, 'emergencia');
+      for (const offset of [0, 300, 600]) {
+        await jump(page, start + offset);
+        await page.waitForTimeout(150);
+      }
+      await page.waitForTimeout(900);
+      const blank = await page.evaluate(() =>
+        Array.from(document.querySelectorAll('#emergencia [data-reveal]'))
+          .filter(block => {
+            const r = block.getBoundingClientRect();
+            return r.top < innerHeight - 40 && r.bottom > 40 && !block.classList.contains('is-in');
+          })
+          .map(block => block.className),
+      );
+      assert.deepEqual(blank, [], `${size.join('x')}: blocks on screen still hidden`);
+      await context.close();
+    }
+  },
+
+  'goal values sit 170 px further from the device on desktop': async browser => {
+    const { context, page } = await open(browser, [1440, 900], { reducedMotion: 'reduce' });
+    const r = await page.evaluate(() => {
+      const section = document.getElementById('metas').getBoundingClientRect();
+      const goal = document.querySelector('.goal');
+      const dot = goal.querySelector('.goal__mark').getBoundingClientRect();
+      return {
+        gap: goal.querySelector('.goal__value').getBoundingClientRect().left - (dot.left + 6),
+        title: document.getElementById('goals-title').getBoundingClientRect().left - section.left,
+      };
+    });
+    assert(Math.abs(r.gap - 232) <= 3, `value starts ${r.gap} px from the dot`);
+    assert(Math.abs(r.title - 600) <= 4, `heading at ${r.title}`);
+    await context.close();
+  },
+
+  'the FAQ answer has no band screen, and neither does the page outside the journey': async browser => {
+    const { context, page } = await open(browser, [1440, 900], { javaScriptEnabled: false });
+    const r = await page.evaluate(() => {
+      const body = document.body.cloneNode(true);
+      body.querySelectorAll('.journey').forEach(el => el.remove());
+      return {
+        answer: document.querySelector('#preguntas .faq__a').textContent.trim(),
+        screen: (body.textContent.match(/[^.]*pantalla[^.]*/gi) || []).map(s => s.trim()),
+        meta: Array.from(document.querySelectorAll('meta[content]')).some(m => /pantalla/i.test(m.content)),
+      };
+    });
+    assert.equal(r.answer, 'La pulsera te avisa primero a ti, con sonido y luz, y te pregunta si estás bien. Tienes unos segundos para responder; si lo haces, no se avisa a nadie.');
+    assert.deepEqual(r.screen, []);
+    assert.equal(r.meta, false);
+    await context.close();
+  },
+
+  'goals and FAQ sit on soft blooms instead of one glow': async browser => {
+    const { context, page } = await open(browser, [1440, 900], { reducedMotion: 'reduce' });
+    const r = await page.evaluate(() => {
+      const radial = s => Array.from(document.querySelectorAll(s)).filter(el => /radial-gradient/.test(getComputedStyle(el).backgroundImage)).length;
+      return { goals: radial('#metas .bloom'), faq: radial('#preguntas .bloom'), glows: document.querySelectorAll('.goals__glow, .faq__glow').length };
+    });
+    assert.deepEqual(r, { goals: 3, faq: 2, glows: 0 });
+    await context.close();
+  },
+
+  'the FAQ grass drifts slightly with scroll, and stays still under reduced motion': async browser => {
+    for (const options of [{}, { reducedMotion: 'reduce' }]) {
+      const { context, page } = await open(browser, [1440, 900], options);
+      const top = await sectionTop(page, 'preguntas');
+      const shift = async y => {
+        await jump(page, y);
+        await page.waitForTimeout(250);
+        return page.evaluate(() => new DOMMatrix(getComputedStyle(document.querySelector('.faq__grass--near')).transform).m42);
+      };
+      const early = await shift(top - 600);
+      const late = await shift(top + 200);
+      if (options.reducedMotion) {
+        assert.deepEqual([early, late], [0, 0], 'still under reduced motion');
+      } else {
+        const moved = Math.abs(early - late);
+        assert(moved >= 8 && moved <= 90, `slight parallax, moved ${moved}`);
+      }
+      await context.close();
+    }
+  },
+
+  'section joints fade on the eased seam tokens': async browser => {
+    const joints = [
+      ['emergencia', 'top', 96], ['emergencia', 'bottom', 96],
+      ['metas', 'top', 96], ['metas', 'bottom', 180],
+      ['limites', 'top', 420], ['limites', 'bottom', 96],
+      ['preguntas', 'top', 96], ['preguntas', 'bottom', 96],
+      ['proyecto', 'top', 96],
+    ];
+    for (const [size, mobile] of [[[1440, 900], false], [[390, 844], true]]) {
+      const { context, page } = await open(browser, size, { reducedMotion: 'reduce' });
+      const found = await page.evaluate(list => list.map(([id, edge]) => {
+        const seam = document.getElementById(id).querySelector(`.seam--${edge}`);
+        if (!seam) return null;
+        const style = getComputedStyle(seam);
+        const r = seam.getBoundingClientRect();
+        return { height: Math.round(r.height), stops: (style.backgroundImage.match(/rgba?\(/g) || []).length, width: Math.round(r.width) };
+      }), joints);
+      joints.forEach(([id, edge, px], i) => {
+        const label = `${size.join('x')} ${id} ${edge}`;
+        assert(found[i], `${label}: no seam`);
+        const want = mobile ? 64 : px;
+        assert(Math.abs(found[i].height - want) <= 1, `${label}: ${found[i].height} px, want ${want}`);
+        assert.equal(found[i].stops, 9, `${label}: eased stops`);
+        assert.equal(found[i].width, size[0], `${label}: full width`);
+      });
+      await context.close();
+    }
+  },
+
+  'the limit cards stack and the ones below reveal on scroll': async browser => {
+    for (const size of [[1440, 900], [1366, 768], [390, 844]]) {
+      const { context, page } = await open(browser, size);
+      const label = size.join('x');
+      const cards = () => page.evaluate(() => Array.from(document.querySelectorAll('#limites .limit')).map(card => {
+        const r = card.getBoundingClientRect();
+        return { top: r.top, bottom: r.bottom, left: r.left, width: r.width, opacity: Number(getComputedStyle(card).opacity), index: card.querySelector('.limit__index') && card.querySelector('.limit__index').textContent.trim() };
+      }));
+      const start = await sectionTop(page, 'limites');
+      await jump(page, start);
+      await page.waitForTimeout(500);
+      const first = await cards();
+      assert.deepEqual(first.map(c => c.index), ['1 de 3', '2 de 3', '3 de 3'], `${label}: index labels`);
+      assert(first[1].top < first[0].top && first[2].top < first[1].top, `${label}: the cards below peek above the front one`);
+      assert(first[1].bottom > first[0].top, `${label}: the cards overlap as a stack`);
+      assert(first[1].width < first[0].width && first[2].width < first[1].width, `${label}: cards behind are narrower`);
+      const head = await box(page, '.limits__title');
+      if (size[0] >= 1024) assert(Math.abs(head.top - first[2].top) <= 6, `${label}: heading ${head.top} and stack ${first[2].top} share a top line`);
+      assert(first[0].top >= 0 && first[0].bottom <= size[1], `${label}: the front card is on screen`);
+
+      const height = await page.evaluate(() => document.getElementById('limites').offsetHeight);
+      await jump(page, start + height - size[1]);
+      await page.waitForTimeout(500);
+      const last = await cards();
+      assert(last[0].opacity < 0.1 || last[0].bottom <= 0, `${label}: the first card lifted away`);
+      assert(last[1].opacity < 0.1 || last[1].bottom <= 0, `${label}: the second card lifted away`);
+      assert(Math.abs(last[2].top - first[0].top) <= 2, `${label}: the last card comes to the front, ${last[2].top} vs ${first[0].top}`);
+      assert(Math.abs(last[2].width - first[0].width) <= 1, `${label}: at full width`);
+      assert.equal(last[2].opacity, 1);
+      await context.close();
+    }
+  },
+
+  'the limit cards read as a list without JS and under reduced motion': async browser => {
+    for (const options of [{ reducedMotion: 'reduce' }, { javaScriptEnabled: false }]) {
+      for (const size of [[1440, 900], [390, 844]]) {
+        const { context, page } = await open(browser, size, options);
+        const label = `${size.join('x')} ${JSON.stringify(options)}`;
+        await jump(page, await sectionTop(page, 'limites'));
+        await page.waitForTimeout(200);
+        const list = await page.evaluate(() => Array.from(document.querySelectorAll('#limites .limit')).map(card => {
+          const r = card.getBoundingClientRect();
+          return { top: r.top, bottom: r.bottom, opacity: Number(getComputedStyle(card).opacity), text: card.querySelector('.limit__text').getBoundingClientRect().height };
+        }));
+        assert.equal(list.length, 3);
+        list.forEach((card, i) => {
+          assert.equal(card.opacity, 1, `${label}: card ${i + 1} visible`);
+          assert(card.text > 0, `${label}: card ${i + 1} text shows`);
+          if (i) assert(card.top >= list[i - 1].bottom, `${label}: card ${i + 1} overlaps the one above`);
+        });
+        await context.close();
+      }
+    }
+  },
+
+  'the closing is 1060 px tall at 1440 with 236 px team photos': async browser => {
+    const { context, page } = await open(browser, [1440, 900], { reducedMotion: 'reduce' });
+    const r = await page.evaluate(() => ({
+      height: document.getElementById('proyecto').getBoundingClientRect().height,
+      photos: Array.from(document.querySelectorAll('.member img')).map(img => Math.round(img.getBoundingClientRect().width) + 'x' + Math.round(img.getBoundingClientRect().height)),
+      teamRight: 1440 - document.querySelector('.team').getBoundingClientRect().right,
+    }));
+    assert(Math.abs(r.height - 1060) <= 4, `closing ${r.height} px`);
+    assert.deepEqual(r.photos, ['236x236', '236x236', '236x236', '236x236']);
+    assert(Math.abs(r.teamRight - 48) <= 2, `team right edge ${r.teamRight}`);
+    await context.close();
+  },
+
+  'the closing copy and team reveal softly, and stay visible without motion': async browser => {
+    const { context, page } = await open(browser, [1440, 900]);
+    const before = await page.evaluate(() => ({
+      armed: document.querySelectorAll('#proyecto .is-armed').length,
+      hidden: Number(getComputedStyle(document.querySelector('.member')).opacity),
+    }));
+    assert(before.armed >= 1, 'the closing blocks are armed');
+    assert(before.hidden < 1, 'team hidden before it shows');
+    await jump(page, await sectionTop(page, 'proyecto'));
+    await page.waitForTimeout(1600);
+    const after = await page.evaluate(() => Array.from(document.querySelectorAll('.member, .project__title')).map(el => Number(getComputedStyle(el).opacity)));
+    assert(after.every(o => o === 1), `revealed: ${after}`);
+    await context.close();
+
+    const calm = await open(browser, [1440, 900], { reducedMotion: 'reduce' });
+    assert.equal(await calm.page.locator('#proyecto .is-armed').count(), 0);
+    await calm.context.close();
+  },
 };
 
 (async () => {
