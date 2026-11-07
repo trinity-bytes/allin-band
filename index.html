@@ -146,6 +146,7 @@
           <img src="assets/images/web/chair-2560.webp" alt="Silla de madera con una manta junto a una ventana, en una casa en silencio." width="2560" height="1707" loading="lazy" />
         </picture>
         <div class="emergency__scrim" aria-hidden="true"></div>
+        <canvas class="shader shader--rays emergency__rays" data-shader="rays" aria-hidden="true"></canvas>
         <div class="seam seam--top" aria-hidden="true"></div>
         <div class="seam seam--bottom" aria-hidden="true"></div>
 
@@ -628,6 +629,7 @@
         <div class="bloom bloom--warm goals__bloom goals__bloom--warm" aria-hidden="true"></div>
         <div class="bloom bloom--moss goals__bloom goals__bloom--moss" aria-hidden="true"></div>
         <div class="bloom bloom--mist goals__bloom goals__bloom--mist" aria-hidden="true"></div>
+        <canvas class="shader shader--mist goals__mist" data-shader="mist" aria-hidden="true"></canvas>
         <svg class="goals__rings" viewBox="0 0 2040 2040" aria-hidden="true" focusable="false">
           <g fill="none" stroke="#f0b65a" stroke-width="1.5">
             <circle class="goals__ring" pathLength="1" cx="1020" cy="1020" r="779.25" stroke-opacity="0.12" />
@@ -744,6 +746,7 @@
       <section class="faq" id="preguntas" aria-labelledby="faq-title">
         <div class="bloom bloom--warm faq__bloom faq__bloom--warm" aria-hidden="true"></div>
         <div class="bloom bloom--moss faq__bloom faq__bloom--moss" aria-hidden="true"></div>
+        <canvas class="shader shader--mist faq__mist" data-shader="mist" aria-hidden="true"></canvas>
         <picture class="faq__band">
           <source media="(max-width: 47.99rem)" srcset="assets/images/web/band-800.webp" />
           <img src="assets/images/web/band-1600.webp" alt="" width="1600" height="1600" loading="lazy" />
@@ -860,6 +863,7 @@
     <script src="js/main.js"></script>
     <script src="js/hero.js"></script>
     <script src="js/sections.js"></script>
+    <script src="js/shaders.js"></script>
     <script src="js/journey.js"></script>
     <script src="js/closing.js"></script>
   </body>
