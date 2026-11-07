@@ -26,7 +26,7 @@
 .limits__photo,
 .limits__scrim,
 .limits__grass,
-.limits__scrim-text,
+.limits__scrim-left,
 .faq__band,
 .faq__grass,
 .faq__scrim {
@@ -590,11 +590,14 @@
  * 09 Lo que no puede hacer
  * ------------------------------------------------------------- */
 
-.limits {
+.limits__stage {
+  position: relative;
+  isolation: isolate;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, calc(600 * var(--k)));
+  align-items: start;
   column-gap: var(--gap-8);
-  padding: calc(48 * var(--k)) var(--gutter) calc(64 * var(--k));
+  padding: calc(244 * var(--k)) var(--gutter) calc(180 * var(--k));
 }
 
 .limits__photo,
@@ -632,16 +635,12 @@
   object-fit: cover;
 }
 
-.limits__scrim-text {
-  inset: auto 0 0;
+/* A veil on the copy side only; the bottom scrim is gone (L30) */
+.limits__scrim-left {
+  inset: 0 auto 0 0;
   z-index: -1;
-  height: calc(480 * var(--k));
-  background: linear-gradient(to bottom, rgba(11, 22, 16, 0), rgba(11, 22, 16, 0.72) 45%, rgba(11, 22, 16, 0.9));
-}
-
-.limits__head {
-  align-self: end;
-  padding-bottom: calc(4 * var(--k));
+  width: 68%;
+  background: linear-gradient(to right, rgba(11, 22, 16, 0.62), rgba(11, 22, 16, 0.3) 55%, rgba(11, 22, 16, 0));
 }
 
 .limits__title {
@@ -652,51 +651,114 @@
 }
 
 .limits__lead {
-  margin-top: calc(27 * var(--k));
+  margin-top: calc(22 * var(--k));
   font-size: clamp(1.1875rem, 22 * var(--k), 1.375rem);
   line-height: 1.45;
 }
 
+/* Without JS or with reduced motion: a plain list of three cards */
 .limits__list {
   display: grid;
   gap: calc(16 * var(--k));
   list-style: none;
 }
 
-/* Mist over the landscape photo: no border, no shadow */
+/* Limit Card (72:317): number on top, copy at the bottom; mist, no border */
 .limit {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 0.625rem;
-  min-height: calc(252 * var(--k));
-  padding: 1.5rem 2rem;
-  border-radius: 1.625rem;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: calc(320 * var(--k));
+  padding: clamp(1.5rem, 40 * var(--k), 2.5rem);
+  background-color: var(--mist-strong);
+  border-radius: var(--radius-photo);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.limit__index {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 40 * var(--k), 2.5rem);
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--amber);
+}
+
+.limit__copy {
+  display: grid;
+  gap: 0.875rem;
 }
 
 .limit__title {
-  font-size: clamp(2rem, 52 * var(--k), 3.25rem);
-  line-height: 1.05;
+  font-size: clamp(1.75rem, 44 * var(--k), 2.75rem);
+  font-weight: 400;
+  line-height: 1.09;
   letter-spacing: -0.03em;
-  color: var(--amber);
 }
 
 .limit__text {
   font-size: clamp(1.125rem, 22 * var(--k), 1.375rem);
-  line-height: 1.45;
+  line-height: 1.41;
+}
+
+/* ---- Stacked cards (L27, S24), only while js/sections.js adds .is-stacked.
+ * The section grows by the scroll it takes to lift two cards; the stage
+ * sticks. All cards share one grid cell, so they match the tallest. The
+ * script writes each card's transform, opacity and --content. */
+.limits.is-stacked {
+  --step: calc(28 * var(--k));
+
+  height: calc(100vh + var(--lift-span, 120vh));
+  height: calc(100svh + var(--lift-span, 120svh));
+}
+
+.is-stacked .limits__stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  align-content: center;
+  padding-block: var(--nav-h) 0;
+}
+
+.is-stacked .limits__list {
+  gap: 0;
+  padding-top: calc(var(--step) * 2);
+}
+
+.is-stacked .limit {
+  grid-area: 1 / 1;
+  transform-origin: 50% 0;
+  will-change: transform, opacity;
+}
+
+.is-stacked .limit > * {
+  opacity: var(--content, 1);
 }
 
 @media (max-width: 47.99rem) {
-  .limits {
+  .limits__stage {
     grid-template-columns: minmax(0, 1fr);
     padding: calc(48 * var(--k)) var(--gutter) calc(220 * var(--k));
+  }
+
+  .limits.is-stacked {
+    --step: 20px;
+  }
+
+  .is-stacked .limits__stage {
+    align-content: start;
+    padding-top: calc(var(--nav-h) + 1rem);
+    padding-bottom: 0;
   }
 
   .limits__scrim {
     background: linear-gradient(to bottom, rgba(11, 22, 16, 0.88), rgba(11, 22, 16, 0.5) 60%, rgba(11, 22, 16, 0.3));
   }
 
-  .limits__scrim-text {
+  .limits__scrim-left {
     display: none;
   }
 
@@ -710,10 +772,6 @@
     bottom: calc(-220 * var(--k));
     left: calc(-600 * var(--k));
     width: calc(1500 * var(--k));
-  }
-
-  .limits__head {
-    padding-bottom: 0;
   }
 
   .limits__title {
@@ -734,15 +792,15 @@
   }
 
   .limit {
-    gap: 0.5rem;
+    gap: 1rem;
     min-height: 0;
-    padding: 1.125rem 1.25rem 1.25rem;
+    padding: 1.5rem;
     border-radius: 1.25rem;
   }
 
   .limit__title {
-    font-size: clamp(1.75rem, 32 * var(--k), 2rem);
-    line-height: 1.2;
+    font-size: 2rem;
+    line-height: 1.1;
   }
 
   .limit__text {
@@ -1080,6 +1138,16 @@
   translate: 0.75rem 0;
 }
 
+/* Limits: the stack (or the list) fades in as one block; no shift, so the
+   stack keeps its top line with the heading */
+.motion .limits__list.is-in {
+  transition: opacity 900ms var(--ease-out) 220ms;
+}
+
+.motion .limits__list.is-armed:not(.is-in) {
+  opacity: 0;
+}
+
 /* FAQ: the chevron turns and the answer settles in */
 .motion .faq__chevron {
   transition: rotate 200ms var(--ease-out);
@@ -1105,7 +1173,8 @@
 }
 
 @media print {
-  .motion .is-armed :is(.reveal, .survival__dot, .goals__band, .goal__value, .goal__label) {
+  .motion .is-armed :is(.reveal, .survival__dot, .goals__band, .goal__value, .goal__label),
+  .motion .limits__list.is-armed {
     opacity: 1;
     translate: none;
     scale: none;

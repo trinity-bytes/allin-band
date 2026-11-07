@@ -705,42 +705,54 @@
       </section>
 
       <section class="limits" id="limites" aria-labelledby="limits-title">
-        <picture class="limits__photo">
-          <source media="(max-width: 47.99rem)" srcset="assets/images/web/landscape-1280.webp" />
-          <img src="assets/images/web/landscape-2560.webp" alt="" width="2560" height="1707" loading="lazy" />
-        </picture>
-        <div class="limits__scrim" aria-hidden="true"></div>
-        <picture class="limits__grass limits__grass--mid">
-          <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-mid-1280.webp" />
-          <img src="assets/images/web/grass-mid-2560.webp" alt="" width="2560" height="853" loading="lazy" />
-        </picture>
-        <picture class="limits__grass limits__grass--near">
-          <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-near-1280.webp" />
-          <img src="assets/images/web/grass-near-2560.webp" alt="" width="2560" height="853" loading="lazy" />
-        </picture>
-        <div class="limits__scrim-text" aria-hidden="true"></div>
-        <div class="seam seam--top" aria-hidden="true"></div>
-        <div class="seam seam--bottom" aria-hidden="true"></div>
+        <!-- With motion the stage sticks while the cards lift one by one (js/sections.js); otherwise a plain list -->
+        <div class="limits__stage">
+          <picture class="limits__photo">
+            <source media="(max-width: 47.99rem)" srcset="assets/images/web/landscape-1280.webp" />
+            <img src="assets/images/web/landscape-2560.webp" alt="" width="2560" height="1707" loading="lazy" />
+          </picture>
+          <div class="limits__scrim" aria-hidden="true"></div>
+          <picture class="limits__grass limits__grass--mid">
+            <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-mid-1280.webp" />
+            <img src="assets/images/web/grass-mid-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+          </picture>
+          <picture class="limits__grass limits__grass--near">
+            <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-near-1280.webp" />
+            <img src="assets/images/web/grass-near-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+          </picture>
+          <div class="limits__scrim-left" aria-hidden="true"></div>
+          <div class="seam seam--top" aria-hidden="true"></div>
+          <div class="seam seam--bottom" aria-hidden="true"></div>
 
-        <div class="limits__head" data-reveal>
-          <h2 class="limits__title reveal" id="limits-title">Lo que no puede hacer</h2>
-          <p class="limits__lead reveal">Ser honestos también es parte del diseño.</p>
+          <div class="limits__head" data-reveal>
+            <h2 class="limits__title reveal" id="limits-title">Lo que no puede hacer</h2>
+            <p class="limits__lead reveal">Ser honestos también es parte del diseño.</p>
+          </div>
+
+          <ul class="limits__list" data-reveal>
+            <li class="limit mist">
+              <p class="limit__index">1 de 3</p>
+              <div class="limit__copy">
+                <h3 class="limit__title">Sin vigilar mientras carga</h3>
+                <p class="limit__text">Mientras carga no está en tu muñeca, así que no te vigila.</p>
+              </div>
+            </li>
+            <li class="limit mist">
+              <p class="limit__index">2 de 3</p>
+              <div class="limit__copy">
+                <h3 class="limit__title">Necesita conexión</h3>
+                <p class="limit__text">Para avisar a tus contactos usa tu celular por Bluetooth, así que debe estar cerca, a unos 10 metros.</p>
+              </div>
+            </li>
+            <li class="limit mist">
+              <p class="limit__index">3 de 3</p>
+              <div class="limit__copy">
+                <h3 class="limit__title">No es un médico</h3>
+                <p class="limit__text">No diagnostica ni reemplaza a un médico. En una emergencia evidente, llama tú a los servicios de emergencia.</p>
+              </div>
+            </li>
+          </ul>
         </div>
-
-        <ul class="limits__list" data-reveal>
-          <li class="limit mist reveal">
-            <h3 class="limit__title">Sin vigilar mientras carga</h3>
-            <p class="limit__text">Mientras carga no está en tu muñeca, así que no te vigila.</p>
-          </li>
-          <li class="limit mist reveal">
-            <h3 class="limit__title">Necesita conexión</h3>
-            <p class="limit__text">Para avisar a tus contactos usa tu celular por Bluetooth, así que debe estar cerca, a unos 10 metros.</p>
-          </li>
-          <li class="limit mist reveal">
-            <h3 class="limit__title">No es un médico</h3>
-            <p class="limit__text">No diagnostica ni reemplaza a un médico. En una emergencia evidente, llama tú a los servicios de emergencia.</p>
-          </li>
-        </ul>
       </section>
 
       <section class="faq" id="preguntas" aria-labelledby="faq-title">

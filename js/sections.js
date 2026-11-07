@@ -82,6 +82,83 @@
     window.addEventListener("resize", requestDrift, { passive: true });
   }
 
+  // Limits: the three cards stack, and scrolling lifts the front one away to
+  // reveal the next (L27, Figma 74:344). Only when the stage fits the screen;
+  // otherwise, like without JS, they stay a plain list
+  var limits = document.getElementById("limites");
+  var stage = limits && limits.querySelector(".limits__stage");
+  var cards = limits ? Array.prototype.slice.call(limits.querySelectorAll(".limit")) : [];
+  var phone = window.matchMedia("(max-width: 47.99rem)");
+  var LIFT_PER_CARD = 0.6; // screens of scroll per lifted card
+  var stackFrame = 0;
+
+  function clamp(value, min, max) {
+    return Math.min(Math.max(value, min), max);
+  }
+
+  function layOutStack() {
+    stackFrame = 0;
+    if (!limits.classList.contains("is-stacked")) return;
+    var steps = cards.length - 1;
+    var span = limits.offsetHeight - stage.offsetHeight;
+    var progress = span > 0 ? clamp(-limits.getBoundingClientRect().top / span, 0, 1) * steps : 0;
+    // The list's top padding holds two steps; each card behind is 36 px
+    // narrower at 1440 (28 px step), 20 px on a phone (20 px step)
+    var step = parseFloat(getComputedStyle(cards[0].parentNode).paddingTop) / 2 || 0;
+    var narrow = phone.matches ? step : (step * 36) / 28;
+    var shrink = narrow / cards[0].offsetWidth;
+    var away = cards[0].offsetHeight + step * 2;
+
+    cards.forEach(function (card, i) {
+      var depth = i - progress;
+      var y;
+      var scale = 1;
+      var opacity = 1;
+      if (depth >= 0) {
+        y = -step * depth;
+        scale = 1 - shrink * depth;
+      } else {
+        y = away * depth;
+        opacity = clamp(1 + depth * 1.6, 0, 1);
+      }
+      card.style.zIndex = String(cards.length - i);
+      card.style.transform = "translate3d(0, " + y.toFixed(2) + "px, 0) scale(" + scale.toFixed(4) + ")";
+      card.style.opacity = opacity.toFixed(3);
+      card.style.setProperty("--content", clamp(1 - depth * 1.5, 0, 1).toFixed(3));
+    });
+  }
+
+  function requestStack() {
+    if (!stackFrame) stackFrame = window.requestAnimationFrame(layOutStack);
+  }
+
+  function syncStack() {
+    limits.style.setProperty("--lift-span", LIFT_PER_CARD * 100 * (cards.length - 1) + "vh");
+    limits.classList.add("is-stacked");
+    // The stage holds the heading and the stack; on a short screen it would not fit
+    // (measured on the copy: the grass layers overflow the stage on purpose)
+    var top = stage.getBoundingClientRect().top;
+    var bottom = Math.max(
+      limits.querySelector(".limits__head").getBoundingClientRect().bottom,
+      cards[0].parentNode.getBoundingClientRect().bottom
+    );
+    var fits = bottom - top <= window.innerHeight + 1;
+    if (!fits) {
+      limits.classList.remove("is-stacked");
+      cards.forEach(function (card) {
+        card.removeAttribute("style");
+      });
+      return;
+    }
+    layOutStack();
+  }
+
+  if (stage && cards.length > 1) {
+    syncStack();
+    window.addEventListener("scroll", requestStack, { passive: true });
+    window.addEventListener("resize", syncStack, { passive: true });
+  }
+
   // Keyboard focus inside a block that has not revealed yet shows it at once
   document.addEventListener("focusin", function (event) {
     var block = event.target.closest && event.target.closest(".is-armed:not(.is-in)");
