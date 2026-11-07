@@ -1,0 +1,56 @@
+<!doctype html>
+<!--
+  Source of assets/images/og-image.jpg (1200x630 social preview).
+  Regenerate from the repo root:
+    chromium --headless --hide-scrollbars --allow-file-access-from-files --force-device-scale-factor=1 \
+      --virtual-time-budget=3000 --window-size=1200,630 --screenshot=og-image.png "file://$PWD/design/og-card.html"
+  then convert og-image.png to JPG (quality ~86) and save it as assets/images/og-image.jpg.
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<style>
+  @font-face { font-family: "Host Grotesk"; src: url("../assets/fonts/host-grotesk-latin.woff2") format("woff2"); font-weight: 300 800; }
+  @font-face { font-family: "Atkinson Hyperlegible Next"; src: url("../assets/fonts/atkinson-hyperlegible-next-latin.woff2") format("woff2"); font-weight: 200 800; }
+  :root { --paper: #fffdf7; --amber: #f0b65a; --forest: #0e1a14; }
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; background: var(--forest); }
+  .card { position: relative; width: 1200px; height: 630px; overflow: hidden; color: var(--paper); font-family: "Atkinson Hyperlegible Next", sans-serif; }
+  .bg { position: absolute; inset: 0; background: url("../assets/images/web/landscape-2560.webp") center 40% / cover; }
+  .shade { position: absolute; inset: 0; background:
+      linear-gradient(90deg, rgba(11,22,16,.88) 0%, rgba(11,22,16,.66) 38%, rgba(11,22,16,.12) 68%, rgba(11,22,16,0) 100%),
+      linear-gradient(0deg, rgba(11,22,16,.82) 0%, rgba(11,22,16,.35) 22%, rgba(11,22,16,0) 40%); }
+  .band { position: absolute; right: -20px; top: 40px; width: 600px; height: 600px; background: url("../assets/images/web/band-1600.webp") center / contain no-repeat; filter: drop-shadow(0 30px 40px rgba(0,0,0,.45)); }
+  .grass { position: absolute; left: 0; right: 0; bottom: -40px; height: 220px; background: url("../assets/images/web/grass-near-1280.webp") center bottom / cover no-repeat; opacity: .95; }
+  .content { position: absolute; inset: 0; padding: 56px 64px; display: flex; flex-direction: column; }
+  .brand { display: flex; align-items: center; gap: 12px; font-family: "Host Grotesk", sans-serif; font-weight: 700; font-size: 30px; letter-spacing: -.01em; }
+  .brand svg { width: 34px; height: 34px; }
+  h1 { margin-top: 64px; font-family: "Host Grotesk", sans-serif; font-weight: 500; font-size: 92px; line-height: .98; letter-spacing: -.035em; max-width: 640px; }
+  h1 em { font-style: normal; color: var(--amber); }
+  p.lede { margin-top: 26px; font-size: 25px; line-height: 1.35; max-width: 500px; color: rgba(255,253,247,.9); text-shadow: 0 1px 10px rgba(0,0,0,.45); }
+  .foot { margin-top: auto; display: flex; align-items: center; gap: 18px; font-size: 20px; }
+  .url { font-family: "Host Grotesk", sans-serif; font-weight: 600; font-size: 22px; padding: 10px 18px; border-radius: 999px; background: var(--paper); color: var(--forest); }
+  .note { color: rgba(255,253,247,.86); text-shadow: 0 1px 8px rgba(0,0,0,.5); }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="bg"></div>
+    <div class="shade"></div>
+    <div class="band"></div>
+    <div class="grass"></div>
+    <div class="content">
+      <div class="brand">
+        <svg viewBox="0 0 25 25" aria-hidden="true"><path d="M20 12.5a8.54 8.54 0 1 1-17.08 0 8.54 8.54 0 0 1 17.08 0Z" fill="none" stroke="#fffdf7" stroke-width="3.54"/><circle cx="20" cy="12.5" r="3.54" fill="#f0b65a"/></svg>
+        AllinBand
+      </div>
+      <h1>Una pulsera que te <em>cuida</em></h1>
+      <p class="lede">Nota si algo anda mal, te pregunta si estás bien y, si no respondes, avisa a tu familia.</p>
+      <div class="foot">
+        <span class="url">allin.jahattrinidad.com</span>
+        <span class="note">Prototipo académico · Vivessence, UPC 2025</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
