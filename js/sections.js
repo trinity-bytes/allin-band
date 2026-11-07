@@ -1,6 +1,6 @@
 /**
  * AllinBand — Vertical sections behavior
- * Scroll reveal for sections 02, 08, 09 and 10, plus a slight scroll
+ * Scroll reveal for sections 02, 08, 09, 10 and the closing, plus a slight scroll
  * parallax on the FAQ grass (desktop with a fine pointer). Each [data-reveal] block is
  * armed (hidden by CSS) only here, so without JS nothing is ever hidden,
  * and it reveals once when it enters the viewport.
@@ -15,7 +15,7 @@
 
   var blocks = Array.prototype.slice.call(
     document.querySelectorAll(
-      "#emergencia [data-reveal], #metas[data-reveal], #limites [data-reveal], #preguntas [data-reveal]"
+      "#emergencia [data-reveal], #metas[data-reveal], #limites [data-reveal], #preguntas [data-reveal], #proyecto [data-reveal]"
     )
   );
   if (!blocks.length) return;

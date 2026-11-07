@@ -85,9 +85,9 @@
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 37.5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 30.375rem);
   gap: var(--gap-8);
-  padding: 4rem var(--gutter) 0;
+  padding: 3.5rem var(--gutter) 0;
 }
 
 .project__text {
@@ -99,6 +99,7 @@
 
 .project__title {
   max-width: 41.25rem;
+  margin-top: 0.5rem;
   font-size: var(--display-xl);
 }
 
@@ -125,8 +126,7 @@
 .team {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--gap-4);
-  margin-top: 0.5rem;
+  gap: 0.875rem;
   padding: 0;
   list-style: none;
 }
@@ -134,7 +134,7 @@
 .member {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 292 / 296;
+  aspect-ratio: 1;
   border-radius: var(--radius-photo);
   background-color: var(--forest-800);
 }
@@ -210,6 +210,27 @@
 
 .footer__top:hover {
   text-decoration: underline;
+}
+
+/* 1060 px tall at 1440 (S25): the wordmark rises under the team photos and
+   the footer follows it closely, so the top of the section stays in view */
+@media (min-width: 64rem) {
+  .closing__wordmark {
+    margin-top: -2.625rem;
+    line-height: 1.33;
+  }
+
+  /* Nature/Caption on the 236 px photos, so the role stays on one line */
+  .member__role {
+    font-size: 0.875rem;
+    line-height: 1.36;
+  }
+
+  /* The 44 px "Volver arriba" target sets the row height */
+  .footer {
+    padding-top: 1.875rem;
+    padding-bottom: 1.125rem;
+  }
 }
 
 @media (max-width: 63.99rem) {
