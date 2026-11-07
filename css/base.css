@@ -38,6 +38,11 @@ html {
   scrollbar-color: var(--moss) var(--forest-900);
 }
 
+/* Set by the inline script in the head until the load event has passed */
+html.is-loading {
+  scroll-behavior: auto;
+}
+
 body {
   font-family: var(--font-body);
   font-size: var(--text-base);

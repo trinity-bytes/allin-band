@@ -47,6 +47,14 @@
       if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         document.documentElement.classList.add("motion");
       }
+      // The browser puts the reload position back when loading ends; with smooth
+      // scrolling that jump would animate across the page, so it waits until after.
+      document.documentElement.classList.add("is-loading");
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          document.documentElement.classList.remove("is-loading");
+        }, 100);
+      });
     </script>
   </head>
   <body>
