@@ -1,6 +1,6 @@
 /**
  * AllinBand — Navigation
- * Mobile menu, mist band after scrolling and active section.
+ * Disclosure ticker, mobile menu, mist band after scrolling and active section.
  */
 
 (function () {
@@ -10,6 +10,41 @@
   var toggle = document.getElementById("navToggle");
   var menu = document.getElementById("navMenu");
   var links = Array.prototype.slice.call(menu.querySelectorAll(".nav__link"));
+  var root = document.documentElement;
+
+  // Ticker: the text in the HTML stays the only copy exposed to assistive
+  // technology. Under reduced motion, or at a large browser font, it stays static
+  var moves =
+    root.classList.contains("motion") && !window.matchMedia("(max-width: 19.99em)").matches;
+
+  function fillTicker(ticker, text) {
+    var track = ticker.querySelector(".ticker__track");
+    var copies = track.children.length ? 7 : 8;
+    for (var i = 0; i < copies; i += 1) {
+      var copy = document.createElement("p");
+      copy.textContent = text;
+      copy.setAttribute("aria-hidden", "true");
+      track.appendChild(copy);
+    }
+    ticker.classList.add("is-moving");
+  }
+
+  var heroTicker = document.querySelector(".hero__ticker");
+  var disclosure = document.querySelector(".hero__disclosure");
+
+  if (moves) {
+    fillTicker(heroTicker, disclosure.textContent);
+    // Focusable so the keyboard can pause it too
+    heroTicker.tabIndex = 0;
+    heroTicker.setAttribute("role", "group");
+    heroTicker.setAttribute("aria-label", "Aviso del proyecto");
+
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        heroTicker.classList.toggle("is-away", !entries[0].isIntersecting);
+      }).observe(heroTicker);
+    }
+  }
 
   function menuIsOpen() {
     return toggle.getAttribute("aria-expanded") === "true";

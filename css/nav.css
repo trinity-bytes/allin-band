@@ -119,6 +119,15 @@
     --title-top: 1.75rem;
   }
 
+  /* The bar above takes part of the first screen */
+  html:not(.js) .hero__ticker-slot {
+    height: calc(100svh - 9.5rem);
+  }
+
+  html:not(.js) .hero__bottom {
+    padding-bottom: calc(var(--ticker-h) + 11.5rem);
+  }
+
   .nav {
     flex-wrap: wrap;
     gap: 0 var(--gap-6);

@@ -18,7 +18,7 @@
     <meta property="og:title" content="AllinBand: la pulsera que primero te pregunta a ti" />
     <meta
       property="og:description"
-      content="Concepto de pulsera inteligente. Prueba una alerta y decide qué pasa. Proyecto académico de Vivessence, UPC 2025."
+      content="Concepto de pulsera inteligente que te pregunta si estás bien antes de avisar a tu familia. Proyecto académico de Vivessence, UPC 2025."
     />
     <meta property="og:image" content="https://trinity-bytes.github.io/allin-band/assets/images/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
@@ -66,8 +66,8 @@
 
         <nav class="nav" id="navMenu" aria-label="Secciones">
           <a class="nav__link" href="#como-funciona">Cómo funciona</a>
-          <a class="nav__link" href="#pulsera">La pulsera</a>
           <a class="nav__link" href="#app">La app</a>
+          <a class="nav__link" href="#pulsera">La pulsera</a>
           <a class="nav__link" href="#limites">Límites</a>
           <a class="nav__link" href="#preguntas">Preguntas</a>
           <a class="btn nav__demo" href="#tu-decides">Probar el demo</a>
@@ -127,9 +127,15 @@
             </p>
             <a class="btn hero__cta" href="#como-funciona">Ver cómo funciona</a>
           </div>
-          <p class="hero__disclosure mist">
-            Prototipo académico de Vivessence, UPC 2025. No es un dispositivo médico ni está a la venta. Imágenes ilustrativas.
-          </p>
+        </div>
+
+        <!-- The slot is one screen tall, so the ticker closes the first viewport even when the hero is taller -->
+        <div class="hero__ticker-slot">
+          <div class="hero__ticker ticker">
+            <div class="ticker__track">
+              <p class="hero__disclosure">Prototipo académico de Vivessence, UPC 2025. No es un dispositivo médico ni está a la venta. Imágenes ilustrativas.</p>
+            </div>
+          </div>
         </div>
       </section>
 
