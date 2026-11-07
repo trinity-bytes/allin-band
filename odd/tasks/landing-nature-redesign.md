@@ -29,7 +29,7 @@ Design source: Figma file IEIOIHCnxY7dYDObgHVwAi, page "Redesign / Hero v2" (21:
 - [x] T2a S5 inline: hero motion. Commit 7e3e1e5.
 - [ ] T2b+T4 S1 S8 S9 S10 S11 S12 delegated (writer B, worktree): sections 02, 08, 09, 10 in css/sections.css, js/sections.js, markers sections-top and sections-bottom.
 - [ ] T3 S1 S6 S7 S10 S11 S12 delegated (writer A, worktree): sections 03 to 07, pulse and horizontal journey in css/journey.css, js/journey.js, marker journey.
-- [x] T6 S14 inline: closing grass and wordmark parallax in js/closing.js and css/closing.css. Commit: see L15.
+- [x] T6 S14 inline: closing grass and wordmark parallax in js/closing.js and css/closing.css. Commit 3ceda80.
 - [ ] T5 S13: browser verification at all sizes, regression tests, docs and DESIGN.md update.
 
 Route evidence: the user asked for subagents (L13). Writer trigger (a): two independent units, each several files and well over 100 lines, with disjoint surfaces; index.html is shared, so each writer works in an isolated worktree and edits only between its markers. The parent merges, runs the seam check and owns T6 and T5. Risk to review at T3: item 6, browser behavior with little automated coverage.
