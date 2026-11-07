@@ -1711,16 +1711,10 @@ img.decide__photo {
 
 .motion .ecg__comet {
   display: inline;
-  animation: ecg-comet 3s linear infinite;
 }
 
 .motion .ecg__halo {
   animation: ecg-beat 1s var(--ease-out) infinite;
-}
-
-@keyframes ecg-comet {
-  from { stroke-dashoffset: 0.07; }
-  to { stroke-dashoffset: -1.2; }
 }
 
 @keyframes ecg-beat {

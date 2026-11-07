@@ -4,7 +4,8 @@
  * 1. Morning pulse (#como-funciona): three moments behind an ARIA tablist.
  *    The ECG keeps a flat baseline; the heart rate shows only in the spacing
  *    between beats. Each new trace is drawn with stroke-dashoffset, and a
- *    bright pulse runs along it at the moment's beats per minute.
+ *    bright pulse runs along it, one heartbeat from spike to spike, speeding up
+ *    into each one.
  *    Hover or focus on a moment selects it; the timeline also advances by
  *    itself about every 6 s while the panel is in view. Hover and focus pause
  *    it; a click, tap or arrow key hands control to the reader for good.
@@ -48,6 +49,10 @@
     var panel = container.closest(".panel");
 
     var DURATION = 6000;
+    var COMET_DASH = 0.07; // Dash length in css/journey.css, as a share of the path
+    var COMET_EXIT = 1.27; // Head position where the whole dash is past the end
+    var COMET_EASE = "cubic-bezier(0.6, 0, 0.9, 0.5)";
+    var cometRun = null;
     var active = 0;
     var shown = 0;
     var stopped = false;
@@ -105,14 +110,60 @@
       var first = lastBeat;
       while (first - step >= 8 * g.k) first -= step;
       var d = "M0 " + n(g.base);
-      for (var x = first; x <= lastBeat + 0.5; x += step) d += beat(x, g.k, s);
-      return d + " H" + n(g.end);
+      var spikes = [];
+      for (var x = first; x <= lastBeat + 0.5; x += step) {
+        d += beat(x, g.k, s);
+        spikes.push(x + 78 * s);
+      }
+      return { d: d + " H" + n(g.end), spikes: spikes, step: step };
+    }
+
+    // Share of the path length at a horizontal position (x only moves forward)
+    function shareAt(x, total) {
+      var low = 0;
+      var high = total;
+      for (var i = 0; i < 18; i += 1) {
+        var mid = (low + high) / 2;
+        if (comet.getPointAtLength(mid).x < x) low = mid;
+        else high = mid;
+      }
+      return low / total;
+    }
+
+    // The bright pulse takes one heartbeat from spike to spike: it leaves each
+    // spike slowly and speeds up into the next one
+    function runComet(trace, bpm) {
+      if (cometRun) cometRun.cancel();
+      if (!motion || !comet.animate || !comet.getTotalLength) return;
+      var total = comet.getTotalLength();
+      var beatMs = 60000 / bpm;
+      var stops = [{ x: 0, share: 0 }];
+      trace.spikes.forEach(function (x) {
+        stops.push({ x: x, share: shareAt(x, total) });
+      });
+      var end = geometry().end;
+      stops.push({ x: end, share: 1 });
+      var times = [0];
+      for (var i = 1; i < stops.length; i += 1) {
+        times.push(times[i - 1] + ((stops[i].x - stops[i - 1].x) / trace.step) * beatMs);
+      }
+      // The dash leaves the line before the loop starts again
+      var duration = times[times.length - 1] + beatMs * 0.35;
+      var frames = stops.map(function (stop, j) {
+        return {
+          offset: times[j] / duration,
+          strokeDashoffset: COMET_DASH - stop.share,
+          easing: COMET_EASE,
+        };
+      });
+      frames.push({ offset: 1, strokeDashoffset: COMET_DASH - COMET_EXIT });
+      cometRun = comet.animate(frames, { duration: duration, iterations: Infinity });
     }
 
     function paint(i, draw) {
       var state = data(i);
-      var g = geometry();
-      var d = tracePath(state);
+      var trace = tracePath(state);
+      var d = trace.d;
       var next = traces[shown === 0 ? 1 : 0];
       var prev = traces[shown];
       var stroke = state.alert ? "url(#ecg-amber)" : "url(#ecg-paper)";
@@ -133,11 +184,7 @@
       next.classList.add("is-shown");
       shown = traces.indexOf(next);
 
-      // The bright pulse passes one beat per heartbeat
-      var length = comet.getTotalLength ? comet.getTotalLength() : g.end;
-      var beatsPerSecond = state.bpm / 60;
-      var seconds = length / (state.period * g.k * g.spacing * beatsPerSecond);
-      comet.style.animationDuration = seconds.toFixed(2) + "s";
+      runComet(trace, state.bpm);
       halo.style.animationDuration = (60 / state.bpm).toFixed(3) + "s";
     }
 
@@ -311,10 +358,14 @@
       return !journey.contains(section);
     }
   );
-  var metrics = { top: 0, range: 0, width: 0 };
+  var metrics = { top: 0, range: 0, width: 0, holdStart: 0, holdEnd: 0 };
+  var nearObserver = null;
   var frame = 0;
   var navigating = false;
   var PANEL_GAP = 2;
+  // Vertical scroll spent on the first and last panel, in screens
+  var HOLD_START = 0.9;
+  var HOLD_END = 0.3;
 
   function sizeKey() {
     return window.innerWidth + "x" + window.innerHeight + "@" + getComputedStyle(root).fontSize;
@@ -323,9 +374,11 @@
   function measure() {
     // One step is a panel plus the 2px gap between panels (css/journey.css)
     var width = stage.clientWidth + PANEL_GAP;
-    journey.style.height = window.innerHeight + (panels.length - 1) * width + "px";
     metrics.width = width;
     metrics.range = (panels.length - 1) * width;
+    metrics.holdStart = window.innerHeight * HOLD_START;
+    metrics.holdEnd = window.innerHeight * HOLD_END;
+    journey.style.height = window.innerHeight + metrics.holdStart + metrics.range + metrics.holdEnd + "px";
     metrics.top = journey.getBoundingClientRect().top + window.scrollY;
   }
 
@@ -342,12 +395,22 @@
     });
   }
 
+  // The track stands still during both holds
+  function progressNow() {
+    var p = (window.scrollY - metrics.top - metrics.holdStart) / (metrics.range || 1);
+    return Math.min(Math.max(p, 0), 1);
+  }
+
+  // The first panel opens its hold; the others are where the track stops on them
+  function panelY(i) {
+    return i === 0 ? metrics.top : metrics.top + metrics.holdStart + i * metrics.width;
+  }
+
   function render() {
     frame = 0;
     if (!horizontal) return;
     if (stage.scrollLeft) stage.scrollLeft = 0;
-    var p = metrics.range ? (window.scrollY - metrics.top) / metrics.range : 0;
-    p = Math.min(Math.max(p, 0), 1);
+    var p = progressNow();
     track.style.transform = "translate3d(" + (-p * metrics.range).toFixed(2) + "px, 0, 0)";
 
     // Head sits over the middle of the current panel's share of the rail
@@ -372,8 +435,7 @@
     if (horizontal) {
       r = journey.getBoundingClientRect();
       if (r.top <= middle && r.bottom > middle) {
-        var p = (window.scrollY - metrics.top) / (metrics.range || 1);
-        p = Math.min(Math.max(p, 0), 1);
+        var p = progressNow();
         return { progress: p, panel: Math.round(p * (panels.length - 1)) };
       }
     }
@@ -391,7 +453,7 @@
   function restoreAnchor() {
     var top;
     if (anchor.section) top = window.scrollY + anchor.section.getBoundingClientRect().top - anchor.offset;
-    else if (horizontal) top = metrics.top + anchor.progress * metrics.range;
+    else if (horizontal) top = metrics.top + metrics.holdStart + anchor.progress * metrics.range;
     else top = panels[anchor.panel].getBoundingClientRect().top + window.scrollY;
     window.scrollTo({ top: top, behavior: "instant" });
   }
@@ -399,9 +461,26 @@
   function scrollToPanel(i, behavior) {
     if (horizontal) measure();
     var top = horizontal
-      ? metrics.top + i * metrics.width
+      ? panelY(i)
       : panels[i].getBoundingClientRect().top + window.scrollY;
     window.scrollTo({ top: top, behavior: behavior });
+  }
+
+  // Offscreen panels are clipped, so native lazy loading would wait too long:
+  // the photos load together one screen before the journey arrives
+  function loadPanelsWhenNear() {
+    if (nearObserver) return;
+    nearObserver = new IntersectionObserver(
+      function (entries) {
+        if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
+        nearObserver.disconnect();
+        Array.prototype.forEach.call(track.querySelectorAll("img[loading='lazy']"), function (img) {
+          img.loading = "eager";
+        });
+      },
+      { rootMargin: "100% 0px" }
+    );
+    nearObserver.observe(journey);
   }
 
   function enable() {
@@ -410,10 +489,7 @@
     panels.forEach(function (panel) {
       panel.tabIndex = 0;
     });
-    // Offscreen panels are clipped, so native lazy loading would wait too long
-    Array.prototype.forEach.call(track.querySelectorAll("img[loading='lazy']"), function (img) {
-      img.loading = "eager";
-    });
+    loadPanelsWhenNear();
     window.addEventListener("scroll", request, { passive: true });
     measure();
     render();
@@ -487,7 +563,7 @@
     var r = event.target.getBoundingClientRect();
     var inside = r.left >= 0 && r.right <= stage.clientWidth && r.top >= 0 && r.bottom <= window.innerHeight;
     if (inside && event.target !== panel) return;
-    if (Math.abs(window.scrollY - (metrics.top + i * metrics.width)) > 1) scrollToPanel(i, "instant");
+    if (Math.abs(window.scrollY - panelY(i)) > 1) scrollToPanel(i, "instant");
   });
 
   var resizeTimer = 0;
@@ -519,12 +595,17 @@
     }).observe(document.body);
   }
 
+  // On reload and back/forward the browser restores the position by itself;
+  // following the hash too would jump to the panel and scroll back across the page
+  var navigation = performance.getEntriesByType ? performance.getEntriesByType("navigation")[0] : null;
+  var restored = navigation && (navigation.type === "reload" || navigation.type === "back_forward");
+
   sync();
-  followHash();
+  if (!restored) followHash();
   anchor = readAnchor();
   window.addEventListener("load", function () {
     if (horizontal) measure();
-    followHash();
+    if (!restored) followHash();
     request();
     anchor = readAnchor();
   });

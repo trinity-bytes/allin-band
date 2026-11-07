@@ -6,6 +6,7 @@
  */
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const http = require('node:http');
 const os = require('node:os');
 const path = require('node:path');
 const { pathToFileURL } = require('node:url');
@@ -20,6 +21,19 @@ const jump = (page, y) => page.evaluate(top => window.scrollTo({ top, behavior: 
 const scrollY = page => page.evaluate(() => Math.round(window.scrollY));
 const top = (page, id) =>
   page.$eval(`#${id}`, el => el.getBoundingClientRect().top + window.scrollY);
+
+const TYPES = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.webp': 'image/webp', '.woff2': 'font/woff2' };
+
+function serve() {
+  const server = http.createServer((request, response) => {
+    const file = path.join(repo, decodeURIComponent(new URL(request.url, 'http://x').pathname));
+    fs.readFile(file, (error, body) => {
+      response.writeHead(error ? 404 : 200, { 'Content-Type': TYPES[path.extname(file)] || 'text/plain' });
+      response.end(body);
+    });
+  });
+  return new Promise(resolve => server.listen(0, '127.0.0.1', () => resolve(server)));
+}
 
 // A hash load on the stacked page scrolls smoothly: wait until it stops
 const settle = page =>
@@ -114,13 +128,11 @@ const tests = {
 
   'the navbar highlights the panel that fills the screen': async browser => {
     const { context, page } = await open(browser, { width: 1440, height: 900 });
-    const m = await page.evaluate(() => {
-      const journey = document.querySelector('.journey');
-      return {
-        top: journey.getBoundingClientRect().top + window.scrollY,
-        step: document.querySelector('.journey__stage').clientWidth + 2,
-      };
-    });
+    await page.evaluate(() => { location.hash = 'tu-decides'; });
+    await page.waitForTimeout(150);
+    await settle(page);
+    const second = await scrollY(page);
+    const step = await page.$eval('.journey__stage', stage => stage.clientWidth + 2);
     const expected = [
       [0.25, '#como-funciona'],
       [2.25, ''],
@@ -128,7 +140,7 @@ const tests = {
       [3.75, '#pulsera'],
     ];
     for (const [f, href] of expected) {
-      await jump(page, m.top + f * m.step);
+      await jump(page, second + (f - 1) * step);
       await page.waitForTimeout(250);
       const current = await page.$$eval('.nav__link[aria-current]', links =>
         links.map(link => link.getAttribute('href')).join(),
@@ -177,6 +189,86 @@ const tests = {
       assert.deepEqual(blocked, [], `${size.width}x${size.height} ${JSON.stringify(options)}`);
       await context.close();
     }
+  },
+
+  'a reload with an old hash does not cross the page': async browser => {
+    // The navigation type is not reported on file:// pages
+    const server = await serve();
+    const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const page = await context.newPage();
+    await page.goto(`http://127.0.0.1:${server.address().port}/index.html#tu-decides`);
+    await page.waitForLoadState('load');
+    await page.waitForTimeout(500);
+    await jump(page, 0);
+    await page.waitForTimeout(300);
+    await page.addInitScript(() => {
+      window.highest = 0;
+      (function watch() {
+        window.highest = Math.max(window.highest, window.scrollY);
+        requestAnimationFrame(watch);
+      })();
+    });
+    await page.reload();
+    await page.waitForLoadState('load');
+    await page.waitForTimeout(1500);
+    const highest = await page.evaluate(() => window.highest);
+    await context.close();
+    server.close();
+    assert(highest < 50, `the page reached y=${highest}`);
+  },
+
+  'the journey holds on its first and last panel': async browser => {
+    const { context, page } = await open(browser, { width: 1440, height: 900 });
+    const m = await page.evaluate(() => {
+      const journey = document.querySelector('.journey');
+      return {
+        top: journey.getBoundingClientRect().top + window.scrollY,
+        bottom: journey.getBoundingClientRect().bottom + window.scrollY,
+      };
+    });
+    const shift = async y => {
+      await jump(page, y);
+      await page.waitForTimeout(120);
+      return page.$eval('.journey__track', track => new DOMMatrix(getComputedStyle(track).transform).m41);
+    };
+    assert.equal(await shift(m.top + 700), 0, 'still on the first panel after 700 px');
+    const end = await shift(m.bottom - 900);
+    assert(end < -5000, `the track reached the last panel, ${end}`);
+    assert.equal(await shift(m.bottom - 900 - 200), end, 'already on the last panel 200 px earlier');
+    assert((await shift(m.bottom - 900 - 600)) > end, 'still moving 600 px before the end');
+    await context.close();
+  },
+
+  'journey photos wait until the reader gets close': async browser => {
+    const { context, page } = await open(browser, { width: 1440, height: 900 });
+    const loaded = () =>
+      // The first panel is near enough for native lazy loading; the landscape is the hero's
+      page.$$eval('.journey img', images =>
+        images.filter(image => image.naturalWidth > 0 && !/morning|landscape/.test(image.currentSrc)).length,
+      );
+    assert.equal(await loaded(), 0, 'nothing requested on the first screen');
+    await jump(page, await top(page, 'emergencia'));
+    await page.waitForTimeout(800);
+    assert((await loaded()) > 0, 'requested on the way to the journey');
+    await context.close();
+  },
+
+  'the pulse runner speeds up between beats': async browser => {
+    const { context, page } = await open(browser, { width: 1440, height: 900 });
+    const samples = await page.evaluate(() => {
+      const animation = document.querySelector('.ecg__comet').getAnimations()[0];
+      const frames = animation.effect.getKeyframes();
+      const duration = animation.effect.getTiming().duration;
+      animation.pause();
+      const read = fraction => {
+        animation.currentTime = duration * (frames[1].offset + (frames[2].offset - frames[1].offset) * fraction);
+        return Number.parseFloat(getComputedStyle(document.querySelector('.ecg__comet')).strokeDashoffset);
+      };
+      return { count: frames.length, early: read(0) - read(0.25), late: read(0.75) - read(1) };
+    });
+    assert(samples.count >= 4, `one stretch per beat, ${samples.count} keyframes`);
+    assert(samples.late > samples.early * 2, `early ${samples.early}, late ${samples.late}`);
+    await context.close();
   },
 
   'the copy matches the report': async browser => {
