@@ -217,6 +217,44 @@ const tests = {
     assert(highest < 50, `the page reached y=${highest}`);
   },
 
+  'a reload keeps the panel and the position': async browser => {
+    const server = await serve();
+    const base = `http://127.0.0.1:${server.address().port}/index.html`;
+    try {
+      for (const size of [{ width: 1440, height: 900 }, { width: 1366, height: 768 }, { width: 1024, height: 768 }]) {
+        for (const id of ['aviso', 'app', 'pulsera']) {
+          const context = await browser.newContext({ viewport: size });
+          const page = await context.newPage();
+          await page.goto(`${base}#${id}`);
+          await page.waitForLoadState('load');
+          await page.waitForTimeout(400);
+          await page.reload();
+          await page.waitForLoadState('load');
+          await page.waitForTimeout(500);
+          assert.equal(await visiblePanel(page), id, `#${id} after a reload at ${size.width}x${size.height}`);
+          await context.close();
+        }
+        const context = await browser.newContext({ viewport: size });
+        const page = await context.newPage();
+        await page.goto(base);
+        await page.waitForLoadState('load');
+        await page.waitForTimeout(400);
+        const end = await page.$eval('.journey', el => el.getBoundingClientRect().bottom + window.scrollY);
+        const y = Math.round(end - size.height - 100);
+        await jump(page, y);
+        await page.waitForTimeout(400);
+        await page.reload();
+        await page.waitForLoadState('load');
+        await page.waitForTimeout(500);
+        const after = await scrollY(page);
+        assert(Math.abs(after - y) < 5, `no hash, ${size.width}: ${y} became ${after}`);
+        await context.close();
+      }
+    } finally {
+      server.close();
+    }
+  },
+
   'the journey holds on its first and last panel': async browser => {
     const { context, page } = await open(browser, { width: 1440, height: 900 });
     const m = await page.evaluate(() => {

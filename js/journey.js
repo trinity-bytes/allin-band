@@ -469,7 +469,7 @@
   // Offscreen panels are clipped, so native lazy loading would wait too long:
   // the photos load together one screen before the journey arrives
   function loadPanelsWhenNear() {
-    if (nearObserver) return;
+    if (nearObserver || !("IntersectionObserver" in window)) return;
     nearObserver = new IntersectionObserver(
       function (entries) {
         if (!entries.some(function (entry) { return entry.isIntersecting; })) return;
@@ -504,6 +504,8 @@
       panel.removeAttribute("tabindex");
     });
     window.removeEventListener("scroll", request);
+    if (nearObserver) nearObserver.disconnect();
+    nearObserver = null;
   }
 
   function sync() {
@@ -595,13 +597,17 @@
     }).observe(document.body);
   }
 
-  // On reload and back/forward the browser restores the position by itself;
-  // following the hash too would jump to the panel and scroll back across the page
+  // On reload and back/forward the browser restores the position by itself, so
+  // the hash is not followed: that would jump and then scroll back across the
+  // page. The restore happens on the stacked page, and scroll anchoring would add
+  // the height the journey gains in sync(), so the position is put back after it.
   var navigation = performance.getEntriesByType ? performance.getEntriesByType("navigation")[0] : null;
   var restored = navigation && (navigation.type === "reload" || navigation.type === "back_forward");
 
+  var restoredY = window.scrollY;
   sync();
-  if (!restored) followHash();
+  if (restored) window.scrollTo({ top: restoredY, behavior: "instant" });
+  else followHash();
   anchor = readAnchor();
   window.addEventListener("load", function () {
     if (horizontal) measure();
