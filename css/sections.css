@@ -19,7 +19,7 @@
   height: 100%;
 }
 
-.goals__glow,
+.bloom,
 .goals__rings,
 .goals__band,
 .goals__grass,
@@ -27,7 +27,6 @@
 .limits__scrim,
 .limits__grass,
 .limits__scrim-text,
-.faq__glow,
 .faq__band,
 .faq__grass,
 .faq__scrim {
@@ -241,15 +240,45 @@
   padding: calc(64 * var(--k)) 0 calc(161 * var(--k));
 }
 
-.goals__glow {
-  top: calc(160 * var(--k));
-  left: calc(-60 * var(--k));
+/* Soft blooms instead of one glow (L27): warm amber near the band, moss on
+   the right, a faint mist low in the frame. Radial falloff, no hard edge */
+.bloom {
   z-index: 0;
-  width: calc(760 * var(--k));
-  aspect-ratio: 1;
-  background-color: rgba(240, 182, 90, 0.13);
-  border-radius: 50%;
-  filter: blur(calc(75 * var(--k)));
+  top: calc(var(--y) * var(--k));
+  left: calc(var(--x) * var(--k));
+  width: calc(var(--w) * var(--k));
+  height: calc(var(--h, var(--w)) * var(--k));
+}
+
+.bloom--warm {
+  background-image: radial-gradient(closest-side, rgba(240, 182, 90, 0.17), rgba(240, 182, 90, 0.06) 45%, rgba(240, 182, 90, 0));
+}
+
+.bloom--moss {
+  background-image: radial-gradient(closest-side, rgba(31, 51, 39, 0.9), rgba(31, 51, 39, 0.34) 60%, rgba(31, 51, 39, 0));
+}
+
+.bloom--mist {
+  background-image: radial-gradient(closest-side, rgba(87, 107, 92, 0.2), rgba(87, 107, 92, 0));
+}
+
+.goals__bloom--warm {
+  --x: -420;
+  --y: -180;
+  --w: 1500;
+}
+
+.goals__bloom--moss {
+  --x: 640;
+  --y: -120;
+  --w: 1300;
+}
+
+.goals__bloom--mist {
+  --x: 300;
+  --y: 520;
+  --w: 1100;
+  --h: 800;
 }
 
 .goals__rings {
@@ -305,7 +334,7 @@
 
 .goals__head {
   min-height: calc(193 * var(--k));
-  margin-left: calc(430 * var(--k));
+  margin-left: calc(600 * var(--k));
   padding-right: var(--gutter);
 }
 
@@ -315,6 +344,7 @@
 
 .goals__lead {
   margin-top: calc(14 * var(--k));
+  margin-left: calc(4 * var(--k));
   font-size: clamp(1.1875rem, 22 * var(--k), 1.375rem);
   line-height: 1.45;
 }
@@ -325,7 +355,10 @@
   list-style: none;
 }
 
+/* The values sit 222 frame px from the dot (L30), shorter on narrow frames */
 .goal {
+  --line: 222;
+
   display: flex;
   align-items: center;
   min-height: calc(70 * var(--k));
@@ -337,7 +370,7 @@
 .goal__mark {
   position: relative;
   flex: none;
-  width: calc(6px + 52 * var(--k));
+  width: calc(6px + var(--line) * var(--k));
   height: 12px;
   margin-right: calc(10 * var(--k));
 }
@@ -360,10 +393,16 @@
 .goal__mark::after {
   top: 5.25px;
   left: 6px;
-  width: calc(52 * var(--k));
+  width: calc(var(--line) * var(--k));
   height: 1.5px;
   background-color: rgba(255, 253, 247, 0.8);
   transform-origin: left center;
+}
+
+@media (min-width: 48rem) and (max-width: 63.99rem) {
+  .goal {
+    --line: 150;
+  }
 }
 
 .goal__value {
@@ -398,11 +437,23 @@
     padding: calc(52 * var(--k)) 0 calc(110 * var(--k));
   }
 
-  .goals__glow {
-    top: calc(380 * var(--k));
-    left: calc(-140 * var(--k));
-    width: calc(460 * var(--k));
-    filter: blur(calc(45 * var(--k)));
+  .goals__bloom--warm {
+    --x: -360;
+    --y: 120;
+    --w: 900;
+  }
+
+  .goals__bloom--moss {
+    --x: 60;
+    --y: -160;
+    --w: 700;
+  }
+
+  .goals__bloom--mist {
+    --x: -100;
+    --y: 640;
+    --w: 600;
+    --h: 440;
   }
 
   /* Same three rings scaled so the inner one keeps the 500 px mobile radius */
@@ -671,15 +722,21 @@
   padding: calc(80 * var(--k)) var(--gutter) calc(298 * var(--k));
 }
 
-.faq__glow {
-  bottom: calc(-40 * var(--k));
-  left: calc(-260 * var(--k));
+.faq__bloom {
   z-index: -5;
-  width: calc(1000 * var(--k));
-  height: calc(900 * var(--k));
-  background-color: rgba(240, 182, 90, 0.13);
-  border-radius: 50%;
-  filter: blur(calc(75 * var(--k)));
+}
+
+.faq__bloom--warm {
+  --x: -520;
+  --y: -60;
+  --w: 1500;
+  --h: 1400;
+}
+
+.faq__bloom--moss {
+  --x: 560;
+  --y: -260;
+  --w: 1300;
 }
 
 .faq__band {
@@ -789,13 +846,17 @@
     padding: calc(48 * var(--k)) var(--gutter) calc(300 * var(--k));
   }
 
-  .faq__glow {
-    top: calc(300 * var(--k));
-    bottom: auto;
-    left: calc(60 * var(--k));
-    width: calc(460 * var(--k));
-    height: calc(460 * var(--k));
-    filter: blur(calc(45 * var(--k)));
+  .faq__bloom--warm {
+    --x: -300;
+    --y: 280;
+    --w: 900;
+    --h: 840;
+  }
+
+  .faq__bloom--moss {
+    --x: 40;
+    --y: -200;
+    --w: 700;
   }
 
   .faq__band {
