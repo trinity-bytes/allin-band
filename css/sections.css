@@ -1,3 +1,995 @@
 /**
  * AllinBand — Vertical sections: 02 problem, 08 goals, 09 limits, 10 FAQ
+ * Geometry follows the 1440 px desktop frames and the 390 px mobile frames.
+ * `--k` is one Figma frame pixel at the current width; it places the photo
+ * layers and the goals curve, while text keeps rem based sizes.
  */
+
+:is(.emergency, .goals, .limits, .faq) {
+  --k: calc(min(100vw, 1680px) / 1440);
+
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background-color: var(--forest-900);
+}
+
+:is(.emergency, .goals, .limits, .faq) picture img {
+  width: 100%;
+  height: 100%;
+}
+
+.goals__glow,
+.goals__rings,
+.goals__band,
+.goals__grass,
+.goals__scrim,
+.limits__photo,
+.limits__scrim,
+.limits__grass,
+.limits__scrim-text,
+.faq__glow,
+.faq__band,
+.faq__grass,
+.faq__scrim {
+  position: absolute;
+  pointer-events: none;
+}
+
+@media (max-width: 47.99rem) {
+  :is(.emergency, .goals, .limits, .faq) {
+    --k: calc(100vw / 390);
+  }
+}
+
+/* ---------------------------------------------------------------
+ * 02 Una emergencia no avisa
+ * ------------------------------------------------------------- */
+
+.emergency {
+  padding: clamp(3rem, 3rem + 24 * (100vw - 24.375rem) / 1050, 4.5rem) var(--gutter) 3rem;
+}
+
+.emergency__photo,
+.emergency__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.emergency__photo img {
+  object-fit: cover;
+  object-position: 70% 50%;
+}
+
+/* Left veil for the copy, plus the top band under the navbar */
+.emergency__scrim {
+  background:
+    linear-gradient(to bottom, rgba(11, 22, 16, 0.72), rgba(11, 22, 16, 0.5) 18%, rgba(11, 22, 16, 0) 30%),
+    linear-gradient(to right, rgba(11, 22, 16, 0.9), rgba(11, 22, 16, 0.62) 41.7%, rgba(11, 22, 16, 0) 69.4%);
+}
+
+.emergency__title {
+  font-size: clamp(3.125rem, 3.125rem + 62 * (100vw - 24.375rem) / 1050, 7rem);
+  line-height: 1;
+}
+
+.emergency__lead {
+  max-width: 47.5rem;
+  margin-top: 0.875rem;
+  font-size: clamp(1.1875rem, 1.1875rem + 5 * (100vw - 24.375rem) / 1050, 1.5rem);
+  line-height: 1.45;
+}
+
+.survival {
+  margin-top: 2.25rem;
+}
+
+.survival__caption {
+  font-size: clamp(1.0625rem, 1.0625rem + 4 * (100vw - 24.375rem) / 1050, 1.3125rem);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.survival__grids {
+  display: flex;
+  gap: clamp(1.375rem, 1.375rem + 50 * (100vw - 24.375rem) / 1050, 4.5rem);
+  margin-top: 1rem;
+}
+
+.survival__group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.survival__value {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 1.75rem + 16 * (100vw - 24.375rem) / 1050, 2.75rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.survival__where {
+  font-size: clamp(1rem, 1rem + 3 * (100vw - 24.375rem) / 1050, 1.1875rem);
+  line-height: 1.25;
+}
+
+.survival__grid {
+  width: clamp(9.75rem, 9.75rem + 48 * (100vw - 24.375rem) / 1050, 12.75rem);
+  max-width: 100%;
+  height: auto;
+  margin-top: 0.875rem;
+}
+
+.emergency__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 22.5rem));
+  gap: 2.5rem;
+  margin-top: clamp(2rem, 2rem + 14 * (100vw - 24.375rem) / 1050, 2.875rem);
+}
+
+.emergency__stat {
+  font-size: clamp(1.125rem, 1.125rem + 2 * (100vw - 24.375rem) / 1050, 1.25rem);
+  line-height: 1.4;
+}
+
+.emergency__number {
+  display: block;
+  margin-bottom: 0.375rem;
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 3.5rem + 16 * (100vw - 24.375rem) / 1050, 4.5rem);
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.emergency__promise {
+  margin-top: clamp(2rem, 2rem + 8 * (100vw - 24.375rem) / 1050, 2.5rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.875rem, 1.875rem + 10 * (100vw - 24.375rem) / 1050, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  color: var(--amber);
+  text-wrap: balance;
+}
+
+.emergency__sources {
+  max-width: 56.25rem;
+  margin-top: clamp(1.25rem, 1.25rem + 12 * (100vw - 24.375rem) / 1050, 2rem);
+  font-size: clamp(0.875rem, 0.875rem + 1 * (100vw - 24.375rem) / 1050, 0.9375rem);
+  line-height: 1.35;
+}
+
+@media (max-width: 47.99rem) {
+  /* Photo on top, copy continues on the forest ground below it */
+  .emergency__photo,
+  .emergency__scrim {
+    inset: 0 0 auto;
+    height: 26.25rem;
+  }
+
+  .emergency__photo img {
+    object-position: 100% 50%;
+  }
+
+  .emergency__scrim {
+    height: 26.375rem;
+    background: linear-gradient(to bottom, rgba(14, 26, 20, 0.86), rgba(14, 26, 20, 0.3) 45%, var(--forest-900));
+  }
+
+  /* The lead lands where the photo fades out */
+  .emergency__head {
+    display: flex;
+    flex-direction: column;
+    min-height: 25.25rem;
+  }
+
+  .emergency__title {
+    line-height: 1.02;
+  }
+
+  .emergency__lead {
+    margin-top: auto;
+    padding-top: 1rem;
+  }
+
+  .emergency__stats {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * 08 Metas de diseño
+ * The band enters from the left edge; each goal sits on its right
+ * edge. Row positions (--dx desktop, --mx mobile) are the Figma dot
+ * centers, 1.67 % of the band width inside the edge measured in L7.
+ * ------------------------------------------------------------- */
+
+.goals {
+  padding: calc(64 * var(--k)) 0 calc(161 * var(--k));
+}
+
+.goals__glow {
+  top: calc(160 * var(--k));
+  left: calc(-60 * var(--k));
+  z-index: 0;
+  width: calc(760 * var(--k));
+  aspect-ratio: 1;
+  background-color: rgba(240, 182, 90, 0.13);
+  border-radius: 50%;
+  filter: blur(calc(75 * var(--k)));
+}
+
+.goals__rings {
+  top: calc(-480 * var(--k));
+  left: calc(-1247.2 * var(--k));
+  z-index: 1;
+  width: calc(2040 * var(--k));
+  height: calc(2040 * var(--k));
+  overflow: visible;
+}
+
+.goals__ring {
+  vector-effect: non-scaling-stroke;
+}
+
+.goals__band {
+  top: calc(-120 * var(--k));
+  left: calc(-874 * var(--k));
+  z-index: 2;
+  width: calc(1320 * var(--k));
+  aspect-ratio: 1;
+}
+
+.goals__band img {
+  object-fit: contain;
+}
+
+.goals__grass--mid {
+  bottom: calc(-120 * var(--k));
+  left: calc(-60 * var(--k));
+  z-index: 3;
+  width: calc(1560 * var(--k));
+  aspect-ratio: 3;
+}
+
+.goals__grass--near {
+  bottom: calc(-260 * var(--k));
+  left: calc(-180 * var(--k));
+  z-index: 4;
+  width: calc(1800 * var(--k));
+  aspect-ratio: 3;
+}
+
+.goals__grass img {
+  object-fit: cover;
+}
+
+.goals__scrim {
+  inset: auto 0 0;
+  z-index: 5;
+  height: calc(180 * var(--k));
+  background: linear-gradient(to bottom, rgba(14, 26, 20, 0), rgba(14, 26, 20, 0.85));
+}
+
+.goals__head,
+.goals__list {
+  position: relative;
+  z-index: 6;
+}
+
+.goals__head {
+  min-height: calc(193 * var(--k));
+  margin-left: calc(430 * var(--k));
+  padding-right: var(--gutter);
+}
+
+.goals__title {
+  font-size: clamp(2.875rem, 104 * var(--k), 6.5rem);
+}
+
+.goals__lead {
+  margin-top: calc(14 * var(--k));
+  font-size: clamp(1.1875rem, 22 * var(--k), 1.375rem);
+  line-height: 1.45;
+}
+
+.goals__list {
+  display: grid;
+  row-gap: calc(22 * var(--k));
+  list-style: none;
+}
+
+.goal {
+  display: flex;
+  align-items: center;
+  min-height: calc(70 * var(--k));
+  padding-left: calc((var(--dx) - 6) * var(--k));
+  padding-right: var(--gutter);
+}
+
+/* Dot on the band edge plus the short line toward the value */
+.goal__mark {
+  position: relative;
+  flex: none;
+  width: calc(6px + 52 * var(--k));
+  height: 12px;
+  margin-right: calc(10 * var(--k));
+}
+
+.goal__mark::before,
+.goal__mark::after {
+  content: "";
+  position: absolute;
+}
+
+.goal__mark::before {
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  background-color: var(--paper);
+  border-radius: 50%;
+}
+
+.goal__mark::after {
+  top: 5.25px;
+  left: 6px;
+  width: calc(52 * var(--k));
+  height: 1.5px;
+  background-color: rgba(255, 253, 247, 0.8);
+  transform-origin: left center;
+}
+
+.goal__value {
+  flex: none;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 54 * var(--k), 3.375rem);
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
+
+.goal__leader {
+  flex: 1 1 1.5rem;
+  min-width: 1.5rem;
+  height: 1.5px;
+  margin: 0 calc(20 * var(--k)) 0 calc(28 * var(--k));
+  background-color: rgba(255, 253, 247, 0.2);
+  transform-origin: left center;
+}
+
+.goal__label {
+  flex: 0 1 auto;
+  font-size: clamp(1rem, 21 * var(--k), 1.3125rem);
+  line-height: 1.3;
+  color: var(--amber);
+  text-align: right;
+}
+
+@media (max-width: 47.99rem) {
+  .goals {
+    padding: calc(52 * var(--k)) 0 calc(110 * var(--k));
+  }
+
+  .goals__glow {
+    top: calc(380 * var(--k));
+    left: calc(-140 * var(--k));
+    width: calc(460 * var(--k));
+    filter: blur(calc(45 * var(--k)));
+  }
+
+  /* Same three rings scaled so the inner one keeps the 500 px mobile radius */
+  .goals__rings {
+    top: calc(-34.5 * var(--k));
+    left: calc(-856.1 * var(--k));
+    width: calc(1309 * var(--k));
+    height: calc(1309 * var(--k));
+  }
+
+  .goals__band {
+    top: calc(190 * var(--k));
+    left: calc(-623 * var(--k));
+    width: calc(860 * var(--k));
+  }
+
+  .goals__grass--mid {
+    bottom: calc(-102 * var(--k));
+    left: calc(-500 * var(--k));
+    width: calc(1200 * var(--k));
+  }
+
+  .goals__grass--near {
+    bottom: calc(-252 * var(--k));
+    left: calc(-600 * var(--k));
+    width: calc(1500 * var(--k));
+  }
+
+  .goals__scrim {
+    height: calc(90 * var(--k));
+    background: linear-gradient(to bottom, rgba(14, 26, 20, 0), rgba(14, 26, 20, 0.8));
+  }
+
+  .goals__head {
+    min-height: calc(224 * var(--k));
+    margin-left: var(--gutter);
+  }
+
+  .goals__title {
+    font-size: clamp(2.5rem, 46 * var(--k), 2.875rem);
+    line-height: 1.02;
+  }
+
+  .goals__lead {
+    margin-top: calc(13 * var(--k));
+    font-size: 1.1875rem;
+  }
+
+  .goals__list {
+    row-gap: 0;
+  }
+
+  /* Value over label; the leader lines are a desktop detail */
+  .goal {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    align-content: start;
+    min-height: calc(106 * var(--k));
+    padding-left: calc((var(--mx) - 5) * var(--k));
+  }
+
+  .goal__mark {
+    width: calc(5px + 36 * var(--k));
+    height: 10px;
+    margin-right: calc(8 * var(--k));
+  }
+
+  .goal__mark::before {
+    width: 10px;
+    height: 10px;
+  }
+
+  .goal__mark::after {
+    top: 4.25px;
+    left: 5px;
+    width: calc(36 * var(--k));
+  }
+
+  .goal__value {
+    font-size: clamp(1.5rem, 28 * var(--k), 1.75rem);
+    white-space: normal;
+  }
+
+  .goal__leader {
+    display: none;
+  }
+
+  .goal__label {
+    grid-column: 2;
+    margin-top: 0.125rem;
+    font-size: 0.9375rem;
+    text-align: left;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * 09 Lo que no puede hacer
+ * ------------------------------------------------------------- */
+
+.limits {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, calc(600 * var(--k)));
+  column-gap: var(--gap-8);
+  padding: calc(48 * var(--k)) var(--gutter) calc(64 * var(--k));
+}
+
+.limits__photo,
+.limits__scrim {
+  inset: 0;
+  z-index: -5;
+}
+
+.limits__photo img {
+  object-fit: cover;
+}
+
+.limits__scrim {
+  z-index: -4;
+  background: linear-gradient(to bottom, rgba(11, 22, 16, 0.62), rgba(11, 22, 16, 0.28) 50%, rgba(11, 22, 16, 0.3));
+}
+
+.limits__grass--mid {
+  bottom: calc(-60 * var(--k));
+  left: calc(-60 * var(--k));
+  z-index: -3;
+  width: calc(1560 * var(--k));
+  aspect-ratio: 3;
+}
+
+.limits__grass--near {
+  bottom: calc(-170 * var(--k));
+  left: calc(-180 * var(--k));
+  z-index: -2;
+  width: calc(1800 * var(--k));
+  aspect-ratio: 3;
+}
+
+.limits__grass img {
+  object-fit: cover;
+}
+
+.limits__scrim-text {
+  inset: auto 0 0;
+  z-index: -1;
+  height: calc(480 * var(--k));
+  background: linear-gradient(to bottom, rgba(11, 22, 16, 0), rgba(11, 22, 16, 0.72) 45%, rgba(11, 22, 16, 0.9));
+}
+
+.limits__head {
+  align-self: end;
+  padding-bottom: calc(4 * var(--k));
+}
+
+.limits__title {
+  max-width: calc(700 * var(--k));
+  font-size: clamp(3.25rem, 124 * var(--k), 7.75rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.limits__lead {
+  margin-top: calc(27 * var(--k));
+  font-size: clamp(1.1875rem, 22 * var(--k), 1.375rem);
+  line-height: 1.45;
+}
+
+.limits__list {
+  display: grid;
+  gap: calc(16 * var(--k));
+  list-style: none;
+}
+
+/* Mist over the landscape photo: no border, no shadow */
+.limit {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.625rem;
+  min-height: calc(252 * var(--k));
+  padding: 1.5rem 2rem;
+  border-radius: 1.625rem;
+}
+
+.limit__title {
+  font-size: clamp(2rem, 52 * var(--k), 3.25rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--amber);
+}
+
+.limit__text {
+  font-size: clamp(1.125rem, 22 * var(--k), 1.375rem);
+  line-height: 1.45;
+}
+
+@media (max-width: 47.99rem) {
+  .limits {
+    grid-template-columns: minmax(0, 1fr);
+    padding: calc(48 * var(--k)) var(--gutter) calc(220 * var(--k));
+  }
+
+  .limits__scrim {
+    background: linear-gradient(to bottom, rgba(11, 22, 16, 0.88), rgba(11, 22, 16, 0.5) 60%, rgba(11, 22, 16, 0.3));
+  }
+
+  .limits__scrim-text {
+    display: none;
+  }
+
+  .limits__grass--mid {
+    bottom: calc(-60 * var(--k));
+    left: calc(-500 * var(--k));
+    width: calc(1200 * var(--k));
+  }
+
+  .limits__grass--near {
+    bottom: calc(-220 * var(--k));
+    left: calc(-600 * var(--k));
+    width: calc(1500 * var(--k));
+  }
+
+  .limits__head {
+    padding-bottom: 0;
+  }
+
+  .limits__title {
+    max-width: none;
+    font-size: clamp(2.75rem, 52 * var(--k), 3.25rem);
+    line-height: 1.02;
+    letter-spacing: -0.035em;
+  }
+
+  .limits__lead {
+    margin-top: calc(18 * var(--k));
+    font-size: 1.1875rem;
+  }
+
+  .limits__list {
+    gap: 0.875rem;
+    margin-top: 1.625rem;
+  }
+
+  .limit {
+    gap: 0.5rem;
+    min-height: 0;
+    padding: 1.125rem 1.25rem 1.25rem;
+    border-radius: 1.25rem;
+  }
+
+  .limit__title {
+    font-size: clamp(1.75rem, 32 * var(--k), 2rem);
+    line-height: 1.2;
+  }
+
+  .limit__text {
+    font-size: 1.125rem;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * 10 Lo que la gente pregunta
+ * Native details and summary: opens without JS and with the keyboard.
+ * ------------------------------------------------------------- */
+
+.faq {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, calc(680 * var(--k)));
+  align-items: start;
+  column-gap: calc(24 * var(--k));
+  padding: calc(80 * var(--k)) var(--gutter) calc(298 * var(--k));
+}
+
+.faq__glow {
+  bottom: calc(-40 * var(--k));
+  left: calc(-260 * var(--k));
+  z-index: -5;
+  width: calc(1000 * var(--k));
+  height: calc(900 * var(--k));
+  background-color: rgba(240, 182, 90, 0.13);
+  border-radius: 50%;
+  filter: blur(calc(75 * var(--k)));
+}
+
+.faq__band {
+  bottom: calc(-70 * var(--k));
+  left: calc(-60 * var(--k));
+  z-index: -4;
+  width: calc(760 * var(--k));
+  aspect-ratio: 1;
+}
+
+.faq__band img {
+  object-fit: contain;
+}
+
+.faq__grass--mid {
+  bottom: calc(-120 * var(--k));
+  left: calc(-60 * var(--k));
+  z-index: -3;
+  width: calc(1560 * var(--k));
+  aspect-ratio: 3;
+}
+
+.faq__grass--near {
+  bottom: calc(-260 * var(--k));
+  left: calc(-180 * var(--k));
+  z-index: -2;
+  width: calc(1800 * var(--k));
+  aspect-ratio: 3;
+}
+
+.faq__grass img {
+  object-fit: cover;
+}
+
+.faq__scrim {
+  inset: auto 0 0;
+  z-index: -1;
+  height: calc(160 * var(--k));
+  background: linear-gradient(to bottom, rgba(14, 26, 20, 0), rgba(14, 26, 20, 0.85));
+}
+
+.faq__title {
+  max-width: calc(640 * var(--k));
+  font-size: clamp(2.75rem, 84 * var(--k), 5.25rem);
+  line-height: 1;
+  /* Figma breaks after "gente"; balancing would move it */
+  text-wrap: wrap;
+}
+
+.faq__list {
+  display: grid;
+  gap: 0.625rem;
+  margin-top: calc(16 * var(--k));
+}
+
+.faq__item {
+  background-color: rgba(var(--mist-rgb), 0.62);
+  border-radius: 1.125rem;
+}
+
+.faq__q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-4);
+  min-height: 2.75rem;
+  padding: 1.1875rem 1.5rem;
+  font-size: clamp(1.125rem, 22 * var(--k), 1.375rem);
+  font-weight: 500;
+  line-height: 1.3;
+  list-style: none;
+  border-radius: inherit;
+  cursor: pointer;
+}
+
+.faq__q::-webkit-details-marker {
+  display: none;
+}
+
+.faq__chevron {
+  flex: none;
+  width: 1.375rem;
+  height: 1.375rem;
+  color: var(--amber);
+}
+
+.faq__item[open] .faq__chevron {
+  rotate: 180deg;
+}
+
+.faq__a {
+  margin-top: -0.5625rem;
+  padding: 0 1.5rem 1.1875rem;
+  font-size: clamp(1.0625rem, 20 * var(--k), 1.25rem);
+  line-height: 1.45;
+}
+
+@media (hover: hover) {
+  .faq__item:hover {
+    background-color: rgba(var(--mist-rgb), 0.74);
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .faq {
+    grid-template-columns: minmax(0, 1fr);
+    padding: calc(48 * var(--k)) var(--gutter) calc(300 * var(--k));
+  }
+
+  .faq__glow {
+    top: calc(300 * var(--k));
+    bottom: auto;
+    left: calc(60 * var(--k));
+    width: calc(460 * var(--k));
+    height: calc(460 * var(--k));
+    filter: blur(calc(45 * var(--k)));
+  }
+
+  .faq__band {
+    bottom: calc(-60 * var(--k));
+    left: calc(20 * var(--k));
+    width: calc(350 * var(--k));
+  }
+
+  .faq__grass--mid {
+    bottom: calc(-100 * var(--k));
+    left: calc(-500 * var(--k));
+    width: calc(1200 * var(--k));
+  }
+
+  .faq__grass--near {
+    bottom: calc(-260 * var(--k));
+    left: calc(-600 * var(--k));
+    width: calc(1500 * var(--k));
+  }
+
+  .faq__scrim {
+    height: calc(80 * var(--k));
+    background: linear-gradient(to bottom, rgba(14, 26, 20, 0), rgba(14, 26, 20, 0.8));
+  }
+
+  .faq__title {
+    max-width: none;
+    font-size: clamp(2.75rem, 52 * var(--k), 3.25rem);
+    line-height: 1.02;
+  }
+
+  .faq__list {
+    margin-top: calc(22 * var(--k));
+  }
+
+  .faq__item {
+    border-radius: 1rem;
+  }
+
+  .faq__q {
+    gap: 0.625rem;
+    padding: 1rem 1.125rem;
+    font-size: 1.125rem;
+  }
+
+  .faq__chevron {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .faq__a {
+    margin-top: -0.5rem;
+    padding: 0 1.125rem 1rem;
+    font-size: 1.0625rem;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Motion
+ * js/sections.js arms each [data-reveal] block (`is-armed`) and marks it
+ * `is-in` once it scrolls into view. Without JS, without `.motion`
+ * (reduced motion) or before arming, everything stays visible.
+ * Only opacity, translate, scale and stroke-dashoffset change.
+ * ------------------------------------------------------------- */
+
+.motion .is-in .reveal {
+  transition:
+    opacity 800ms var(--ease-out),
+    translate 800ms var(--ease-out);
+  transition-delay: calc(var(--r, 0) * 110ms);
+}
+
+.motion .is-armed:not(.is-in) .reveal {
+  opacity: 0;
+  translate: 0 1.5rem;
+}
+
+/* Survivors light up one by one after their grid appears */
+.motion .survival__dot {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.motion .survival.is-in .survival__dot {
+  transition:
+    opacity 300ms var(--ease-out),
+    scale 450ms var(--ease-out);
+  transition-delay: calc(600ms + var(--i, 0) * 45ms);
+}
+
+.motion .survival.is-armed:not(.is-in) .survival__dot {
+  opacity: 0;
+  scale: 0.5;
+}
+
+/* Goals: the band slides in, rings draw, then each goal follows the curve */
+.motion .goals__ring {
+  stroke-dasharray: 1;
+}
+
+.motion .goals.is-in .goals__band {
+  transition:
+    opacity 1200ms var(--ease-out),
+    translate 1400ms var(--ease-out);
+}
+
+.motion .goals.is-armed:not(.is-in) .goals__band {
+  opacity: 0;
+  translate: -6% 0;
+}
+
+.motion .goals.is-in .goals__ring {
+  transition: stroke-dashoffset 1800ms var(--ease-in-out);
+}
+
+.motion .goals.is-in .goals__ring:nth-child(2) {
+  transition-delay: 150ms;
+}
+
+.motion .goals.is-in .goals__ring:nth-child(3) {
+  transition-delay: 300ms;
+}
+
+.motion .goals.is-armed:not(.is-in) .goals__ring {
+  stroke-dashoffset: 1;
+}
+
+.motion .goals.is-in .goal {
+  --at: calc(300ms + var(--i, 0) * 90ms);
+}
+
+.motion .goals.is-in .goal__mark::before {
+  transition:
+    opacity 300ms var(--ease-out),
+    scale 450ms var(--ease-out);
+  transition-delay: var(--at);
+}
+
+.motion .goals.is-in .goal__mark::after {
+  transition: scale 400ms var(--ease-out);
+  transition-delay: calc(var(--at) + 120ms);
+}
+
+.motion .goals.is-in .goal__value {
+  transition:
+    opacity 700ms var(--ease-out),
+    translate 700ms var(--ease-out);
+  transition-delay: calc(var(--at) + 200ms);
+}
+
+.motion .goals.is-in .goal__leader {
+  transition: scale 900ms var(--ease-in-out);
+  transition-delay: calc(var(--at) + 320ms);
+}
+
+.motion .goals.is-in .goal__label {
+  transition:
+    opacity 600ms var(--ease-out),
+    translate 600ms var(--ease-out);
+  transition-delay: calc(var(--at) + 620ms);
+}
+
+.motion .goals.is-armed:not(.is-in) .goal__mark::before {
+  opacity: 0;
+  scale: 0.5;
+}
+
+.motion .goals.is-armed:not(.is-in) .goal__mark::after,
+.motion .goals.is-armed:not(.is-in) .goal__leader {
+  scale: 0 1;
+}
+
+.motion .goals.is-armed:not(.is-in) .goal__value {
+  opacity: 0;
+  translate: -0.75rem 0;
+}
+
+.motion .goals.is-armed:not(.is-in) .goal__label {
+  opacity: 0;
+  translate: 0.75rem 0;
+}
+
+/* FAQ: the chevron turns and the answer settles in */
+.motion .faq__chevron {
+  transition: rotate 200ms var(--ease-out);
+}
+
+.motion .faq__list.is-in .faq__item {
+  transition:
+    background-color 160ms var(--ease-out),
+    opacity 800ms var(--ease-out),
+    translate 800ms var(--ease-out);
+  transition-delay: 0s, calc(var(--r, 0) * 110ms), calc(var(--r, 0) * 110ms);
+}
+
+.motion .faq__item[open] .faq__a {
+  animation: faq-answer 320ms var(--ease-out);
+}
+
+@keyframes faq-answer {
+  from {
+    opacity: 0;
+    translate: 0 -0.375rem;
+  }
+}
+
+@media print {
+  .motion .is-armed :is(.reveal, .survival__dot, .goals__band, .goal__value, .goal__label) {
+    opacity: 1;
+    translate: none;
+    scale: none;
+  }
+}
