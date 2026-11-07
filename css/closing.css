@@ -53,6 +53,11 @@
   );
 }
 
+/* Joint with the FAQ: over the landscape and its scrims, under the copy */
+.closing {
+  --seam-z: 1;
+}
+
 .closing__grass-mid {
   left: -4.17%;
   bottom: -2.78vw;

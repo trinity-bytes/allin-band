@@ -23,7 +23,6 @@
 .goals__rings,
 .goals__band,
 .goals__grass,
-.goals__scrim,
 .limits__photo,
 .limits__scrim,
 .limits__grass,
@@ -40,6 +39,26 @@
   :is(.emergency, .goals, .limits, .faq) {
     --k: calc(100vw / 390);
   }
+}
+
+/* Joints (L30, L32): the seams sit over the photo layers and under the copy */
+.emergency,
+.limits,
+.faq {
+  --seam-z: -1;
+}
+
+.goals {
+  --seam-z: 5;
+}
+
+.goals .seam--bottom {
+  --seam-h: 180px;
+}
+
+/* Dark ground to bright sky needs the longest fade */
+.limits .seam--top {
+  --seam-h: 420px;
 }
 
 /* ---------------------------------------------------------------
@@ -278,13 +297,6 @@
   object-fit: cover;
 }
 
-.goals__scrim {
-  inset: auto 0 0;
-  z-index: 5;
-  height: calc(180 * var(--k));
-  background: linear-gradient(to bottom, rgba(14, 26, 20, 0), rgba(14, 26, 20, 0.85));
-}
-
 .goals__head,
 .goals__list {
   position: relative;
@@ -417,11 +429,6 @@
     bottom: calc(-252 * var(--k));
     left: calc(-600 * var(--k));
     width: calc(1500 * var(--k));
-  }
-
-  .goals__scrim {
-    height: calc(90 * var(--k));
-    background: linear-gradient(to bottom, rgba(14, 26, 20, 0), rgba(14, 26, 20, 0.8));
   }
 
   .goals__head {
