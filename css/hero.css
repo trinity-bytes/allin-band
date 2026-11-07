@@ -252,3 +252,139 @@
     padding: 0.625rem 0.875rem;
   }
 }
+
+/* ---------------------------------------------------------------
+ * Motion
+ * Staged entrance once the first images are decoded, then depth:
+ * js/hero.js writes `transform` on each layer wrapper for scroll and
+ * pointer parallax, while the entrance animates `translate`, `scale`
+ * and `opacity` on the inner elements, so both compose.
+ * Without JS, or with reduced motion, nothing here applies.
+ * ------------------------------------------------------------- */
+
+.hero__word {
+  display: inline-block;
+}
+
+.hero__line {
+  stroke-dasharray: 1;
+}
+
+.hero__dot {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Bleed so pointer drift never shows the frame edge */
+.motion .hero__landscape {
+  inset: -1.5rem;
+}
+
+.motion .hero__landscape,
+.motion .hero__title,
+.motion .hero__band,
+.motion .hero__grass-mid,
+.motion .hero__grass-near,
+.motion .hero__callouts {
+  will-change: transform;
+}
+
+/* Waiting for decode: hidden, with a failsafe in case the script never runs */
+.motion .hero:not(.hero--play) :is(
+  .hero__landscape img,
+  .hero__word,
+  .hero__band img,
+  .hero__grass-mid img,
+  .hero__grass-near img,
+  .hero__callouts,
+  .hero__bottom > *
+) {
+  opacity: 0;
+  animation: hero-failsafe 1ms 3s forwards;
+}
+
+.motion .hero--play .hero__landscape img {
+  animation: hero-landscape 1600ms var(--ease-out) both;
+}
+
+.motion .hero--play .hero__word {
+  animation: hero-rise 1000ms var(--ease-out) both;
+  animation-delay: calc(200ms + var(--i, 0) * 70ms);
+}
+
+.motion .hero--play .hero__word:nth-child(2) { --i: 1; }
+.motion .hero--play .hero__word:nth-child(3) { --i: 2; }
+.motion .hero--play .hero__word:nth-child(4) { --i: 3; }
+.motion .hero--play .hero__word:nth-child(5) { --i: 4; }
+
+.motion .hero--play .hero__band img {
+  animation: hero-band 1400ms var(--ease-out) 450ms both;
+}
+
+.motion .hero--play .hero__grass-mid img {
+  animation: hero-grass 1500ms var(--ease-out) 250ms both;
+  --from: 14%;
+}
+
+.motion .hero--play .hero__grass-near img {
+  animation: hero-grass 1500ms var(--ease-out) 150ms both;
+  --from: 22%;
+}
+
+.motion .hero--play .hero__dot {
+  animation: hero-dot 420ms var(--ease-out) both;
+  animation-delay: calc(1300ms + var(--i, 0) * 150ms);
+}
+
+.motion .hero--play .hero__line {
+  animation: hero-draw 650ms var(--ease-in-out) both;
+  animation-delay: calc(1400ms + var(--i, 0) * 150ms);
+}
+
+.motion .hero--play .callout {
+  animation: hero-chip 600ms var(--ease-out) both;
+  animation-delay: calc(1800ms + var(--i, 0) * 150ms);
+}
+
+.motion .hero--play :is(.hero__dot, .hero__line, .callout):nth-of-type(2) { --i: 1; }
+.motion .hero--play :is(.hero__dot, .hero__line, .callout):nth-of-type(3) { --i: 2; }
+
+.motion .hero--play .hero__bottom > * {
+  animation: hero-rise 900ms var(--ease-out) both;
+  animation-delay: calc(950ms + var(--i, 0) * 120ms);
+}
+
+.motion .hero--play .hero__bottom > :nth-child(2) { --i: 1; }
+
+@keyframes hero-failsafe {
+  to { opacity: 1; }
+}
+
+@keyframes hero-landscape {
+  from { opacity: 0; scale: 1.08; }
+}
+
+@keyframes hero-rise {
+  from { opacity: 0; translate: 0 0.6em; }
+}
+
+@keyframes hero-band {
+  from { opacity: 0; translate: 0 16%; scale: 0.92; }
+}
+
+@keyframes hero-grass {
+  from { translate: 0 var(--from); }
+}
+
+@keyframes hero-dot {
+  from { scale: 0; }
+}
+
+@keyframes hero-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes hero-chip {
+  from { opacity: 0; translate: 0.75rem 0; }
+}

@@ -40,7 +40,12 @@
     <link rel="stylesheet" href="css/closing.css" />
 
     <!-- Without JS every section stays visible and static -->
-    <script>document.documentElement.classList.add("js");</script>
+    <script>
+      document.documentElement.classList.add("js");
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("motion");
+      }
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
@@ -76,7 +81,7 @@
         </picture>
         <div class="hero__layer hero__sky"></div>
 
-        <h1 class="hero__title" id="hero-title">Una pulsera que te cuida</h1>
+        <h1 class="hero__title" id="hero-title"><span class="hero__word">Una</span> <span class="hero__word">pulsera</span> <span class="hero__word">que</span> <span class="hero__word">te</span> <span class="hero__word">cuida</span></h1>
 
         <picture class="hero__layer hero__band">
           <source media="(max-width: 47.99rem)" srcset="assets/images/web/band-800.webp" />
@@ -96,14 +101,14 @@
         <div class="hero__layer hero__callouts">
           <svg class="hero__lines" viewBox="0 0 720 720" aria-hidden="true" focusable="false">
             <g fill="none" stroke="#fffdf7" stroke-width="1.5">
-              <path d="M552 229H640L686 273H700" />
-              <path d="M441.6 358H700" stroke="#f6f1e6" />
-              <path d="M-58 386.5H120" stroke="#f6f1e6" />
+              <path class="hero__line" pathLength="1" d="M552 229H640L686 273H700" />
+              <path class="hero__line" pathLength="1" d="M441.6 358H700" stroke="#f6f1e6" />
+              <path class="hero__line" pathLength="1" d="M120 386.5H-58" stroke="#f6f1e6" />
             </g>
             <g fill="#f6f1e6">
-              <circle cx="552" cy="228" r="5" />
-              <circle cx="441.6" cy="357.6" r="5" />
-              <circle cx="120" cy="386.5" r="5" />
+              <circle class="hero__dot" cx="552" cy="228" r="5" />
+              <circle class="hero__dot" cx="441.6" cy="357.6" r="5" />
+              <circle class="hero__dot" cx="120" cy="386.5" r="5" />
             </g>
           </svg>
           <ul aria-label="Partes de la pulsera">
@@ -188,5 +193,6 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/hero.js"></script>
   </body>
 </html>
