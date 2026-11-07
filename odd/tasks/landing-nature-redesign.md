@@ -22,6 +22,19 @@ Design source: Figma file IEIOIHCnxY7dYDObgHVwAi, page "Redesign / Hero v2" (21:
 - S14. Closing motion: "en secciones como el footer (o seccion final) se podria aprovechr la superposicon del pastito con el texto para aplicar un parallax o animacion. quedaria bien en mi opionnio y paovechariamos los recursos que tenemos". Same rules as S5: desktop with fine pointer, static on touch, nothing under reduced motion.
 - S13. Keep from the previous work: content visible without JS, no personal data, keyboard access, reflow at large text, AA contrast measured in browser at 1440, 1366, 1024, 820, 390, 360.
 
+- S15. Round 2 (L27-L32), approved in Figma on 2026-11-07 ("aprobado. no olvides agregar las animaciones y las transiciones suabes"). Source: file IEIOIHCnxY7dYDObgHVwAi, page "Redesign / Round 2" (70:223), components on "Library / Nature" (71:259). Frames: hero 70:224, mobile 70:839; problem 70:264; morning 70:491, mobile 70:858; family 70:519, mobile 70:886; app 70:576; in use 70:678; goals 70:692; limits 70:745, scrolling state 74:344, mobile 70:943; FAQ 70:762; closing 70:806; journey strip 75:410; mobile menu 75:687.
+- S16. Disclosure: "como un texto que aparece tipo teleprompter de derecha a izquierda en una linea en la parte final del viewport, con desplazamiento". Moves continuously; pauses on hover and focus; static under reduced motion; full text once for assistive technology.
+- S17. Emergency: "unos shaders sutiles animados que simulen los raos de sol entrando desde la ventana".
+- S18. Morning: timeline without cards (rule, hour, moment, amber progress on the rule); message as open text with an amber rule, no surface; state change with a fade: "cuando cmabia la transicion es muy bruca, quedaria mejor un fade".
+- S19. Joints: "se ven las lineas de separacion entre secciones, quedaria mejor un espacio que permita transicionar mas suavemente". Journey: 240 px of forest ground between panels, photos fade into it, fades sit behind the text. Vertical: short fades, 96 px desktop and 64 px mobile; goals bottom 180 px and limits top 420 px; always the --seam-* tokens (L30, L32).
+- S20. Family: wallpaper barely visible, notification translucent with blur; alert sequence on a rail in order: "Al instante / Centro de salud y Ana", "A los 10 segundos / Luis, si nadie responde", "Cuando alguien confirma / Todos lo saben", animated so who is told and when is clear.
+- S21. App: tag "Concepto, datos de ejemplo" on the phone; "Pulso en reposo" chart centered. No "Contactos de aviso" row.
+- S22. In use: copy "Una correa tejida, un módulo de sensores y una luz de estado."; the strap callout points at the strap. The page never mentions a screen on the band (L31): #tu-decides "Tu pulsera suena, se ilumina y te pregunta si estás bien."; FAQ "La pulsera te avisa primero a ti, con sonido y luz, y te pregunta si estás bien. Tienes unos segundos para responder; si lo haces, no se avisa a nadie."
+- S23. Goals: values 170 px further from the device with longer lines, heading moved with them, softer background plus an animated shader or similar. FAQ: softer background with an extra layer, grass overlap with a slight parallax.
+- S24. Limits: "que aparezcan las cards apiladas y que conforme se hace scroll se van revelando las cards de abajo"; heading and stack share one top line (L30). Without JS or under reduced motion the three cards stay readable as a list.
+- S25. Closing: 1060 px at 1440 instead of 1210; team photos 236 px.
+- S26. Mobile menu: full screen, large numbered links, current link in amber, demo button, ticker (75:687), with an open and close transition. Soft transitions and reveals across the page.
+
 ## Tasks
 
 - [x] T0 assets inline: 24 responsive WebP files in assets/images/web. Commit b0f25e4. Upscaled PNG and original JPEG sources moved to ../allin-band-sources, outside the repo.
@@ -31,7 +44,12 @@ Design source: Figma file IEIOIHCnxY7dYDObgHVwAi, page "Redesign / Hero v2" (21:
 - [x] T3 S1 S6 S7 S10 S11 S12 delegated (writer A, worktree): sections 03 to 07, pulse and horizontal journey in css/journey.css, js/journey.js, marker journey. Commit c7cb913 (cherry-picked from 1505e65), copy fix 1e333b8.
 - [x] T6 S14 inline: closing grass and wordmark parallax in js/closing.js and css/closing.css. Commit 3ceda80.
 - [ ] T5 S13: browser verification at all sizes, regression tests, docs and DESIGN.md update. Verifier blockers fixed in a00732f and rechecked; open only on the user answers in Next.
-- [ ] T7 round 2 from L27: Figma first, wait for approval. Route inline for the design; implementation route decided after approval.
+- [x] T7 round 2 in Figma: approved on 2026-11-07.
+- [ ] T8 S15 S18 S19 S20 S21 S22 delegated (writer J, worktree): journey panels.
+- [ ] T9 S15 S16 S17 S19 S22 S23 S24 S25 S26 delegated (writer P, worktree): the rest of the page.
+- [ ] T10 seam check, independent verifier, docs.
+
+Route evidence T8 T9: writer trigger (a) two independent units with disjoint surfaces, each well over 100 lines, and (b) long session; index.html is shared, so each works in its own worktree between its markers.
 
 Route evidence: the user asked for subagents (L13). Writer trigger (a): two independent units, each several files and well over 100 lines, with disjoint surfaces; index.html is shared, so each writer works in an isolated worktree and edits only between its markers. The parent merges, runs the seam check and owns T6 and T5. Risk to review at T3: item 6, browser behavior with little automated coverage.
 
@@ -71,4 +89,5 @@ antes de aplicar cualqueir cambio que no sea animacion, primero queiro ver  los 
 - L30 (2026-11-07) "resoecto a la separacion de secciones, verticalmente creo que no queda tsn bien separar tanto las secciones. en la seccion donde aoarece la muleca usando la band se tiene que quitar la afirmacion de que tiene una pantalla pequeña, literalmente el concepto no lo muestra. en metas de diselo quedaria mejor si los datos que se muestran a la ixquierda quedaran un poco mas separados hacia la derecha del aparato, hay mucho espacio centeal desaprovechado ek esa seccion. en la seccion de \"lo que no piede hacer\" estsria bueno revisar como se posicionan losnelementos." Figma: desktop frames stacked flush, seams 96 px desktop and 64 px mobile; panel 07 copy "Una correa tejida, un módulo de sensores y una luz de estado."; goal values moved 170 px right with longer lines; limits heading and stack share one top line, bottom scrim removed. Open: the report has a 0.96 inch OLED and panel 04, the FAQ and S10 still mention the band's screen.
 - L31 (2026-11-07) "vsi, saquemos esas menciones a pantallas. en otro momento piede que se csmvie pero de momento que se quede asi, fiel al modelo conceptual." The page stays faithful to the concept render: no mention of a screen on the band, even though the report has an OLED. Changed in Figma; index.html lines for #tu-decides, panel 07 and the FAQ change when Round 2 is implemented.
 - L32 (2026-11-07) "la transicion entre las secciones de metas de diseño y oa que oe sigue nones suave, el deradado esuy evidente". All seams now follow a smoothstep curve (9 stops); goals bottom 180 px and limits top 420 px, because that joint goes from dark ground to bright sky. Implementation must use the same eased stops, not a two-stop gradient.
-- Next: user reviews Round 2 in Figma; no code until approved (L27). Then implement, then animations, transitions and shaders. Advisories left: A1, A3, A5, A7, A8, A9, A10 (stale highlight after reload on #aviso), A13. Mobile weight 1124 KB kept. DESIGN.md is gitignored. Agent worktrees remain in .claude/worktrees. Branch not pushed.
+- L33 (2026-11-07) "aprobado. no olvides agregar las animaciones y las transiciones suabes"
+- Next: writers J and P, seam check, verifier. Advisories left: A1, A3, A5, A7, A8, A9, A10 (stale highlight after reload on #aviso), A13. Mobile weight 1124 KB kept. DESIGN.md is gitignored. Agent worktrees remain in .claude/worktrees. Branch not pushed.

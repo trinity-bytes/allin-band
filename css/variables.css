@@ -21,7 +21,19 @@
   --mist-rgb: 35, 50, 41;
   --mist: rgba(var(--mist-rgb), 0.56);
   --mist-strong: rgba(var(--mist-rgb), 0.8);
+  --mist-soft: rgba(var(--mist-rgb), 0.42);
   --mist-blur: 32px;
+  --rule: rgba(255, 253, 247, 0.24);
+
+  /* Section joints: forest ground fading on a smoothstep curve, never two stops */
+  --seam-stops:
+    rgba(14, 26, 20, 1) 0%, rgba(14, 26, 20, 0.957) 12.5%, rgba(14, 26, 20, 0.844) 25%,
+    rgba(14, 26, 20, 0.684) 37.5%, rgba(14, 26, 20, 0.5) 50%, rgba(14, 26, 20, 0.316) 62.5%,
+    rgba(14, 26, 20, 0.156) 75%, rgba(14, 26, 20, 0.043) 87.5%, rgba(14, 26, 20, 0) 100%;
+  --seam-top: linear-gradient(to bottom, var(--seam-stops));
+  --seam-bottom: linear-gradient(to top, var(--seam-stops));
+  --seam-left: linear-gradient(to right, var(--seam-stops));
+  --seam-right: linear-gradient(to left, var(--seam-stops));
 
   /* Type: Host Grotesk speaks, Atkinson is read without effort */
   --font-display: "Host Grotesk", "Trebuchet MS", sans-serif;
