@@ -362,7 +362,7 @@
   var nearObserver = null;
   var frame = 0;
   var navigating = false;
-  var PANEL_GAP = 2;
+  var PANEL_GAP = 240; // Forest ground between panels (css/journey.css)
   // Vertical scroll spent on the first and last panel, in screens
   var HOLD_START = 0.9;
   var HOLD_END = 0.3;
@@ -372,7 +372,7 @@
   }
 
   function measure() {
-    // One step is a panel plus the 2px gap between panels (css/journey.css)
+    // One step is a panel plus the ground between panels
     var width = stage.clientWidth + PANEL_GAP;
     metrics.width = width;
     metrics.range = (panels.length - 1) * width;

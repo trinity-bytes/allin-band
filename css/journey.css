@@ -13,6 +13,7 @@
   --coral: #f79c7e;
   --ink: var(--forest-800);
   --pu: 1px;
+  --seam: 4rem;
 
   background-color: var(--forest-900);
 }
@@ -30,6 +31,18 @@
   overflow: clip;
   color: var(--paper);
   background-color: var(--forest-900);
+}
+
+/* Stacked joints: short fades into the ground, behind the copy */
+.panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    var(--seam-top) top / 100% var(--seam) no-repeat,
+    var(--seam-bottom) bottom / 100% var(--seam) no-repeat;
+  pointer-events: none;
 }
 
 .panel__photo {
@@ -1167,6 +1180,7 @@ img.decide__photo {
     --flow-top: calc(48 * var(--u));
     --side: calc(48 * var(--u));
     --pu: max(var(--u), 0.8px);
+    --seam: 6rem;
   }
 
   .journey.is-horizontal {
@@ -1341,7 +1355,6 @@ img.decide__photo {
   }
 
   .decide .panel__flow {
-    position: static;
     margin-top: 0;
     padding-top: var(--flow-top);
     padding-bottom: calc(64 * var(--u));
@@ -1687,11 +1700,12 @@ img.decide__photo {
     overflow: clip;
   }
 
-  /* The gap keeps neighbours from touching the viewport edge, which would
-     count as intersecting for the navbar's scroll spy */
+  /* Forest ground between panels (PANEL_GAP in js/journey.js). It also keeps
+     neighbours from touching the viewport edge, which would count as
+     intersecting for the navbar's scroll spy */
   .is-horizontal .journey__track {
     display: flex;
-    gap: 2px;
+    gap: 240px;
     height: 100%;
     will-change: transform;
   }
@@ -1700,6 +1714,28 @@ img.decide__photo {
     flex: 0 0 100%;
     height: 100%;
     min-height: 0;
+  }
+
+  /* Photos fade sideways into the ground; only the ends of the journey keep a
+     vertical joint, with the sections above and below */
+  .is-horizontal .panel::before {
+    --fade: calc(200 * var(--u));
+
+    background:
+      var(--seam-left) left / var(--fade) 100% no-repeat,
+      var(--seam-right) right / var(--fade) 100% no-repeat;
+  }
+
+  .is-horizontal .morning::before {
+    background:
+      var(--seam-top) top / 100% var(--seam) no-repeat,
+      var(--seam-right) right / var(--fade) 100% no-repeat;
+  }
+
+  .is-horizontal .band::before {
+    background:
+      var(--seam-left) left / var(--fade) 100% no-repeat,
+      var(--seam-bottom) bottom / 100% var(--seam) no-repeat;
   }
 
   .is-horizontal .journey__progress {

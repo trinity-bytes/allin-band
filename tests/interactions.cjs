@@ -132,7 +132,7 @@ const tests = {
     await page.waitForTimeout(150);
     await settle(page);
     const second = await scrollY(page);
-    const step = await page.$eval('.journey__stage', stage => stage.clientWidth + 2);
+    const step = await page.$eval('.journey__stage', stage => stage.clientWidth + 240);
     const expected = [
       [0.25, '#como-funciona'],
       [2.25, ''],
