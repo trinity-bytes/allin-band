@@ -10,7 +10,7 @@ Landing del concepto AllinBand: una pulsera que nota si algo anda mal, te pregun
 
 **Es un proyecto académico.** No es un dispositivo médico, no está a la venta y la página no recoge datos. Las cifras son objetivos de diseño del informe del curso, no resultados medidos. Las imágenes son ilustrativas.
 
-[Ver la demo](https://trinity-bytes.github.io/allin-band/)
+[Ver la demo](https://allin.jahattrinidad.com/)
 
 ![Vista de la landing](assets/images/og-image.jpg)
 
