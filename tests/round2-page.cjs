@@ -538,6 +538,60 @@ const tests = {
     }
   },
 
+  // T10 B1: the rays brightened the photo behind the title under 3:1 on phones.
+  // The glyphs are hidden, the title box is captured over several frames (the
+  // rays move), and the text colour is compared with the 2nd percentile pixel
+  'the emergency title keeps 3:1 over the moving sun rays': async browser => {
+    const luminance = (r, g, b) => {
+      const f = c => ((c /= 255) <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+      return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+    };
+    const decoder = await browser.newPage();
+    try {
+      for (const size of [[360, 640], [390, 844], [1440, 900]]) {
+        const { context, page } = await open(browser, size);
+        const color = await page.evaluate(() => {
+          const title = document.querySelector('.emergency__title');
+          title.scrollIntoView({ block: 'center', behavior: 'instant' });
+          return getComputedStyle(title).color;
+        });
+        await page.waitForTimeout(1500);
+        assert.equal(await page.locator('.emergency__rays.is-live').count(), 1, `rays live at ${size[0]}`);
+        await page.addStyleTag({ content: '.emergency__title, .emergency__title * { color: transparent !important; text-shadow: none !important; }' });
+        const clip = await box(page, '.emergency__title');
+        const [r, g, b] = color.match(/\d+/g).slice(0, 3).map(Number);
+        const text = luminance(r, g, b);
+        let worst = Infinity;
+        for (let frame = 0; frame < 4; frame++) {
+          const png = (await page.screenshot({ clip: { x: clip.left, y: clip.top, width: clip.width, height: clip.height } })).toString('base64');
+          const pixels = await decoder.evaluate(async src => {
+            const img = new Image();
+            img.src = `data:image/png;base64,${src}`;
+            await img.decode();
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            return Array.from(ctx.getImageData(0, 0, img.width, img.height).data);
+          }, png);
+          const ratios = [];
+          for (let i = 0; i < pixels.length; i += 4) {
+            const ground = luminance(pixels[i], pixels[i + 1], pixels[i + 2]);
+            ratios.push((Math.max(text, ground) + 0.05) / (Math.min(text, ground) + 0.05));
+          }
+          ratios.sort((x, y) => x - y);
+          worst = Math.min(worst, ratios[Math.floor(ratios.length * 0.02)]);
+          await page.waitForTimeout(1000);
+        }
+        assert(worst >= 3, `title contrast at ${size[0]}x${size[1]}: ${worst.toFixed(2)}`);
+        await context.close();
+      }
+    } finally {
+      await decoder.close();
+    }
+  },
+
   'the closing is 1060 px tall at 1440 with 236 px team photos': async browser => {
     const { context, page } = await open(browser, [1440, 900], { reducedMotion: 'reduce' });
     const r = await page.evaluate(() => ({
