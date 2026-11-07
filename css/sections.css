@@ -163,6 +163,15 @@
   line-height: 1.35;
 }
 
+/* Narrower frames: the copy reaches the bright side of the photo */
+@media (min-width: 48rem) and (max-width: 79.99rem) {
+  .emergency__scrim {
+    background:
+      linear-gradient(to bottom, rgba(11, 22, 16, 0.72), rgba(11, 22, 16, 0.5) 18%, rgba(11, 22, 16, 0) 30%),
+      linear-gradient(to right, rgba(11, 22, 16, 0.9), rgba(11, 22, 16, 0.74) 70%, rgba(11, 22, 16, 0.5));
+  }
+}
+
 @media (max-width: 47.99rem) {
   /* Photo on top, copy continues on the forest ground below it */
   .emergency__photo,

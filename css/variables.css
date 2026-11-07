@@ -22,7 +22,6 @@
   --mist: rgba(var(--mist-rgb), 0.56);
   --mist-strong: rgba(var(--mist-rgb), 0.8);
   --mist-blur: 32px;
-  --mist-blur-soft: 16px;
 
   /* Type: Host Grotesk speaks, Atkinson is read without effort */
   --font-display: "Host Grotesk", "Trebuchet MS", sans-serif;

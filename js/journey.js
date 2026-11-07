@@ -8,7 +8,7 @@
  *    Hover or focus on a moment selects it; the timeline also advances by
  *    itself about every 6 s while the panel is in view. Hover and focus pause
  *    it; a click, tap or arrow key hands control to the reader for good.
- * 2. Horizontal journey (sections 03 to 07): desktop, motion allowed and a tall
+ * 2. Horizontal journey (sections 03 to 07): desktop with a mouse, motion allowed and a tall
  *    enough viewport only. A sticky stage translates the track as the page
  *    scrolls down. Hash links and keyboard focus scroll the page to the
  *    vertical position that shows the target panel.
@@ -300,9 +300,17 @@
 
   if (!motion) return;
 
-  var wide = window.matchMedia("(min-width: 64rem) and (min-height: 37.5rem)");
+  var wide = window.matchMedia("(min-width: 64rem) and (min-height: 37.5rem) and (hover: hover) and (pointer: fine)");
   var horizontal = false;
   var failedAt = "";
+  var anchor = null;
+  var resizing = false;
+  var sections = Array.prototype.filter.call(
+    document.querySelectorAll("main section[id], footer[id]"),
+    function (section) {
+      return !journey.contains(section);
+    }
+  );
   var metrics = { top: 0, range: 0, width: 0 };
   var frame = 0;
   var navigating = false;
@@ -354,17 +362,38 @@
     if (!frame) frame = window.requestAnimationFrame(render);
   }
 
-  function currentIndex() {
+  /* Reading position: a panel inside the journey, or the section around the
+     middle of the screen. It is saved while scrolling because a resize has
+     already changed the layout by the time any handler can read it. */
+  function readAnchor() {
+    var middle = window.innerHeight / 2;
+    var i;
+    var r;
     if (horizontal) {
-      var p = (window.scrollY - metrics.top) / (metrics.range || 1);
-      if (p < -0.2 || p > 1.2) return -1;
-      return Math.round(Math.min(Math.max(p, 0), 1) * (panels.length - 1));
+      r = journey.getBoundingClientRect();
+      if (r.top <= middle && r.bottom > middle) {
+        var p = (window.scrollY - metrics.top) / (metrics.range || 1);
+        p = Math.min(Math.max(p, 0), 1);
+        return { progress: p, panel: Math.round(p * (panels.length - 1)) };
+      }
     }
-    for (var i = 0; i < panels.length; i += 1) {
-      var r = panels[i].getBoundingClientRect();
-      if (r.top <= window.innerHeight / 2 && r.bottom > window.innerHeight / 2) return i;
+    for (i = 0; !horizontal && i < panels.length; i += 1) {
+      r = panels[i].getBoundingClientRect();
+      if (r.top <= middle && r.bottom > middle) return { progress: i / (panels.length - 1), panel: i };
     }
-    return -1;
+    for (i = 0; i < sections.length; i += 1) {
+      r = sections[i].getBoundingClientRect();
+      if (r.top <= middle && r.bottom > middle) return { section: sections[i], offset: r.top };
+    }
+    return null;
+  }
+
+  function restoreAnchor() {
+    var top;
+    if (anchor.section) top = window.scrollY + anchor.section.getBoundingClientRect().top - anchor.offset;
+    else if (horizontal) top = metrics.top + anchor.progress * metrics.range;
+    else top = panels[anchor.panel].getBoundingClientRect().top + window.scrollY;
+    window.scrollTo({ top: top, behavior: "instant" });
   }
 
   function scrollToPanel(i, behavior) {
@@ -402,7 +431,7 @@
   }
 
   function sync() {
-    var keep = currentIndex();
+    var wasHorizontal = horizontal;
     var want = wide.matches && failedAt !== sizeKey();
     if (want && !horizontal) {
       enable();
@@ -419,7 +448,9 @@
         disable();
       }
     }
-    if (keep >= 0) scrollToPanel(keep, "instant");
+    // A stacked page keeps its place by itself; restoring would fight the
+    // resize that mobile browsers fire when the address bar moves
+    if (anchor && (horizontal || wasHorizontal)) restoreAnchor();
     request();
   }
 
@@ -461,9 +492,21 @@
 
   var resizeTimer = 0;
   window.addEventListener("resize", function () {
+    resizing = true;
     window.clearTimeout(resizeTimer);
-    resizeTimer = window.setTimeout(sync, 120);
+    resizeTimer = window.setTimeout(function () {
+      sync();
+      resizing = false;
+      anchor = readAnchor();
+    }, 120);
   });
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (!resizing) anchor = readAnchor();
+    },
+    { passive: true }
+  );
   if (wide.addEventListener) wide.addEventListener("change", sync);
 
   // Content above the journey can change height (fonts, images)
@@ -478,9 +521,11 @@
 
   sync();
   followHash();
+  anchor = readAnchor();
   window.addEventListener("load", function () {
     if (horizontal) measure();
     followHash();
     request();
+    anchor = readAnchor();
   });
 })();

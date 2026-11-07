@@ -253,6 +253,45 @@
   }
 }
 
+/* Large browser text on a phone: the layers stop overlapping and the page
+   flows, with the disclosure first so it stays in the first viewport */
+@media (max-width: 19.99em) {
+  .hero {
+    --title-top: 1rem;
+    --band: 70vw;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero__bottom {
+    display: contents;
+  }
+
+  .hero__bottom > * {
+    position: relative;
+    z-index: 8;
+  }
+
+  .hero__disclosure {
+    order: -1;
+    margin: var(--gap-2) var(--gutter) 0;
+  }
+
+  .hero__band {
+    position: relative;
+    top: auto;
+    left: auto;
+    align-self: center;
+    margin-top: var(--gap-4);
+    transform: none;
+  }
+
+  .hero__bottom > div {
+    padding: var(--gap-4) var(--gutter) var(--gap-6);
+  }
+}
+
 /* ---------------------------------------------------------------
  * Motion
  * Staged entrance once the first images are decoded, then depth:

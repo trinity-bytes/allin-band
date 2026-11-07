@@ -83,6 +83,7 @@ node tests/skip-link.cjs   # el primer Tab llega a «Saltar al contenido»
 node tests/reflow.cjs      # texto de 28 px a 360 px sin scroll horizontal
 node tests/sections.cjs    # secciones 02, 08, 09, 10, sin JS y FAQ por teclado
 node tests/journey.cjs     # recorrido horizontal, anclas, teclado y pulso
+node tests/interactions.cjs # posición al redimensionar, navbar activo, enlaces finales y texto grande
 ```
 
 ## Equipo

@@ -61,7 +61,8 @@
   );
   syncNavbar();
 
-  // Active section: the one crossing the band below the navbar
+  // Active section: the one crossing a small area below the navbar, at the
+  // horizontal center so a journey panel counts only once it fills the screen
   var linkBySection = {};
   links.forEach(function (link) {
     linkBySection[link.getAttribute("href").slice(1)] = link;
@@ -81,10 +82,10 @@
           if (entry.isIntersecting) setActive(entry.target.id);
         });
       },
-      { rootMargin: "-30% 0px -65% 0px" }
+      { rootMargin: "-30% -49% -65% -49%" }
     );
 
-    document.querySelectorAll("main section[id]").forEach(function (section) {
+    document.querySelectorAll("main section[id], footer[id]").forEach(function (section) {
       spy.observe(section);
     });
   }

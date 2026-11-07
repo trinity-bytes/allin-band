@@ -100,8 +100,8 @@ strong {
 /* Mist: the project's own surface, only over photos */
 .mist {
   background-color: var(--mist);
-  -webkit-backdrop-filter: blur(var(--mist-blur-soft));
-  backdrop-filter: blur(var(--mist-blur-soft));
+  -webkit-backdrop-filter: blur(var(--mist-blur));
+  backdrop-filter: blur(var(--mist-blur));
 }
 
 /* Buttons: one solid paper pill */

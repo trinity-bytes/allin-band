@@ -152,3 +152,35 @@
     min-height: 3rem;
   }
 }
+
+/* Large browser text on a phone: a fixed bar would cover the page, so it flows */
+@media (max-width: 19.99em) {
+  .navbar,
+  .navbar.is-scrolled {
+    position: relative;
+    background-color: var(--forest-900);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .navbar__row,
+  .navbar.is-scrolled .navbar__row {
+    flex-wrap: nowrap;
+    gap: var(--gap-2);
+    padding-block: 0.25rem;
+  }
+
+  .brand {
+    gap: 0.25rem;
+    font-size: 1.0625rem;
+  }
+
+  .brand__mark {
+    width: 1.0625rem;
+    height: 1.0625rem;
+  }
+
+  .nav-toggle {
+    padding-inline: 0.25rem;
+  }
+}
