@@ -89,7 +89,9 @@
   var stage = limits && limits.querySelector(".limits__stage");
   var cards = limits ? Array.prototype.slice.call(limits.querySelectorAll(".limit")) : [];
   var phone = window.matchMedia("(max-width: 47.99rem)");
-  var LIFT_PER_CARD = 0.6; // screens of scroll per lifted card
+  // Each card first holds still so it can be read, then lifts away (L38)
+  var HOLD_PER_CARD = 0.45; // screens of scroll before a card starts to move
+  var LIFT_PER_CARD = 0.6; // screens of scroll while it lifts
   var stackFrame = 0;
 
   function clamp(value, min, max) {
@@ -101,7 +103,10 @@
     if (!limits.classList.contains("is-stacked")) return;
     var steps = cards.length - 1;
     var span = limits.offsetHeight - stage.offsetHeight;
-    var progress = span > 0 ? clamp(-limits.getBoundingClientRect().top / span, 0, 1) * steps : 0;
+    var unit = HOLD_PER_CARD + LIFT_PER_CARD;
+    var screens = span > 0 ? clamp(-limits.getBoundingClientRect().top / span, 0, 1) * steps * unit : 0;
+    var lifted = Math.min(Math.floor(screens / unit), steps);
+    var progress = Math.min(lifted + clamp((screens - lifted * unit - HOLD_PER_CARD) / LIFT_PER_CARD, 0, 1), steps);
     // The list's top padding holds two steps; each card behind is 36 px
     // narrower at 1440 (28 px step), 20 px on a phone (20 px step)
     var step = parseFloat(getComputedStyle(cards[0].parentNode).paddingTop) / 2 || 0;
@@ -133,7 +138,7 @@
   }
 
   function syncStack() {
-    limits.style.setProperty("--lift-span", LIFT_PER_CARD * 100 * (cards.length - 1) + "vh");
+    limits.style.setProperty("--lift-span", (HOLD_PER_CARD + LIFT_PER_CARD) * 100 * (cards.length - 1) + "vh");
     limits.classList.add("is-stacked");
     // The stage holds the heading and the stack; on a short screen it would not fit
     // (measured on the copy: the grass layers overflow the stage on purpose)
