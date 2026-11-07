@@ -287,3 +287,32 @@
     font-size: 0.875rem;
   }
 }
+
+/* ---------------------------------------------------------------
+ * Motion (js/closing.js)
+ * Desktop: scroll-linked and pointer depth, written as `transform`.
+ * Touch: one reveal through `translate`, so the two never fight.
+ * ------------------------------------------------------------- */
+
+/* Bleed so the lifted and drifting landscape never shows its edge */
+.motion .closing__landscape {
+  inset: -1rem -1rem -7rem;
+}
+
+.closing--depth :is(.closing__landscape, .closing__wordmark, .closing__grass-mid, .closing__grass-near) {
+  will-change: transform;
+}
+
+.motion .closing:not(.closing--depth) .closing__wordmark {
+  translate: 0 32%;
+  transition: translate 1400ms var(--ease-out);
+}
+
+.motion .closing:not(.closing--depth) .closing__grass-near {
+  translate: 0 -5.25rem;
+  transition: translate 1400ms var(--ease-out);
+}
+
+.motion .closing--in:not(.closing--depth) :is(.closing__wordmark, .closing__grass-near) {
+  translate: 0 0;
+}
