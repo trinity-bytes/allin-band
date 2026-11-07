@@ -9,7 +9,7 @@
       content="AllinBand es el concepto de una pulsera que vigila tus signos vitales y te pregunta si estás bien antes de avisar a tu familia. Proyecto académico de Vivessence, UPC 2025."
     />
     <meta name="author" content="Vivessence" />
-    <meta name="theme-color" content="#2c2392" />
+    <meta name="theme-color" content="#0e1a14" />
     <link rel="canonical" href="https://trinity-bytes.github.io/allin-band/" />
 
     <meta property="og:type" content="website" />
@@ -30,447 +30,163 @@
     <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
 
     <link rel="preload" href="assets/fonts/atkinson-hyperlegible-next-latin.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="assets/fonts/bricolage-grotesque-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/host-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
 
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/chat.css" />
-    <link rel="stylesheet" href="css/sections.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+    <link rel="stylesheet" href="css/hero.css" />
+    <link rel="stylesheet" href="css/closing.css" />
 
-    <!-- Sin JS la conversación completa queda visible; con JS se reproduce -->
+    <!-- Without JS every section stays visible and static -->
     <script>document.documentElement.classList.add("js");</script>
   </head>
   <body>
-    <svg class="sprite" aria-hidden="true" focusable="false">
-      <symbol id="i-tick" viewBox="0 0 16 12"><path d="M1.5 6.5 5.5 10.5 14.5 1.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></symbol>
-      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M9 3h6l-1 6 4 4v2h-5v6l-1 1-1-1v-6H6v-2l4-4Z" fill="currentColor" /></symbol>
-      <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 19V6M6 12l6-6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></symbol>
-      <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l5 5v13H6ZM14 3v5h5M9 13h7M9 17h7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></symbol>
-      <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></symbol>
-      <symbol id="i-mark" viewBox="0 0 64 64"><path d="M30.2 51.7A22 22 0 1 0 18.4 45.6L10 58Z" fill="none" stroke="currentColor" stroke-width="8.5" stroke-linejoin="round" /><circle cx="49.6" cy="14.4" r="8" fill="#ffc53d" /></symbol>
-    </svg>
-
     <a class="skip-link" href="#contenido">Saltar al contenido</a>
 
-    <header class="chat-header" id="top">
-      <div class="chat-header__row">
+    <header class="navbar" id="top">
+      <div class="navbar__row">
         <a class="brand" href="#inicio">
-          <svg class="brand__mark" aria-hidden="true"><use href="#i-mark" /></svg>
-          <span class="brand__text">
-            <span class="brand__name">AllinBand</span>
-            <span class="brand__by">Tú, Ana, Luis y Marta</span>
-          </span>
+          <svg class="brand__mark" viewBox="0 0 25 25" aria-hidden="true" focusable="false">
+            <path d="M20 12.5a8.54 8.54 0 1 1-17.08 0 8.54 8.54 0 0 1 17.08 0Z" fill="none" stroke="#fffdf7" stroke-width="3.54" />
+            <circle cx="20" cy="12.5" r="3.54" fill="#f0b65a" />
+          </svg>
+          AllinBand
         </a>
 
-        <button
-          class="nav-toggle"
-          id="navToggle"
-          type="button"
-          aria-controls="navMenu"
-          aria-expanded="false"
-        >
-          Menú
-        </button>
+        <button class="nav-toggle" id="navToggle" type="button" aria-controls="navMenu" aria-expanded="false">Menú</button>
 
         <nav class="nav" id="navMenu" aria-label="Secciones">
           <a class="nav__link" href="#como-funciona">Cómo funciona</a>
-          <a class="nav__link" href="#familia">Familia</a>
-          <a class="nav__link" href="#app">App</a>
+          <a class="nav__link" href="#pulsera">La pulsera</a>
+          <a class="nav__link" href="#app">La app</a>
           <a class="nav__link" href="#limites">Límites</a>
           <a class="nav__link" href="#preguntas">Preguntas</a>
+          <a class="btn nav__demo" href="#tu-decides">Probar el demo</a>
         </nav>
       </div>
     </header>
 
-    <aside class="pinned" aria-label="Mensaje fijado">
-      <div class="pinned__row">
-        <svg class="pinned__icon" aria-hidden="true"><use href="#i-pin" /></svg>
-        <p>
-          <strong>Prototipo académico.</strong> No es un dispositivo médico, no
-          está a la venta y esta página no te pide ningún dato.
-          <a href="#proyecto">Sobre el proyecto</a>
-        </p>
-      </div>
-    </aside>
-
     <main id="contenido">
-      <!-- La alerta: la pregunta es la acción principal de la página -->
-      <section class="wall wall--indigo hero" id="inicio">
-        <div class="hero__grid">
-          <div class="msg msg--in hero__ask">
-            <p class="msg__meta">
-              <span class="msg__from">Tu pulsera</span>
-              <span class="msg__time">08:14</span>
-            </p>
-            <h1 class="hero__title">
-              <span class="hero__question">¿Estás bien?</span>
-              <span class="hero__claim">Antes de avisar a tu familia, AllinBand te pregunta a ti.</span>
-            </h1>
+      <section class="hero" id="inicio" aria-labelledby="hero-title">
+        <picture class="hero__layer hero__landscape">
+          <source media="(max-width: 47.99rem)" srcset="assets/images/web/landscape-1280.webp" />
+          <img src="assets/images/web/landscape-2560.webp" alt="" width="2560" height="1707" fetchpriority="high" />
+        </picture>
+        <div class="hero__layer hero__sky"></div>
+
+        <h1 class="hero__title" id="hero-title">Una pulsera que te cuida</h1>
+
+        <picture class="hero__layer hero__band">
+          <source media="(max-width: 47.99rem)" srcset="assets/images/web/band-800.webp" />
+          <img src="assets/images/web/band-1600.webp" alt="Pulsera AllinBand con correa tejida negra y módulo de sensores gris. Imagen ilustrativa." width="1600" height="1600" fetchpriority="high" />
+        </picture>
+        <picture class="hero__layer hero__grass-mid">
+          <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-mid-1280.webp" />
+          <img src="assets/images/web/grass-mid-2560.webp" alt="" width="2560" height="853" />
+        </picture>
+        <!-- Mobile hides the near grass; the empty source keeps it from downloading -->
+        <picture class="hero__layer hero__grass-near">
+          <source media="(max-width: 47.99rem)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+          <img src="assets/images/web/grass-near-2560.webp" alt="" width="2560" height="853" />
+        </picture>
+        <div class="hero__layer hero__scrim"></div>
+
+        <div class="hero__layer hero__callouts">
+          <svg class="hero__lines" viewBox="0 0 720 720" aria-hidden="true" focusable="false">
+            <g fill="none" stroke="#fffdf7" stroke-width="1.5">
+              <path d="M552 229H640L686 273H700" />
+              <path d="M441.6 358H700" stroke="#f6f1e6" />
+              <path d="M-58 386.5H120" stroke="#f6f1e6" />
+            </g>
+            <g fill="#f6f1e6">
+              <circle cx="552" cy="228" r="5" />
+              <circle cx="441.6" cy="357.6" r="5" />
+              <circle cx="120" cy="386.5" r="5" />
+            </g>
+          </svg>
+          <ul aria-label="Partes de la pulsera">
+            <li class="callout callout--a mist">Vigila pulso, oxígeno y temperatura</li>
+            <li class="callout callout--b mist">Te pregunta antes de avisar</li>
+            <li class="callout callout--c mist">Correa tejida y ajustable</li>
+          </ul>
+        </div>
+
+        <div class="hero__bottom">
+          <div>
             <p class="hero__intro">
-              Es el concepto de una pulsera que vigila tus signos vitales.
-              <span class="js-only">Responde y mira qué pasa.</span>
+              AllinBand es el concepto de una pulsera que nota si algo anda mal, te pregunta si estás bien y, si no respondes, avisa a tu familia.
             </p>
-            <div class="replies js-only" id="demoReplies">
-              <button class="btn btn--primary" type="button" data-path="ok">Estoy bien</button>
-              <button class="btn btn--ghost" type="button" data-path="alert">No puedo responder</button>
-            </div>
+            <a class="btn hero__cta" href="#como-funciona">Ver cómo funciona</a>
           </div>
-
-          <figure class="msg msg--out msg--photo hero__photo">
-            <img
-              src="assets/images/band-cutout.webp"
-              alt="Pulsera AllinBand: correa tejida negra con un módulo metálico y una luz de estado."
-              width="900"
-              height="1125"
-              fetchpriority="high"
-            />
-            <figcaption>Tu pulsera, en este concepto. Imagen ilustrativa.</figcaption>
-          </figure>
-        </div>
-
-        <p class="sys sys--note">Conversación de ejemplo: nombres, datos y tiempos son ficticios.</p>
-
-        <div class="thread-col thread-col--demo">
-          <ol class="thread" id="demoThread" tabindex="-1" aria-label="Conversación de ejemplo" aria-live="polite">
-            <li class="sys" data-wait="900">No respondiste en 10 segundos. Tiempo de ejemplo.</li>
-            <li data-wait="1800">
-              <div class="msg msg--in" id="noticeAna">
-                <p class="msg__meta"><span class="msg__from">AllinBand</span><span class="msg__time">08:15</span></p>
-                <p>Aviso a <strong>Ana</strong>, tu primer contacto. Le mando tus datos y dónde estás.</p>
-                <dl class="vitals">
-                  <div><dt>Pulso</dt><dd>124 <small>lpm</small></dd></div>
-                  <div><dt>Oxígeno</dt><dd>91 <small>%</small></dd></div>
-                  <div><dt>Temperatura</dt><dd>37,2 <small>°C</small></dd></div>
-                </dl>
-                <p class="msg__status">
-                  <svg class="tick" aria-hidden="true"><use href="#i-tick" /></svg>
-                  Enviado. Ana todavía no confirma.
-                </p>
-              </div>
-            </li>
-            <li data-wait="2200">
-              <figure class="msg msg--in msg--map">
-                <svg viewBox="0 0 320 150" role="img" aria-label="Mapa de ejemplo con tu última ubicación marcada">
-                  <rect width="320" height="150" fill="#dcd7ff" />
-                  <path d="M0 40h320M0 104h320M72 0v150M196 0v150M262 0v150" stroke="#fff" stroke-width="10" />
-                  <path d="M0 150 150 0" stroke="#fff" stroke-width="14" />
-                  <rect x="86" y="54" width="96" height="36" rx="4" fill="#c8c1fb" />
-                  <path d="M214 34a15 15 0 0 1 15 15c0 11-15 27-15 27s-15-16-15-27a15 15 0 0 1 15-15Z" fill="#3a2fb0" />
-                  <circle cx="214" cy="49" r="5.5" fill="#ffc53d" />
-                </svg>
-                <figcaption>Última ubicación. Mapa de ejemplo.</figcaption>
-              </figure>
-            </li>
-            <li class="sys" data-wait="2600">Ana no confirmó a tiempo.</li>
-            <li data-wait="1800">
-              <div class="msg msg--in is-read" id="noticeLuis">
-                <p class="msg__meta"><span class="msg__from">AllinBand</span><span class="msg__time">08:17</span></p>
-                <p>Paso al siguiente: aviso a <strong>Luis</strong>, tu segundo contacto.</p>
-                <p class="msg__status">
-                  <svg class="tick" aria-hidden="true"><use href="#i-tick" /></svg>
-                  <svg class="tick tick--second" aria-hidden="true"><use href="#i-tick" /></svg>
-                  <span class="status-sent">Enviado.</span>
-                  <span class="status-read">Luis confirmó.</span>
-                </p>
-              </div>
-            </li>
-            <li data-wait="2600" data-marks="noticeLuis">
-              <div class="msg msg--in msg--person">
-                <p class="msg__meta"><span class="msg__from">Luis</span><span class="msg__time">08:17</span></p>
-                <p>Recibido. Voy para allá.</p>
-              </div>
-            </li>
-            <li data-wait="1800">
-              <div class="msg msg--in">
-                <p class="msg__meta"><span class="msg__from">AllinBand</span><span class="msg__time">08:18</span></p>
-                <p>Luis respondió. Dejo de escalar y guardo lo ocurrido en tu historial.</p>
-              </div>
-            </li>
-          </ol>
-
-          <template id="demoOk">
-            <li data-wait="500">
-              <div class="msg msg--out">
-                <p class="msg__meta"><span class="msg__from">Tú</span><span class="msg__time">08:14</span></p>
-                <p>Estoy bien.</p>
-              </div>
-            </li>
-            <li data-wait="1600">
-              <div class="msg msg--in">
-                <p class="msg__meta"><span class="msg__from">AllinBand</span><span class="msg__time">08:14</span></p>
-                <p>Listo, no avisé a nadie. Tu familia no recibe nada y tú sigues con tu día.</p>
-              </div>
-            </li>
-            <li class="sys" data-wait="1600">Una falsa alarma se cancela desde la pulsera, sin dar explicaciones.</li>
-          </template>
-
-                    <div class="replies replies--end" id="demoEnd" hidden>
-            <button class="btn btn--light" type="button" id="demoReplay">Probar la otra respuesta</button>
-            <a class="btn btn--line" href="#como-funciona">Ver cómo funciona</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="wall wall--lilac" id="como-funciona">
-        <div class="thread-col">
-          <h2 class="day">Una mañana cualquiera</h2>
-
-          <div class="stack">
-            <p class="sys">Mide, sin que hagas nada</p>
-            <div class="msg msg--in">
-              <p class="msg__meta"><span class="msg__from">Tu pulsera</span><span class="msg__time">06:30</span></p>
-              <p>Buenos días. Pasaste la noche con el pulso, el oxígeno y la temperatura normales.</p>
-            </div>
-
-            <p class="sys">Compara con tus días normales</p>
-            <div class="msg msg--in">
-              <p class="msg__meta"><span class="msg__from">Tu pulsera</span><span class="msg__time">07:40</span></p>
-              <p>Caminaste rápido y el pulso subió. Para ti eso es normal, así que no hago nada.</p>
-            </div>
-
-            <p class="sys">Pregunta antes de avisar</p>
-            <div class="msg msg--in">
-              <p class="msg__meta"><span class="msg__from">Tu pulsera</span><span class="msg__time">08:14</span></p>
-              <p>Llevas 10 minutos en reposo con el pulso alto. Eso no es habitual en ti. ¿Estás bien?</p>
-            </div>
-            <div class="msg msg--out">
-              <p class="msg__meta"><span class="msg__from">Tú</span><span class="msg__time">08:14</span></p>
-              <p>¿Y si no contesto?</p>
-            </div>
-            <div class="msg msg--in">
-              <p class="msg__meta"><span class="msg__from">Tu pulsera</span><span class="msg__time">08:14</span></p>
-              <p>Aviso a tus contactos, en orden, con tus datos y tu ubicación.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="wall wall--marigold" id="familia">
-        <div class="thread-col">
-          <h2 class="day">Del lado de la familia</h2>
-
-          <div class="family">
-            <div class="stack">
-              <p class="sys">Ahora lees como Ana, la hija.</p>
-              <div class="msg msg--out msg--indigo">
-                <p class="msg__meta"><span class="msg__from">Tú</span><span class="msg__time">19:02</span></p>
-                <p>¿Cómo voy a saber si a mi mamá le pasa algo?</p>
-              </div>
-              <div class="msg msg--in">
-                <p class="msg__meta"><span class="msg__from">AllinBand</span><span class="msg__time">19:02</span></p>
-                <p>Te llega un aviso con sus signos vitales, qué fue lo raro y dónde está.</p>
-              </div>
-              <div class="msg msg--out msg--indigo">
-                <p class="msg__meta"><span class="msg__from">Tú</span><span class="msg__time">19:03</span></p>
-                <p>¿Y si estoy en una reunión y no lo veo?</p>
-              </div>
-              <div class="msg msg--in">
-                <p class="msg__meta"><span class="msg__from">AllinBand</span><span class="msg__time">19:03</span></p>
-                <blockquote class="quote">¿Y si estoy en una reunión y no lo veo?</blockquote>
-                <p>Si no confirmas, paso al siguiente de la lista.</p>
-              </div>
-              <div class="msg msg--in msg--mom">
-                <p class="msg__meta"><span class="msg__from">Mamá</span><span class="msg__time">19:05</span></p>
-                <p>¿Y si solo subí las escaleras rápido? No quiero asustar a nadie.</p>
-              </div>
-              <div class="msg msg--in">
-                <p class="msg__meta"><span class="msg__from">AllinBand</span><span class="msg__time">19:05</span></p>
-                <p>Primero te pregunto a ti. Cancelas desde la pulsera y nadie se entera.</p>
-              </div>
-            </div>
-
-            <div class="msg msg--in family__members">
-              <p class="msg__meta"><span class="msg__from">Participantes de ejemplo</span></p>
-              <h3>En orden de aviso</h3>
-              <ol class="chain">
-                <li><span class="avatar" aria-hidden="true">A</span> Ana, hija</li>
-                <li><span class="avatar" aria-hidden="true">L</span> Luis, hijo</li>
-                <li><span class="avatar" aria-hidden="true">M</span> Marta, vecina</li>
-              </ol>
-              <p>Tú eliges el orden. Hasta 5 personas.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="wall wall--indigo" id="app">
-        <div class="thread-col">
-          <h2 class="day">La app</h2>
-
-          <div class="stack">
-            <p class="sys">Pantallas de concepto con datos de ejemplo. La app no existe todavía.</p>
-
-            <figure class="msg msg--in msg--screen">
-              <p class="msg__meta"><span class="msg__from msg__from--luis">Luis</span><span class="msg__time">20:10</span></p>
-              <figcaption>Así veo a mamá desde la app, sin tener que llamarla.</figcaption>
-              <div class="screen">
-                <p class="screen__title">Mamá, ahora</p>
-                <dl class="vitals">
-                  <div><dt>Pulso</dt><dd>72 <small>lpm</small></dd></div>
-                  <div><dt>Oxígeno</dt><dd>97 <small>%</small></dd></div>
-                  <div><dt>Temperatura</dt><dd>36,5 <small>°C</small></dd></div>
-                </dl>
-              </div>
-            </figure>
-
-            <div class="msg msg--out">
-              <p class="msg__meta"><span class="msg__from">Tú</span><span class="msg__time">20:11</span></p>
-              <p>¿Y cuando hay una alerta?</p>
-            </div>
-
-            <figure class="msg msg--in msg--screen">
-              <p class="msg__meta"><span class="msg__from msg__from--luis">Luis</span><span class="msg__time">20:11</span></p>
-              <figcaption>Sale dónde está, qué pasó y qué centro de salud queda cerca.</figcaption>
-              <div class="screen screen--alert">
-                <p class="screen__title">Alerta activa</p>
-                <svg viewBox="0 0 320 130" role="img" aria-label="Mapa de ejemplo con la ubicación y un centro de salud cercano">
-                  <rect width="320" height="130" rx="10" fill="#dcd7ff" />
-                  <path d="M0 38h320M0 92h320M84 0v130M228 0v130" stroke="#fff" stroke-width="9" />
-                  <circle cx="150" cy="64" r="12" fill="#3a2fb0" />
-                  <circle cx="150" cy="64" r="5" fill="#ffc53d" />
-                  <path d="M264 20h24v24h-24zM276 25v14M269 32h14" fill="#fff" stroke="#b3261e" stroke-width="2.6" />
-                </svg>
-                <p><strong>Pulso 124 lpm.</strong> Clínica a 600 m.</p>
-              </div>
-            </figure>
-
-            <div class="msg msg--out">
-              <p class="msg__meta"><span class="msg__from">Tú</span><span class="msg__time">20:12</span></p>
-              <p>¿Y para la consulta con la doctora?</p>
-            </div>
-
-            <figure class="msg msg--in msg--screen">
-              <p class="msg__meta"><span class="msg__from msg__from--luis">Luis</span><span class="msg__time">20:12</span></p>
-              <figcaption>El historial por semanas se le puede compartir.</figcaption>
-              <div class="screen">
-                <p class="screen__title">Pulso en reposo, últimos 7 días</p>
-                <svg viewBox="0 0 320 150" role="img" aria-label="Gráfico de ejemplo: el pulso en reposo se mantiene entre 68 y 74 latidos por minuto durante la semana">
-                  <g font-family="inherit" font-size="13" fill="#453f73">
-                    <text x="0" y="30">80</text><text x="0" y="74">70</text><text x="0" y="118">60</text>
-                    <text x="34" y="144">L</text><text x="78" y="144">M</text><text x="122" y="144">M</text><text x="166" y="144">J</text><text x="210" y="144">V</text><text x="254" y="144">S</text><text x="298" y="144">D</text>
-                  </g>
-                  <path d="M26 26h290M26 70h290M26 114h290" stroke="#dcd7ff" stroke-width="2" />
-                  <polyline points="38,74 82,62 126,70 170,56 214,66 258,52 302,60" fill="none" stroke="#3a2fb0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
-                  <circle cx="302" cy="60" r="6" fill="#ffc53d" stroke="#3a2fb0" stroke-width="3" />
-                </svg>
-              </div>
-            </figure>
-          </div>
-        </div>
-      </section>
-
-      <section class="wall wall--lilac-deep" id="limites">
-        <div class="thread-col">
-          <h2 class="day">Lo que no puede hacer</h2>
-
-          <div class="stack">
-            <div class="msg msg--in">
-              <p class="msg__meta"><span class="msg__from">Vivessence, el equipo</span></p>
-              <p>Mientras carga, unas 2 horas al día, no está en tu muñeca y no te vigila.</p>
-            </div>
-            <div class="msg msg--in">
-              <p>Para avisar a tus contactos necesita tu celular cerca o una red WiFi configurada.</p>
-            </div>
-            <div class="msg msg--in">
-              <p>No diagnostica ni reemplaza a un médico. En una emergencia evidente, llama tú a los servicios de emergencia.</p>
-            </div>
-            <div class="msg msg--in msg--doc">
-              <p>Y estas son las metas del diseño. Son objetivos del concepto, no resultados medidos.</p>
-              <div class="doc">
-                <h3 class="doc__title">
-                  <svg aria-hidden="true"><use href="#i-doc" /></svg>
-                  Objetivos de diseño
-                </h3>
-                <dl class="goals">
-                  <div><dt>Batería</dt><dd>24 h por carga</dd></div>
-                  <div><dt>Aviso a contactos</dt><dd>5 s o menos</dd></div>
-                  <div><dt>Servicio disponible</dt><dd>99,5 % del tiempo</dd></div>
-                  <div><dt>Agua</dt><dd>IPX7: lavarse, ducharse, lluvia</dd></div>
-                  <div><dt>Datos</dt><dd>Cifrados al enviarse y guardarse</dd></div>
-                  <div><dt>Acceso a la app</dt><dd>PIN o huella</dd></div>
-                  <div><dt>Celulares</dt><dd>Android 10+ e iOS 14+</dd></div>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="wall wall--pale" id="preguntas">
-        <div class="thread-col">
-          <h2 class="day">Lo que la gente pregunta</h2>
-
-          <div class="faq">
-            <details class="faq__item">
-              <summary class="msg msg--out">¿Qué pasa si es una falsa alarma?<svg class="faq__chevron" aria-hidden="true"><use href="#i-chevron" /></svg></summary>
-              <p class="msg msg--in">La pulsera te alerta primero con sonido y vibración. Tienes unos segundos para cancelar desde la misma pulsera, antes de que se avise a nadie.</p>
-            </details>
-            <details class="faq__item">
-              <summary class="msg msg--out">¿Tengo que tener el celular siempre cerca?<svg class="faq__chevron" aria-hidden="true"><use href="#i-chevron" /></svg></summary>
-              <p class="msg msg--in">Para medir, no: la pulsera guarda tus datos sola. Para avisar a tus contactos, sí: necesita tu celular por Bluetooth o una red WiFi configurada.</p>
-            </details>
-            <details class="faq__item">
-              <summary class="msg msg--out">¿Cuánto dura la batería?<svg class="faq__chevron" aria-hidden="true"><use href="#i-chevron" /></svg></summary>
-              <p class="msg msg--in">El objetivo es que dure hasta 24 horas y cargue en unas 2 horas, con un aviso cuando baje del 20 %. Mientras carga no te vigila, por eso conviene hacerlo en un momento tranquilo y acompañado.</p>
-            </details>
-            <details class="faq__item">
-              <summary class="msg msg--out">¿Se puede mojar?<svg class="faq__chevron" aria-hidden="true"><use href="#i-chevron" /></svg></summary>
-              <p class="msg msg--in">El diseño apunta a la norma IPX7, pensada para aguantar hasta 1 metro de agua durante 30 minutos. La idea es que puedas lavarte las manos, ducharte o salir con lluvia.</p>
-            </details>
-            <details class="faq__item">
-              <summary class="msg msg--out">¿Cómo aprende de mí?<svg class="faq__chevron" aria-hidden="true"><use href="#i-chevron" /></svg></summary>
-              <p class="msg msg--in">Durante las primeras semanas registraría tus valores normales. Con eso ajustaría a partir de qué punto preguntarte, para reducir las falsas alarmas.</p>
-            </details>
-            <details class="faq__item">
-              <summary class="msg msg--out">¿Cuántos contactos puedo poner?<svg class="faq__chevron" aria-hidden="true"><use href="#i-chevron" /></svg></summary>
-              <p class="msg msg--in">Hasta 5, en el orden que elijas. Si el primero no confirma a tiempo, la alerta pasa al siguiente de la lista.</p>
-            </details>
-            <details class="faq__item">
-              <summary class="msg msg--out">¿Dónde la puedo comprar?<svg class="faq__chevron" aria-hidden="true"><use href="#i-chevron" /></svg></summary>
-              <p class="msg msg--in">En ningún lado: AllinBand es un proyecto académico y no se vende. Esta página presenta la idea.</p>
-            </details>
-          </div>
-        </div>
-      </section>
-
-      <section class="wall wall--indigo closing" id="proyecto">
-        <div class="thread-col">
-          <h2 class="day">Quién está detrás</h2>
-
-          <div class="stack">
-            <p class="sys">Vivessence creó este grupo para el curso Arquitectura de Computadoras, UPC 2025.</p>
-            <div class="msg msg--in">
-              <p class="msg__meta"><span class="msg__from">Vivessence, el equipo</span></p>
-              <p>El código de esta página está abierto:<br /><a href="https://github.com/trinity-bytes/allin-band" rel="noopener">github.com/trinity-bytes/allin-band</a></p>
-            </div>
-
-            <div class="msg msg--in closing__ask">
-              <p class="msg__meta">
-                <span class="msg__from">Tu pulsera</span>
-                <span class="msg__time">08:14</span>
-              </p>
-              <p class="closing__question">¿Estás bien?</p>
-              <div class="replies js-only">
-                <button class="btn btn--primary" type="button" data-path="ok">Estoy bien</button>
-                <button class="btn btn--ghost" type="button" data-path="alert">No puedo responder</button>
-              </div>
-            </div>
-          </div>
+          <p class="hero__disclosure mist">
+            Prototipo académico de Vivessence, UPC 2025. No es un dispositivo médico ni está a la venta. Imágenes ilustrativas.
+          </p>
         </div>
       </section>
     </main>
 
-    <footer class="footer">
-      <p>© 2025 Vivessence. Proyecto académico sin fines comerciales.</p>
+    <footer class="closing" id="proyecto" aria-labelledby="project-title">
+      <picture class="closing__layer closing__landscape">
+        <source media="(max-width: 47.99rem)" srcset="assets/images/web/landscape-1280.webp" />
+        <img src="assets/images/web/landscape-2560.webp" alt="" width="2560" height="1707" loading="lazy" />
+      </picture>
+      <div class="closing__layer closing__scrim"></div>
+      <div class="closing__layer closing__scrim-copy"></div>
+
+      <section class="project">
+        <div class="project__text">
+          <h2 class="project__title" id="project-title">Quién está detrás</h2>
+          <div class="project__copy">
+            <p>
+              Somos cuatro estudiantes de Ingeniería de Software de la UPC. Creamos AllinBand en el curso Arquitectura de Computadoras, ciclo 2025-II, con el docente José Gustavo Espinoza Landa. El código de esta página está abierto.
+            </p>
+            <a class="project__repo" href="https://github.com/trinity-bytes/allin-band" rel="noopener">github.com/trinity-bytes/allin-band</a>
+          </div>
+        </div>
+
+        <ul class="team" aria-label="Equipo">
+          <li class="member">
+            <img src="assets/images/web/tamara-640.webp" alt="" width="640" height="640" loading="lazy" />
+            <p class="member__caption"><span class="member__name">Tamara Guzman</span><span class="member__role">Ideas y creatividad</span></p>
+          </li>
+          <li class="member">
+            <img src="assets/images/web/mariana-640.webp" alt="" width="640" height="640" loading="lazy" />
+            <p class="member__caption"><span class="member__name">Mariana Morocho</span><span class="member__role">Organización y comunicación</span></p>
+          </li>
+          <li class="member">
+            <img src="assets/images/web/fabrizio-640.webp" alt="" width="640" height="640" loading="lazy" />
+            <p class="member__caption"><span class="member__name">Fabrizio Santi</span><span class="member__role">Análisis de datos y usuarios</span></p>
+          </li>
+          <li class="member">
+            <img src="assets/images/web/jahat-640.webp" alt="" width="640" height="640" loading="lazy" />
+            <p class="member__caption"><span class="member__name">Jahat Trinidad</span><span class="member__role">Desarrollo y experiencia</span></p>
+          </li>
+        </ul>
+      </section>
+
+      <p class="closing__wordmark" aria-hidden="true">AllinBand</p>
+
+      <picture class="closing__layer closing__grass-mid">
+        <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-mid-1280.webp" />
+        <img src="assets/images/web/grass-mid-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+      </picture>
+      <picture class="closing__layer closing__grass-near">
+        <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-near-1280.webp" />
+        <img src="assets/images/web/grass-near-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+      </picture>
+      <div class="closing__layer closing__scrim-bottom"></div>
+
+      <div class="footer">
+        <p>© 2025 Vivessence. Proyecto académico sin fines comerciales. Imágenes ilustrativas.</p>
+        <p class="footer__right">
+          <span>Arquitectura de Computadoras, UPC</span>
+          <a class="footer__top" href="#inicio">Volver arriba</a>
+        </p>
+      </div>
     </footer>
 
-    <a class="floating-reply" id="floatingReply" href="#inicio" hidden>
-      <svg aria-hidden="true"><use href="#i-up" /></svg>
-      Volver a la alerta
-    </a>
-
     <script src="js/main.js"></script>
-    <script src="js/demo.js"></script>
   </body>
 </html>

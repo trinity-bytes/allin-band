@@ -24,8 +24,8 @@ Design source: Figma file IEIOIHCnxY7dYDObgHVwAi, page "Redesign / Hero v2" (21:
 ## Tasks
 
 - [x] T0 assets inline: 24 responsive WebP files in assets/images/web. Commit b0f25e4. Upscaled PNG and original JPEG sources moved to ../allin-band-sources, outside the repo.
-- [ ] T1 S2 S3 S4 inline: tokens, fonts (self-host Host Grotesk), base styles, navbar, footer.
-- [ ] T2 S1 S5 S10 S11 S12 inline: page structure and copy, hero layers and motion.
+- [x] T1 S2 S3 S4 inline: tokens, fonts (self-host Host Grotesk), base styles, navbar, footer. Also the static hero layers and callouts, because the navbar is designed over the hero sky. Commit: see L10.
+- [ ] T2 S1 S5 S10 S11 S12 inline: middle sections structure and copy, hero motion (static layers already done in T1).
 - [ ] T3 S6 S7 inline: pulse component and horizontal journey.
 - [ ] T4 S8 S9 inline: goals curve, limits, FAQ, closing.
 - [ ] T5 S13: browser verification at all sizes, regression tests, docs and DESIGN.md update.
@@ -43,4 +43,5 @@ Route evidence: one page across shared files, so no Writer trigger; inline. Risk
 - L7 Band outline, side view, right edge as fraction of image width by fraction of height: .108 .748, .156 .792, .204 .824, .252 .848, .3 .864, .348 .912, .396 .916, .444 .896, .492 .9, .54 .9, .588 .9, .636 .892, .684 .88, .732 .86, .78 .832, .828 .8, .876 .756, .924 .692.
 - L8 Environment: band and grass PNG sources are on origin/main (13ff63e, 7a3f4e1), not on this branch; docs/DESIGN-PLAN.md is also there. The report docx in docs/ holds student codes and weighs 20 MB: keep it out of commits. Report citations were not checked against primary sources. Contrast measured only on some desktop surfaces.
 - L9 (2026-11-06) "vamos a continuar con el desarrollo de la landing, ahora pasaos a la implementacion. tenemos los assets optimizados, asi que cre que falta commitearlos y descartar los assets no optimos"
-- Next: T1.
+- L10 (2026-11-06) T1 done. Old chat page removed (chat.css, sections.css, demo.js, Bricolage font). New css/nav.css, hero.css, closing.css. Checked in the browser over http at 1440x900, 1366x768, 1024x768, 390x844 and 360x640: no horizontal scroll, no console errors; closing measured 1212 px desktop (frame 1210) and 1209 px mobile (frame 1214). Callouts appear only from 80rem, because at 1024 the left chip touched the edge. No-JS mobile: the navbar flows above the hero. tests/skip-link.cjs PASS. tests/reflow.cjs PASS with the full Chromium binary (CHROMIUM_PATH=~/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome); the headless shell ignores the font preference and fails at the base commit too. Its FAQ check has nothing to test until T4. Known gaps: nav anchors and "Probar el demo" (#tu-decides) point to sections built in T2-T4; mobile intro copy keeps "AllinBand es el concepto" (the Figma mobile frame starts with "El concepto"); favicon, og-image and its alt text still belong to the chat page; band-cutout.webp is no longer used. Contrast not measured yet (T5).
+- Next: T2.

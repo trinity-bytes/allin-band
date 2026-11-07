@@ -1,0 +1,154 @@
+/**
+ * AllinBand — Navbar
+ * Open text over the sky; a mist band appears only after scrolling.
+ */
+
+.navbar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  transition: background-color 240ms var(--ease-out);
+}
+
+.navbar__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-4);
+  padding: 1.5rem var(--gutter) 0.5rem;
+  transition: padding 240ms var(--ease-out);
+}
+
+.navbar.is-scrolled .navbar__row {
+  padding-block: 0.5rem;
+}
+
+.navbar.is-scrolled {
+  background-color: var(--mist);
+  -webkit-backdrop-filter: blur(var(--mist-blur));
+  backdrop-filter: blur(var(--mist-blur));
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5625rem;
+  font-family: var(--font-display);
+  font-size: 1.4375rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.brand__mark {
+  flex: none;
+  width: 1.5625rem;
+  height: 1.5625rem;
+}
+
+.nav-toggle {
+  display: none;
+  min-height: 2.75rem;
+  padding: 0 var(--gap-2);
+  font-size: 1.0625rem;
+  font-weight: 500;
+  color: var(--paper);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2.125rem;
+}
+
+.nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-size: 1.0625rem;
+  font-weight: 500;
+  text-decoration: none;
+  text-underline-offset: 0.35em;
+}
+
+.nav__link:hover,
+.nav__link[aria-current="true"] {
+  text-decoration: underline;
+  text-decoration-color: var(--amber);
+}
+
+.nav__demo {
+  padding: 0.5625rem 1.125rem;
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 63.99rem) {
+  .brand {
+    font-size: 1.3125rem;
+  }
+
+  .brand__mark {
+    width: 1.4375rem;
+    height: 1.4375rem;
+  }
+
+  .js .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Without JS the links wrap below the brand and the bar flows above the hero */
+  .navbar__row {
+    flex-wrap: wrap;
+  }
+
+  html:not(.js) .navbar {
+    position: relative;
+    background-color: var(--forest-900);
+  }
+
+  html:not(.js) .navbar__row {
+    padding-block: var(--gap-3);
+  }
+
+  html:not(.js) .hero {
+    --title-top: 1.75rem;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+    gap: 0 var(--gap-6);
+  }
+
+  .js .nav {
+    position: absolute;
+    inset: 100% var(--gutter) auto;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: var(--gap-2) var(--gap-4) var(--gap-4);
+    background-color: rgba(var(--mist-rgb), 0.9);
+    -webkit-backdrop-filter: blur(var(--mist-blur));
+    backdrop-filter: blur(var(--mist-blur));
+    border-radius: var(--radius-mist);
+  }
+
+  .js .nav.is-open {
+    display: flex;
+  }
+
+  .js .nav__link {
+    min-height: 3rem;
+    font-size: var(--text-base);
+  }
+
+  .js .nav__demo {
+    margin-top: var(--gap-3);
+    min-height: 3rem;
+  }
+}

@@ -1,15 +1,15 @@
 /**
- * AllinBand — Navegación
- * Menú móvil, sección activa y botón flotante.
+ * AllinBand — Navigation
+ * Mobile menu, mist band after scrolling and active section.
  */
 
 (function () {
   "use strict";
 
+  var navbar = document.querySelector(".navbar");
   var toggle = document.getElementById("navToggle");
   var menu = document.getElementById("navMenu");
   var links = Array.prototype.slice.call(menu.querySelectorAll(".nav__link"));
-  var floating = document.getElementById("floatingReply");
 
   function menuIsOpen() {
     return toggle.getAttribute("aria-expanded") === "true";
@@ -19,6 +19,7 @@
     toggle.setAttribute("aria-expanded", String(open));
     toggle.textContent = open ? "Cerrar" : "Menú";
     menu.classList.toggle("is-open", open);
+    syncNavbar();
   }
 
   toggle.addEventListener("click", function () {
@@ -37,10 +38,30 @@
   });
 
   document.addEventListener("pointerdown", function (event) {
-    if (menuIsOpen() && !event.target.closest(".chat-header")) setMenu(false);
+    if (menuIsOpen() && !event.target.closest(".navbar")) setMenu(false);
   });
 
-  // Sección activa: la que cruza la franja bajo la cabecera
+  // Open text over the sky; the mist band only once the page has moved
+  function syncNavbar() {
+    navbar.classList.toggle("is-scrolled", window.scrollY > 8 || menuIsOpen());
+  }
+
+  var ticking = false;
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        ticking = false;
+        syncNavbar();
+      });
+    },
+    { passive: true }
+  );
+  syncNavbar();
+
+  // Active section: the one crossing the band below the navbar
   var linkBySection = {};
   links.forEach(function (link) {
     linkBySection[link.getAttribute("href").slice(1)] = link;
@@ -50,9 +71,7 @@
     links.forEach(function (link) {
       link.removeAttribute("aria-current");
     });
-    if (linkBySection[id]) {
-      linkBySection[id].setAttribute("aria-current", "true");
-    }
+    if (linkBySection[id]) linkBySection[id].setAttribute("aria-current", "true");
   }
 
   if ("IntersectionObserver" in window) {
@@ -65,20 +84,8 @@
       { rootMargin: "-30% 0px -65% 0px" }
     );
 
-    document.querySelectorAll("main > section[id]").forEach(function (section) {
+    document.querySelectorAll("main section[id]").forEach(function (section) {
       spy.observe(section);
     });
-
-    // El botón flotante sobra cuando ya se ve una acción para probar la alerta
-    var visible = {};
-    var floatWatch = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        visible[entry.target.id] = entry.isIntersecting;
-      });
-      floating.hidden = Boolean(visible.inicio || visible.proyecto);
-    });
-
-    floatWatch.observe(document.getElementById("inicio"));
-    floatWatch.observe(document.getElementById("proyecto"));
   }
 })();

@@ -1,41 +1,40 @@
 /**
  * AllinBand — Tokens
- * Mundo "Grupo familiar": la página es el chat de la familia.
- * Fondo de pantalla índigo plano, burbujas blancas que reciben,
- * burbujas caléndula que envía quien lee. Sin vidrio ni degradados.
+ * Nature and care: dark forest ground, warm white text, one amber accent.
+ * Surfaces are "mist" (bruma): a moss veil with blur, used only over photos.
  */
 
 :root {
-  /* Fondos de pantalla */
-  --indigo-900: #221a78;
-  --indigo-800: #2c2392;
-  --indigo-700: #3a2fb0;
-  --lilac-200: #dcd7ff;
-  --lilac-100: #ece9ff;
-  --pale: #f7f6ff;
-  --marigold: #ffc53d;
-  --marigold-deep: #f2ab0f;
+  /* Ground */
+  --forest-950: #0b1610;
+  --forest-900: #0e1a14;
+  --forest-800: #17241c;
+  --forest-700: #1f3327;
+  --moss: #576b5c;
 
-  /* Tinta */
-  --ink: #1b1650;
-  --ink-soft: #453f73;
-  --white: #ffffff;
-  --on-indigo: #e4e1ff;
-  --alert: #b3261e;
-  --person: #0a6b62;
-  --mom: #8a2b7a;
+  /* Ink */
+  --paper: #fffdf7;
+  --paper-soft: #f6f1e6;
+  --amber: #f0b65a;
 
-  /* Tipografía: Bricolage habla fuerte, Atkinson se lee sin esfuerzo */
-  --font-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+  /* Mist surfaces: no border, no shadow, no gradient */
+  --mist-rgb: 35, 50, 41;
+  --mist: rgba(var(--mist-rgb), 0.56);
+  --mist-strong: rgba(var(--mist-rgb), 0.8);
+  --mist-blur: 32px;
+  --mist-blur-soft: 16px;
+
+  /* Type: Host Grotesk speaks, Atkinson is read without effort */
+  --font-display: "Host Grotesk", "Trebuchet MS", sans-serif;
   --font-body: "Atkinson Hyperlegible Next", Verdana, sans-serif;
 
   --text-sm: 1rem;
   --text-base: 1.125rem;
-  --text-lg: 1.3125rem;
-  --text-xl: clamp(1.5rem, 1.25rem + 1vw, 2rem);
-  --text-2xl: clamp(1.875rem, 1.4rem + 2vw, 3rem);
+  --text-md: 1.1875rem;
+  --text-lg: clamp(1.125rem, 1rem + 0.45vw, 1.375rem);
+  --display-xl: clamp(2.875rem, 1.6rem + 5.4vw, 7rem);
 
-  /* Espacio */
+  /* Space */
   --gap-1: 0.25rem;
   --gap-2: 0.5rem;
   --gap-3: 0.75rem;
@@ -43,19 +42,24 @@
   --gap-6: 1.5rem;
   --gap-8: 2rem;
   --gap-12: 3rem;
-  --gutter: clamp(1rem, 4vw, 3rem);
-  --wall-pad: clamp(3.5rem, 8vw, 7rem);
+  --gutter: clamp(1rem, 3.33vw, 3rem);
 
-  /* Forma */
-  --radius-bubble: 1.25rem;
-  --radius-corner: 0.25rem;
-  --radius-control: 0.875rem;
-  --bubble-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --float-shadow: 0 6px 18px -6px rgba(0, 0, 0, 0.45);
+  /* Shape */
+  --radius-pill: 999px;
+  --radius-chip: 0.875rem;
+  --radius-mist: 1rem;
+  --radius-photo: 1.5rem;
 
-  /* Movimiento: un solo gesto, la llegada del mensaje */
+  /* Motion */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --arrive: 420ms;
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  --header-h: 4.5rem;
+  /* Navbar row: 24px from the top plus a 44px row on desktop */
+  --nav-h: 4.25rem;
+}
+
+@media (max-width: 47.99rem) {
+  :root {
+    --nav-h: 3.875rem;
+  }
 }
