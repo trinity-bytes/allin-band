@@ -1,169 +1,244 @@
 /**
- * AllinBand — Estilos Base
- * Mundo "Claro violeta": luz violeta diurna, tinta legible, vidrio simple
+ * AllinBand — Base
+ * Fonts are served from the project: the page calls no third parties.
  */
 
-/* Font loading: Bricolage promete, Public Sans explica, JetBrains mide */
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Public+Sans:ital,wght@0,300..800;1,400..600&family=JetBrains+Mono:wght@400;500;600&display=swap");
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  src: url("../assets/fonts/atkinson-hyperlegible-next-latin.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
 
+@font-face {
+  font-family: "Host Grotesk";
+  src: url("../assets/fonts/host-grotesk-latin.woff2") format("woff2");
+  font-weight: 300 800;
+  font-display: swap;
+}
+
+/* Height of the vertical section joints; the curve itself is --seam-top and --seam-bottom */
+:root {
+  --seam-v: 96px;
+}
+
+@media (max-width: 47.99rem) {
+  :root {
+    --seam-v: 64px;
+  }
+}
+
+/* Percent based: respects the font size chosen in the browser */
 html {
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-size: 100%;
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + var(--gap-4));
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scrollbar-color: var(--moss) var(--forest-900);
+}
+
+/* Set by the inline script in the head until the load event has passed */
+html.is-loading {
+  scroll-behavior: auto;
 }
 
 body {
-  font-family: var(--font-primary);
+  font-family: var(--font-body);
   font-size: var(--text-base);
-  font-weight: var(--font-normal);
-  line-height: var(--leading-relaxed);
-  color: var(--text-body);
-  background-color: var(--bg-deep);
-  /* Luz diurna en capas tenues: el vidrio necesita algo que refractar.
-     Malla violeta del logo + sol tenue, tintes ≤10% para no teñir
-     el texto ni enfriar la escena. Las fotos reales viven en las
-     bandas (hero, beneficios, tecnología); aquí solo el velo. */
-  background-image:
-    radial-gradient(900px 460px at 12% -80px, rgba(233, 161, 59, 0.09), transparent 62%),
-    radial-gradient(1000px 520px at 96% 6%, rgba(138, 129, 250, 0.1), transparent 62%),
-    radial-gradient(860px 520px at 50% 112%, rgba(90, 75, 214, 0.08), transparent 60%);
-  caret-color: var(--color-primary-dark);
+  line-height: 1.5;
+  color: var(--paper);
+  background-color: var(--forest-900);
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Las superficies que no dibujamos también son diseño */
 ::selection {
-  background-color: var(--color-primary);
-  color: #ffffff;
+  background-color: var(--amber);
+  color: var(--forest-800);
 }
 
-::-webkit-scrollbar {
-  width: 12px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-deep);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--color-primary-dark);
-  border-radius: var(--radius-full);
-  border: 3px solid var(--bg-deep);
-}
-
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3 {
   font-family: var(--font-display);
-  font-weight: var(--font-bold);
-  line-height: var(--leading-tight);
-  color: var(--text-primary);
-  margin-top: var(--space-12);
-  margin-bottom: var(--space-4);
-  letter-spacing: var(--tracking-tight);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: -0.035em;
   text-wrap: balance;
 }
 
-/* Más aire arriba del titular que debajo: el patio respira */
-section h2:first-child,
-section h1:first-child {
-  margin-top: 0;
-}
-
-h1 {
-  font-size: var(--text-5xl);
-  font-weight: var(--font-extrabold);
-  max-width: 20ch;
-}
-
-h2 {
-  font-size: var(--text-4xl);
-}
-
-h3 {
-  font-size: var(--text-2xl);
-  margin-top: var(--space-8);
-}
-
-h4 {
-  font-size: var(--text-xl);
-}
-
-h5 {
-  font-size: var(--text-lg);
-}
-
-h6 {
-  font-size: var(--text-base);
-}
-
-p {
-  margin-bottom: var(--space-4);
-  color: var(--text-body);
-  max-width: 72ch;
+a {
+  color: inherit;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 0.08em;
 }
 
 strong {
-  color: var(--text-primary);
-  font-weight: var(--font-semibold);
+  font-weight: 600;
 }
 
-a {
-  color: var(--color-primary-dark);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  transition: color var(--transition-base);
-}
-
-a:hover {
-  color: var(--color-primary);
-}
-
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-select:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid var(--focus-ring);
+/* Visible over photos and over the forest ground: double ring */
+:focus-visible {
+  outline: 3px solid var(--paper);
   outline-offset: 3px;
-  border-radius: var(--radius-sm);
+  box-shadow: 0 0 0 6px var(--forest-950);
 }
 
-/* Datos tabulares: el mono solo mide */
-.stat-value,
-.step-number,
-.trust-icon,
-.demo-vitals dd {
-  font-variant-numeric: tabular-nums;
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
-/* Container */
-.container {
-  width: 100%;
-  max-width: var(--container-max-width);
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: var(--container-padding);
-  padding-right: var(--container-padding);
+.skip-link {
+  position: fixed;
+  top: var(--gap-2);
+  left: var(--gap-2);
+  z-index: 60;
+  padding: var(--gap-3) var(--gap-4);
+  font-weight: 600;
+  color: var(--forest-800);
+  background-color: var(--paper);
+  border-radius: var(--radius-pill);
+  transform: translateY(-200%);
+  clip-path: inset(50%);
 }
 
-/* Section Spacing: grupos juntos, secciones separadas */
-section {
-  padding-top: var(--section-padding-y-mobile);
-  padding-bottom: var(--section-padding-y-mobile);
+.skip-link:focus {
+  transform: none;
+  clip-path: none;
 }
 
-@media (min-width: 768px) {
-  section {
-    padding-top: var(--section-padding-y);
-    padding-bottom: var(--section-padding-y);
+/* Mist: the project's own surface, only over photos */
+.mist {
+  background-color: var(--mist);
+  -webkit-backdrop-filter: blur(var(--mist-blur));
+  backdrop-filter: blur(var(--mist-blur));
+}
+
+/* Buttons: one solid paper pill */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;
+  padding: 0.8125rem 1.5rem;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--forest-800);
+  text-decoration: none;
+  background-color: var(--paper);
+  border: 0;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition: background-color 160ms var(--ease-out), transform 160ms var(--ease-out);
+}
+
+.btn:hover {
+  background-color: var(--paper-soft);
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+/* Disclosure ticker. Static text that wraps by default; js/main.js adds the
+   aria-hidden copies and `is-moving` only when motion is allowed */
+.ticker {
+  padding: 0.625rem var(--gutter);
+  font-size: var(--text-sm);
+  line-height: 1.4;
+  background-color: var(--mist-strong);
+  -webkit-backdrop-filter: blur(var(--mist-blur));
+  backdrop-filter: blur(var(--mist-blur));
+}
+
+.ticker.is-moving {
+  display: flex;
+  align-items: center;
+  height: 2.75rem;
+  padding: 0;
+  overflow: hidden;
+}
+
+.ticker.is-moving:focus-visible {
+  outline-offset: -3px;
+  box-shadow: none;
+}
+
+.ticker.is-moving .ticker__track {
+  display: flex;
+  flex: none;
+  width: max-content;
+  animation: ticker-loop 72s linear infinite;
+}
+
+.ticker.is-moving .ticker__track > * {
+  flex: none;
+  padding-inline-start: 1.75rem;
+  white-space: nowrap;
+}
+
+.ticker.is-moving .ticker__track > *::after {
+  content: "·" / "";
+  margin-inline-start: 1.75rem;
+}
+
+.ticker.is-moving:hover .ticker__track,
+.ticker.is-moving:focus .ticker__track,
+.ticker.is-away .ticker__track {
+  animation-play-state: paused;
+}
+
+/* Eight equal copies: moving by half lands on an identical frame */
+@keyframes ticker-loop {
+  to {
+    transform: translate3d(-50%, 0, 0);
   }
+}
 
-  h1 {
-    font-size: var(--text-6xl);
+@media (max-width: 47.99rem) {
+  .ticker.is-moving {
+    height: 2.5rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+/* Section joints: a short fade into the forest ground on the eased --seam-*
+   stops, never a visible line. Each section sets --seam-z and, where its
+   joint needs more room, --seam-h (L30, L32) */
+.seam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: var(--seam-z, 0);
+  height: var(--seam-h, 96px);
+  pointer-events: none;
+}
+
+.seam--top {
+  top: 0;
+  background-image: var(--seam-top);
+}
+
+.seam--bottom {
+  bottom: 0;
+  background-image: var(--seam-bottom);
+}
+
+@media (max-width: 47.99rem) {
+  .seam {
+    height: 64px;
   }
 }
