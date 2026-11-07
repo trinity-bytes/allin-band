@@ -28,3 +28,9 @@ build/
 .mimocode/
 .codegraph/
 tools/
+.agents/
+.claude/
+.impeccable/
+.opencode/
+DESIGN.md
+PRODUCT.md

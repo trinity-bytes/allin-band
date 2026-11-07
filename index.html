@@ -2,729 +2,901 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AllinBand: la pulsera que primero te pregunta a ti | Prototipo académico</title>
     <meta
       name="description"
-      content="AllinBand - Pulsera inteligente para monitoreo continuo de signos vitales con detección temprana y respuesta automática a emergencias. Seguridad y autonomía para pacientes, tranquilidad para cuidadores."
+      content="AllinBand es el concepto de una pulsera que vigila tus signos vitales y te pregunta si estás bien antes de avisar a tu familia. Proyecto académico de Vivessence, UPC 2025."
     />
-    <meta
-      name="keywords"
-      content="pulsera inteligente salud, monitoreo signos vitales, alerta automática emergencias, wearable adultos mayores, cuidado remoto familiar, detección temprana ML, geolocalización emergencias"
-    />
-    <meta name="author" content="Vivessence - AllinBand" />
+    <meta name="author" content="Vivessence" />
+    <meta name="theme-color" content="#0e1a14" />
+    <link rel="canonical" href="https://trinity-bytes.github.io/allin-band/" />
 
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="AllinBand - Seguridad que te acompaña. Autonomía que te cuida."
-    />
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:url" content="https://trinity-bytes.github.io/allin-band/" />
+    <meta property="og:title" content="AllinBand: la pulsera que primero te pregunta a ti" />
     <meta
       property="og:description"
-      content="Monitoreo continuo 24/7 de signos vitales con respuesta automática ante emergencias."
+      content="Concepto de pulsera inteligente que te pregunta si estás bien antes de avisar a tu familia. Proyecto académico de Vivessence, UPC 2025."
     />
-
-    <!-- Twitter -->
+    <meta property="og:image" content="https://trinity-bytes.github.io/allin-band/assets/images/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="La pulsera AllinBand sobre un prado al amanecer, bajo el titular Una pulsera que te cuida" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="AllinBand - Seguridad que te acompaña. Autonomía que te cuida."
-    />
 
-    <title>
-      AllinBand - Pulsera Inteligente para Monitoreo de Salud | Vivessence
-    </title>
+    <link rel="icon" href="assets/brand/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+    <link rel="preload" href="assets/fonts/atkinson-hyperlegible-next-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="assets/fonts/host-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
 
-    <!-- Preconnect for fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
-    <!-- Flaticon Uicons -->
-    <link
-      rel="stylesheet"
-      href="https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-rounded/css/uicons-solid-rounded.css"
-    />
-
-    <!-- CSS -->
     <link rel="stylesheet" href="css/variables.css" />
     <link rel="stylesheet" href="css/reset.css" />
     <link rel="stylesheet" href="css/base.css" />
-    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/nav.css" />
+    <link rel="stylesheet" href="css/hero.css" />
     <link rel="stylesheet" href="css/sections.css" />
-    <link rel="stylesheet" href="css/utilities.css" />
+    <link rel="stylesheet" href="css/journey.css" />
+    <link rel="stylesheet" href="css/closing.css" />
+
+    <!-- Without JS every section stays visible and static -->
+    <script>
+      document.documentElement.classList.add("js");
+      if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("motion");
+      }
+      // The browser puts the reload position back when loading ends; with smooth
+      // scrolling that jump would animate across the page, so it waits until after.
+      document.documentElement.classList.add("is-loading");
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          document.documentElement.classList.remove("is-loading");
+        }, 100);
+      });
+    </script>
   </head>
   <body>
-    <!-- ========================================
-       NAVEGACIÓN
-       ======================================== -->
-    <nav class="navbar" role="navigation" aria-label="Navegación principal">
-      <div class="container navbar-container">
-        <a href="#" class="navbar-logo" aria-label="AllinBand - Inicio">
-          <img
-            src="assets/images/vivessense-logo.png"
-            alt="AllinBand"
-            class="navbar-logo-icon"
-            width="40"
-            height="40"
-          />
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
+
+    <header class="navbar" id="top">
+      <div class="navbar__row">
+        <a class="brand" href="#inicio">
+          <svg class="brand__mark" viewBox="0 0 25 25" aria-hidden="true" focusable="false">
+            <path d="M20 12.5a8.54 8.54 0 1 1-17.08 0 8.54 8.54 0 0 1 17.08 0Z" fill="none" stroke="#fffdf7" stroke-width="3.54" />
+            <circle cx="20" cy="12.5" r="3.54" fill="#f0b65a" />
+          </svg>
+          AllinBand
         </a>
 
-        <button
-          class="navbar-toggle"
-          id="navToggle"
-          aria-label="Abrir menú de navegación"
-          aria-expanded="false"
-        >
-          <svg
-            width="24"
-            height="24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </button>
+        <button class="nav-toggle" id="navToggle" type="button" aria-controls="navMenu" aria-expanded="false">Menú</button>
 
-        <ul class="navbar-menu" id="navMenu">
-          <li>
-            <a href="#como-funciona" class="navbar-link" data-section="como-funciona">Cómo funciona</a>
-          </li>
-          <li>
-            <a href="#beneficios" class="navbar-link" data-section="beneficios">Beneficios</a>
-          </li>
-          <li>
-            <a href="#caracteristicas" class="navbar-link" data-section="caracteristicas">Características</a>
-          </li>
-          <li>
-            <a href="#faq" class="navbar-link" data-section="faq">FAQ</a>
-          </li>
-          <li>
-            <a href="#contacto" class="btn btn-primary btn-sm">Únete al piloto</a>
-          </li>
-          <div class="navbar-indicator"></div>
-        </ul>
+        <nav class="nav" id="navMenu" aria-label="Secciones">
+          <a class="nav__link" href="#como-funciona">Cómo funciona</a>
+          <a class="nav__link" href="#app">La app</a>
+          <a class="nav__link" href="#pulsera">La pulsera</a>
+          <a class="nav__link" href="#limites">Límites</a>
+          <a class="nav__link" href="#preguntas">Preguntas</a>
+          <a class="btn nav__demo" href="#tu-decides">Probar el demo</a>
+        </nav>
       </div>
-    </nav>
+    </header>
 
-    <!-- ========================================
-       HERO SECTION
-       ======================================== -->
-    <section class="hero" id="inicio">
-      <div class="container">
-        <div class="hero-content">
-          <div class="hero-text">
-            <h1 class="hero-title">
-              Seguridad que te acompaña.<br />
-              <span class="text-gradient">Autonomía que te cuida.</span>
-            </h1>
-            <p class="hero-subtitle">
-              Monitoreo continuo 24/7 de tus signos vitales con detección
-              temprana mediante Machine Learning y respuesta automática ante
-              emergencias. Vive con libertad, protegido siempre.
+    <main id="contenido">
+      <section class="hero" id="inicio" aria-labelledby="hero-title">
+        <picture class="hero__layer hero__landscape">
+          <source media="(max-width: 47.99rem)" srcset="assets/images/web/landscape-1280.webp" />
+          <img src="assets/images/web/landscape-2560.webp" alt="" width="2560" height="1707" fetchpriority="high" />
+        </picture>
+        <div class="hero__layer hero__sky"></div>
+
+        <h1 class="hero__title" id="hero-title"><span class="hero__word">Una</span> <span class="hero__word">pulsera</span> <span class="hero__word">que</span> <span class="hero__word">te</span> <span class="hero__word">cuida</span></h1>
+
+        <picture class="hero__layer hero__band">
+          <source media="(max-width: 47.99rem)" srcset="assets/images/web/band-800.webp" />
+          <img src="assets/images/web/band-1600.webp" alt="Pulsera AllinBand con correa tejida negra y módulo de sensores gris. Imagen ilustrativa." width="1600" height="1600" fetchpriority="high" />
+        </picture>
+        <picture class="hero__layer hero__grass-mid">
+          <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-mid-1280.webp" />
+          <img src="assets/images/web/grass-mid-2560.webp" alt="" width="2560" height="853" />
+        </picture>
+        <!-- Mobile hides the near grass; the empty source keeps it from downloading -->
+        <picture class="hero__layer hero__grass-near">
+          <source media="(max-width: 47.99rem)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
+          <img src="assets/images/web/grass-near-2560.webp" alt="" width="2560" height="853" />
+        </picture>
+        <div class="hero__layer hero__scrim"></div>
+
+        <div class="hero__layer hero__callouts">
+          <svg class="hero__lines" viewBox="0 0 720 720" aria-hidden="true" focusable="false">
+            <g fill="none" stroke="#fffdf7" stroke-width="1.5">
+              <path class="hero__line" pathLength="1" d="M552 229H640L686 273H700" />
+              <path class="hero__line" pathLength="1" d="M441.6 358H700" stroke="#f6f1e6" />
+              <path class="hero__line" pathLength="1" d="M120 386.5H-58" stroke="#f6f1e6" />
+            </g>
+            <g fill="#f6f1e6">
+              <circle class="hero__dot" cx="552" cy="228" r="5" />
+              <circle class="hero__dot" cx="441.6" cy="357.6" r="5" />
+              <circle class="hero__dot" cx="120" cy="386.5" r="5" />
+            </g>
+          </svg>
+          <ul aria-label="Partes de la pulsera">
+            <li class="callout callout--a mist">Vigila tu pulso y tu oxígeno</li>
+            <li class="callout callout--b mist">Te pregunta antes de avisar</li>
+            <li class="callout callout--c mist">Correa tejida y ajustable</li>
+          </ul>
+        </div>
+
+        <div class="hero__bottom">
+          <div>
+            <p class="hero__intro">
+              AllinBand es el concepto de una pulsera que nota si algo anda mal, te pregunta si estás bien y, si no respondes, avisa a tu familia.
             </p>
+            <a class="btn hero__cta" href="#como-funciona">Ver cómo funciona</a>
+          </div>
+        </div>
 
-            <div class="hero-cta">
-              <a href="#contacto" class="btn btn-primary btn-lg">
-                <span>Soy paciente</span>
-                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12h14M12 5l7 7-7 7" />
-                </svg>
-              </a>
-              <a href="#beneficios-cuidadores" class="btn btn-outline btn-lg">
-                <span>Soy cuidador</span>
-              </a>
+        <!-- The slot is one screen tall, so the ticker closes the first viewport even when the hero is taller -->
+        <div class="hero__ticker-slot">
+          <div class="hero__ticker ticker">
+            <div class="ticker__track">
+              <p class="hero__disclosure">Prototipo académico de Vivessence, UPC 2025. No es un dispositivo médico ni está a la venta. Imágenes ilustrativas.</p>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div class="hero-image">
-            <!-- Pulse rings -->
-            <div class="pulse-rings" aria-hidden="true">
-              <div class="pulse-ring"></div>
-              <div class="pulse-ring"></div>
-              <div class="pulse-ring"></div>
-            </div>
+      <!-- sections-top:start -->
+      <section class="emergency" id="emergencia" aria-labelledby="emergency-title">
+        <picture class="emergency__photo">
+          <source media="(max-width: 47.99rem)" srcset="assets/images/web/chair-1280.webp" />
+          <img src="assets/images/web/chair-2560.webp" alt="Silla de madera con una manta junto a una ventana, en una casa en silencio." width="2560" height="1707" loading="lazy" />
+        </picture>
+        <div class="emergency__scrim" aria-hidden="true"></div>
+        <canvas class="shader shader--rays emergency__rays" data-shader="rays" aria-hidden="true"></canvas>
+        <div class="seam seam--top" aria-hidden="true"></div>
+        <div class="seam seam--bottom" aria-hidden="true"></div>
 
-            <!-- Heartbeat / ECG Animation -->
-            <div class="heartbeat-monitor" aria-hidden="true">
-              <svg version="1.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 150 73" xml:space="preserve">
-                <polyline fill="none" stroke="currentColor" stroke-width="2" stroke-miterlimit="10" points="0,45.486 38.514,45.486 44.595,33.324 50.676,45.486 57.771,45.486 62.838,55.622 71.959,9 80.067,63.729 84.122,45.486 97.297,45.486 103.379,40.419 110.473,45.486 150,45.486" />
+        <div class="emergency__head" data-reveal>
+          <h2 class="emergency__title reveal" id="emergency-title">Una emergencia no avisa</h2>
+          <p class="emergency__lead reveal">Cuando estás solo, el tiempo que tarda la ayuda lo cambia todo.</p>
+        </div>
+
+        <figure class="survival" data-reveal>
+          <figcaption class="survival__caption reveal">De cada 100 personas con un paro cardíaco, sobreviven</figcaption>
+          <div class="survival__grids">
+            <div class="survival__group reveal">
+              <p class="survival__value">Entre 2 y 11</p>
+              <p class="survival__where">Fuera del hospital</p>
+              <svg class="survival__grid" viewBox="0 0 204 204" width="204" height="204" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="survival-dots" width="21" height="21" patternUnits="userSpaceOnUse">
+                    <circle cx="7.5" cy="7.5" r="7.5" fill="#fffdf7" fill-opacity="0.18" />
+                  </pattern>
+                </defs>
+                <rect x="21" y="21" width="183" height="21" fill="url(#survival-dots)" />
+                <rect y="42" width="204" height="162" fill="url(#survival-dots)" />
+                <g class="survival__alive" fill="#f0b65a">
+                  <circle class="survival__dot" style="--i: 0" cx="7.5" cy="7.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 1" cx="28.5" cy="7.5" r="7.5" />
+                  <g fill-opacity="0.45">
+                    <circle class="survival__dot" style="--i: 2" cx="49.5" cy="7.5" r="7.5" />
+                    <circle class="survival__dot" style="--i: 3" cx="70.5" cy="7.5" r="7.5" />
+                    <circle class="survival__dot" style="--i: 4" cx="91.5" cy="7.5" r="7.5" />
+                    <circle class="survival__dot" style="--i: 5" cx="112.5" cy="7.5" r="7.5" />
+                    <circle class="survival__dot" style="--i: 6" cx="133.5" cy="7.5" r="7.5" />
+                    <circle class="survival__dot" style="--i: 7" cx="154.5" cy="7.5" r="7.5" />
+                    <circle class="survival__dot" style="--i: 8" cx="175.5" cy="7.5" r="7.5" />
+                    <circle class="survival__dot" style="--i: 9" cx="196.5" cy="7.5" r="7.5" />
+                    <circle class="survival__dot" style="--i: 10" cx="7.5" cy="28.5" r="7.5" />
+                  </g>
+                </g>
               </svg>
             </div>
+            <div class="survival__group reveal">
+              <p class="survival__value">18</p>
+              <p class="survival__where">En el hospital</p>
+              <svg class="survival__grid" viewBox="0 0 204 204" width="204" height="204" aria-hidden="true" focusable="false">
+                <rect x="168" y="21" width="36" height="21" fill="url(#survival-dots)" />
+                <rect y="42" width="204" height="162" fill="url(#survival-dots)" />
+                <g class="survival__alive" fill="#fffdf7">
+                  <circle class="survival__dot" style="--i: 0" cx="7.5" cy="7.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 1" cx="28.5" cy="7.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 2" cx="49.5" cy="7.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 3" cx="70.5" cy="7.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 4" cx="91.5" cy="7.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 5" cx="112.5" cy="7.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 6" cx="133.5" cy="7.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 7" cx="154.5" cy="7.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 8" cx="175.5" cy="7.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 9" cx="196.5" cy="7.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 10" cx="7.5" cy="28.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 11" cx="28.5" cy="28.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 12" cx="49.5" cy="28.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 13" cx="70.5" cy="28.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 14" cx="91.5" cy="28.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 15" cx="112.5" cy="28.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 16" cx="133.5" cy="28.5" r="7.5" />
+                  <circle class="survival__dot" style="--i: 17" cx="154.5" cy="28.5" r="7.5" />
+                </g>
+              </svg>
+            </div>
+          </div>
+        </figure>
 
-            <img
-              src="assets/images/BandSample.png"
-              alt="Pulsera inteligente AllinBand monitoreando signos vitales"
-              width="500"
-              height="500"
-              loading="eager"
-            />
+        <div class="emergency__stats" data-reveal>
+          <p class="emergency__stat reveal"><span class="emergency__number">43,2&nbsp;%</span> de la población del Perú vive con al menos una enfermedad crónica.</p>
+          <p class="emergency__stat reveal"><span class="emergency__number">7 de 10</span> peruanos que necesitaron atención médica no la recibieron.</p>
+        </div>
+
+        <div class="emergency__foot" data-reveal>
+          <p class="emergency__promise reveal">AllinBand nace para acortar ese tiempo.</p>
+          <p class="emergency__sources reveal">Fuentes: Mundaca, BCRP (2024); Aguirre, Banco Mundial (2023); Peraza et al. (2021). Imagen ilustrativa.</p>
+        </div>
+      </section>
+      <!-- sections-top:end -->
+
+      <!-- journey:start -->
+      <!-- Sections 03 to 07. Desktop with motion: a horizontal journey driven by vertical scroll (js/journey.js). Everything else: stacked. -->
+      <div class="journey">
+        <div class="journey__stage">
+          <div class="journey__track">
+            <section class="panel morning" id="como-funciona" aria-labelledby="morning-title">
+              <img
+                class="panel__photo"
+                src="assets/images/web/morning-1280.webp"
+                srcset="assets/images/web/morning-1280.webp 1280w, assets/images/web/morning-2560.webp 2560w"
+                sizes="100vw"
+                alt="Una mujer andina camina con bastón por un sendero de montaña al amanecer."
+                width="2560"
+                height="1707"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="panel__scrim"></div>
+
+              <div class="panel__flow">
+                <h2 class="panel__title" id="morning-title">Una mañana cualquiera</h2>
+                <p class="panel__intro">La pulsera mide sola y compara cada dato con tus días normales. Solo te habla cuando algo no cuadra.</p>
+
+                <div class="moments">
+                  <div class="moment is-active" id="moment-0630" role="tabpanel" aria-labelledby="moment-tab-0630" data-bpm="62" data-period="400" data-shape="1">
+                    <p class="moment__when">06:30 · Dormiste bien</p>
+                    <div class="moment__reading">
+                      <p class="readout"><span class="readout__value">62</span> <abbr class="readout__unit" title="latidos por minuto">lpm</abbr></p>
+                      <p class="moment__status">Pulso estable</p>
+                    </div>
+                    <div class="moment__message">
+                      <p class="moment__step">Mide, sin que hagas nada</p>
+                      <p class="moment__text">Buenos días. Pasaste la noche con el pulso y el oxígeno normales.</p>
+                    </div>
+                  </div>
+                  <div class="moment" id="moment-0740" role="tabpanel" aria-labelledby="moment-tab-0740" data-bpm="96" data-period="220" data-shape="0.9">
+                    <p class="moment__when">07:40 · Caminata rápida</p>
+                    <div class="moment__reading">
+                      <p class="readout"><span class="readout__value">96</span> <abbr class="readout__unit" title="latidos por minuto">lpm</abbr></p>
+                      <p class="moment__status">Más rápido, y normal para ti</p>
+                    </div>
+                    <div class="moment__message">
+                      <p class="moment__step">Compara con tus días normales</p>
+                      <p class="moment__text">Caminaste rápido y el pulso subió. Para ti eso es normal, así que no hago nada.</p>
+                    </div>
+                  </div>
+                  <div class="moment moment--alert" id="moment-0814" role="tabpanel" aria-labelledby="moment-tab-0814" data-bpm="124" data-period="128" data-shape="0.72">
+                    <p class="moment__when">08:14 · Pulso alto en reposo</p>
+                    <div class="moment__reading">
+                      <p class="readout"><span class="readout__value">124</span> <abbr class="readout__unit" title="latidos por minuto">lpm</abbr></p>
+                      <p class="moment__status">Fuera de tu normal</p>
+                    </div>
+                    <div class="moment__message">
+                      <p class="moment__step">Pregunta antes de avisar</p>
+                      <p class="moment__text">Llevas 10 minutos en reposo con el pulso alto. Eso no es habitual en ti. ¿Estás bien?</p>
+                    </div>
+                  </div>
+
+                  <!-- Flat baseline; the rate shows only in the spacing between beats -->
+                  <div class="ecg" data-bpm="62" aria-hidden="true">
+                    <svg class="ecg__svg" viewBox="0 0 1440 200" preserveAspectRatio="xMaxYMid slice" focusable="false">
+                      <defs>
+                        <linearGradient id="ecg-paper" class="ecg__fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1250" y2="0">
+                          <stop offset="0" stop-color="#fffdf7" stop-opacity="0.08" />
+                          <stop offset="0.5" stop-color="#fffdf7" stop-opacity="0.7" />
+                          <stop offset="1" stop-color="#fffdf7" />
+                        </linearGradient>
+                        <linearGradient id="ecg-amber" class="ecg__fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1250" y2="0">
+                          <stop offset="0" stop-color="#f0b65a" stop-opacity="0.08" />
+                          <stop offset="0.5" stop-color="#f0b65a" stop-opacity="0.7" />
+                          <stop offset="1" stop-color="#f0b65a" />
+                        </linearGradient>
+                      </defs>
+                      <path class="ecg__trace is-shown" pathLength="1" stroke="url(#ecg-paper)" d="M0 120H168C177.333 109.333 186.667 109.333 196 120H206L212 134L224 16L236 166L246 120C258 104 270.667 104 284 120H568C577.333 109.333 586.667 109.333 596 120H606L612 134L624 16L636 166L646 120C658 104 670.667 104 684 120H968C977.333 109.333 986.667 109.333 996 120H1006L1012 134L1024 16L1036 166L1046 120C1058 104 1070.67 104 1084 120H1250" />
+                      <path class="ecg__trace" pathLength="1" stroke="url(#ecg-paper)" d="M0 120H1250" />
+                      <path class="ecg__comet" pathLength="1" d="M0 120H168C177.333 109.333 186.667 109.333 196 120H206L212 134L224 16L236 166L246 120C258 104 270.667 104 284 120H568C577.333 109.333 586.667 109.333 596 120H606L612 134L624 16L636 166L646 120C658 104 670.667 104 684 120H968C977.333 109.333 986.667 109.333 996 120H1006L1012 134L1024 16L1036 166L1046 120C1058 104 1070.67 104 1084 120H1250" />
+                      <circle class="ecg__halo" cx="1250" cy="120" r="16" />
+                      <circle class="ecg__dot" cx="1250" cy="120" r="6" />
+                    </svg>
+                  </div>
+
+                  <div class="moments__tabs" role="tablist" aria-label="Momentos de la mañana">
+                    <button class="moments__tab" type="button" role="tab" id="moment-tab-0630" aria-controls="moment-0630" aria-selected="true">
+                      <span class="moments__time">06:30</span>
+                      <span class="moments__label">Dormiste bien</span>
+                      <span class="moments__progress" aria-hidden="true"><span class="moments__fill"></span></span>
+                    </button>
+                    <button class="moments__tab" type="button" role="tab" id="moment-tab-0740" aria-controls="moment-0740" aria-selected="false" tabindex="-1">
+                      <span class="moments__time">07:40</span>
+                      <span class="moments__label">Caminata rápida</span>
+                      <span class="moments__progress" aria-hidden="true"><span class="moments__fill"></span></span>
+                    </button>
+                    <button class="moments__tab" type="button" role="tab" id="moment-tab-0814" aria-controls="moment-0814" aria-selected="false" tabindex="-1">
+                      <span class="moments__time">08:14</span>
+                      <span class="moments__label">Pulso alto en reposo</span>
+                      <span class="moments__progress" aria-hidden="true"><span class="moments__fill"></span></span>
+                    </button>
+                  </div>
+                </div>
+
+                <p class="panel__note">Datos de ejemplo: nombres, valores y tiempos son ficticios. Imagen ilustrativa.</p>
+              </div>
+            </section>
+
+            <section class="panel decide" id="tu-decides" aria-labelledby="decide-title">
+              <img
+                class="panel__photo decide__photo"
+                src="assets/images/web/portrait-1280.webp"
+                srcset="assets/images/web/portrait-1280.webp 1280w, assets/images/web/portrait-2560.webp 2560w"
+                sizes="100vw"
+                alt="Una mujer mayor andina sonríe mientras mira a lo lejos."
+                width="2560"
+                height="1707"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="panel__scrim"></div>
+              <p class="panel__notice">Imagen ilustrativa.</p>
+
+              <div class="panel__flow">
+                <h2 class="panel__title" id="decide-title">Tú decides primero</h2>
+                <ol class="steps">
+                  <li class="step">
+                    <p class="step__title">Te pregunta a ti primero</p>
+                    <p class="step__text">Tu pulsera suena, se ilumina y te pregunta si estás bien.</p>
+                  </li>
+                  <li class="step">
+                    <p class="step__title">Si estás bien, cancelas</p>
+                    <p class="step__text">Nadie se entera. Sigues con tu día.</p>
+                  </li>
+                  <li class="step step--alert">
+                    <p class="step__title">Si no respondes, avisa</p>
+                    <p class="step__text">Tus contactos, en orden, con tus datos.</p>
+                  </li>
+                </ol>
+
+                <figure class="phone decide__phone">
+                  <figcaption class="visually-hidden">Pantalla de ejemplo: aviso de la pulsera en el celular.</figcaption>
+                  <div class="phone__screen">
+                    <picture class="phone__wallpaper">
+                      <source media="(max-width: 47.99rem)" srcset="assets/images/web/landscape-1280.webp" />
+                      <img src="assets/images/web/landscape-2560.webp" alt="" width="2560" height="1707" loading="lazy" decoding="async" />
+                    </picture>
+                    <div class="phone__dim"></div>
+                    <span class="phone__island"></span>
+                    <p class="phone__date">Martes 7 de noviembre</p>
+                    <p class="phone__clock">08:14</p>
+                    <div class="notice mist">
+                      <div class="notice__head">
+                        <svg class="notice__icon" viewBox="0 0 34 34" aria-hidden="true" focusable="false">
+                          <rect width="34" height="34" rx="9" fill="#f0b65a" />
+                          <path d="M5 18H11L13.5 11L17 24L20 15L21.5 18H29" fill="none" stroke="#17241c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="notice__app"><span>AllinBand</span> <span class="notice__when">ahora</span></p>
+                      </div>
+                      <p class="notice__title">¿Estás bien?</p>
+                      <p class="notice__text">Tu pulso sigue alto en reposo. Si no respondes en unos segundos, aviso a tus contactos.</p>
+                      <div class="notice__actions">
+                        <span class="notice__action notice__action--primary">Estoy bien</span>
+                        <span class="notice__action">No puedo responder</span>
+                      </div>
+                    </div>
+                  </div>
+                </figure>
+              </div>
+            </section>
+
+            <section class="panel family" id="aviso" aria-labelledby="family-title">
+              <div class="panel__flow">
+                <h2 class="panel__title" id="family-title">Si no respondes,<br /> tu familia lo sabe</h2>
+                <p class="panel__intro">Tu centro de salud y tu primer contacto reciben tus datos y dónde estás. Si nadie confirma, la alerta sigue.</p>
+                <ol class="rail" aria-label="Orden de aviso de ejemplo">
+                  <li class="rail__step rail__step--now">
+                    <div class="rail__body">
+                      <p class="rail__when">Al instante</p>
+                      <p class="rail__who">Centro de salud y Ana</p>
+                      <p class="rail__what">Reciben tus datos y dónde estás.</p>
+                      <p class="rail__avatars" aria-hidden="true"><span class="rail__avatar">C</span><span class="rail__avatar">A</span></p>
+                    </div>
+                  </li>
+                  <li class="rail__step">
+                    <div class="rail__body">
+                      <p class="rail__when">A los 10 segundos</p>
+                      <p class="rail__who">Luis, si nadie responde</p>
+                      <p class="rail__what">La alerta sigue al siguiente de tu lista.</p>
+                      <p class="rail__avatars" aria-hidden="true"><span class="rail__avatar">L</span></p>
+                    </div>
+                  </li>
+                  <li class="rail__step">
+                    <div class="rail__body">
+                      <p class="rail__when">Cuando alguien confirma</p>
+                      <p class="rail__who">Todos lo saben</p>
+                      <p class="rail__what">«Ayuda en camino» llega a toda la lista.</p>
+                    </div>
+                  </li>
+                </ol>
+                <p class="panel__note family__note">Tú eliges el orden. Participantes de ejemplo.</p>
+              </div>
+
+              <div class="family__media">
+                <img
+                  class="family__photo"
+                  src="assets/images/web/family-900.webp"
+                  srcset="assets/images/web/family-900.webp 900w, assets/images/web/family-1600.webp 1600w"
+                  sizes="(min-width: 64rem) 60vw, 100vw"
+                  alt="Una mujer mira su celular en casa y sonríe."
+                  width="1600"
+                  height="2000"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="family__blend"></div>
+                <p class="panel__notice">Imagen ilustrativa.</p>
+
+                <figure class="phone family__phone">
+                  <figcaption class="visually-hidden">Pantalla de ejemplo: aviso que recibe tu familia.</figcaption>
+                  <div class="phone__screen">
+                    <img
+                      class="phone__wallpaper phone__wallpaper--portrait"
+                      src="assets/images/web/portrait-1280.webp"
+                      srcset="assets/images/web/portrait-1280.webp 1280w, assets/images/web/portrait-2560.webp 2560w"
+                      sizes="100vw"
+                      alt=""
+                      width="2560"
+                      height="1707"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div class="phone__dim phone__dim--deep"></div>
+                    <span class="phone__island"></span>
+                    <p class="phone__date">Martes 7 de noviembre</p>
+                    <p class="phone__clock">08:15</p>
+                    <div class="notice mist">
+                      <div class="notice__head">
+                        <svg class="notice__icon" viewBox="0 0 34 34" aria-hidden="true" focusable="false">
+                          <rect width="34" height="34" rx="9" fill="#f0b65a" />
+                          <path d="M5 18H11L13.5 11L17 24L20 15L21.5 18H29" fill="none" stroke="#17241c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="notice__app"><span>AllinBand</span> <span class="notice__when">ahora</span></p>
+                      </div>
+                      <p class="notice__title">Mamá no respondió</p>
+                      <dl class="notice__vitals">
+                        <div><dt>Pulso</dt> <dd>124 lpm</dd></div>
+                        <div><dt>Oxígeno</dt> <dd>91 %</dd></div>
+                      </dl>
+                      <p class="notice__text">Pulso alto en reposo. Clínica a 600 m.</p>
+                      <div class="notice__actions notice__actions--row">
+                        <span class="notice__action notice__action--primary">Confirmar</span>
+                        <span class="notice__action">Llamar</span>
+                      </div>
+                    </div>
+                  </div>
+                </figure>
+              </div>
+            </section>
+
+            <section class="panel app" id="app" aria-labelledby="app-title">
+              <picture class="panel__photo">
+                <source media="(max-width: 47.99rem)" srcset="assets/images/web/landscape-1280.webp" />
+                <img src="assets/images/web/landscape-2560.webp" alt="" width="2560" height="1707" loading="lazy" decoding="async" />
+              </picture>
+              <div class="panel__scrim"></div>
+
+              <div class="panel__flow">
+                <h2 class="panel__title" id="app-title">Tu familia sabe cómo estás</h2>
+                <p class="panel__intro">Desde la app ven tu pulso, tus alertas y tu historial, sin tener que llamarte. Pantallas de concepto con datos de ejemplo: la app no existe todavía.</p>
+
+                <div class="app__layout">
+                  <figure class="phone phone--app app__phone">
+                    <figcaption class="visually-hidden">Pantalla de ejemplo de la app para la familia.</figcaption>
+                    <p class="app__tag mist">Concepto, datos de ejemplo</p>
+                    <div class="phone__screen app-screen">
+                      <span class="phone__island"></span>
+                      <p class="app-screen__clock">20:10</p>
+                      <svg class="app-screen__status" viewBox="0 0 52 14" aria-hidden="true" focusable="false">
+                        <g fill="#fffdf7">
+                          <rect x="0" y="9" width="3" height="5" rx="1" />
+                          <rect x="5" y="6" width="3" height="8" rx="1" />
+                          <rect x="10" y="3" width="3" height="11" rx="1" />
+                          <rect x="15" y="0" width="3" height="14" rx="1" />
+                          <rect x="28" y="3.5" width="15" height="7" rx="1.5" />
+                        </g>
+                        <rect x="26" y="1.5" width="22" height="11" rx="3" fill="none" stroke="#fffdf7" stroke-opacity="0.6" />
+                        <rect x="49.5" y="5" width="2" height="4" rx="1" fill="#fffdf7" fill-opacity="0.6" />
+                      </svg>
+
+                      <div class="app-screen__content">
+                        <div class="app-screen__who">
+                          <span class="app-screen__avatar" aria-hidden="true">M</span>
+                          <p><span class="app-screen__name">Mamá</span> <span class="app-screen__seen">Última lectura hace 1 min</span></p>
+                        </div>
+                        <div class="app-screen__pulse">
+                          <p class="app-screen__bpm">72 lpm</p>
+                          <p class="app-screen__pill">Todo normal</p>
+                          <svg class="app-screen__ecg" viewBox="0 0 260 64" aria-hidden="true" focusable="false">
+                            <path d="M0 40H46.8L50.4 48L57.6 8L64.8 58L70.8 40C78 33.3 85.6 33.3 93.6 40H134.8L138.4 48L145.6 8L152.8 58L158.8 40C166 33.3 173.6 33.3 181.6 40H222.8L226.4 48L233.6 8L240.8 58L246.8 40C252 35.2 256.5 34 260 35.4" fill="none" stroke="#f0b65a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+                        <dl class="app-screen__vitals">
+                          <div><dt>Oxígeno</dt> <dd>97 %</dd></div>
+                        </dl>
+                        <dl class="app-screen__rows">
+                          <div><dt>Ubicación</dt> <dd>En casa</dd></div>
+                          <div><dt>Batería de la pulsera</dt> <dd>82 %</dd></div>
+                          <div><dt>Última alerta</dt> <dd>Ninguna hoy</dd></div>
+                        </dl>
+                      </div>
+
+                      <div class="app-screen__tabs" aria-hidden="true">
+                        <span class="app-screen__tab is-current">
+                          <svg viewBox="0 0 22 22"><path d="M2.75 10.08 11 2.75l8.25 7.33v8.25a.92.92 0 0 1-.92.92h-4.58v-6.42h-5.5v6.42H3.67a.92.92 0 0 1-.92-.92Z" /></svg>
+                          Hoy
+                        </span>
+                        <span class="app-screen__tab">
+                          <svg viewBox="0 0 22 22"><path d="M9.17 19.25a1.83 1.83 0 0 0 3.66 0M5.5 8.25a5.5 5.5 0 0 1 11 0c0 6.42 2.75 7.33 2.75 7.33H2.75S5.5 14.67 5.5 8.25Z" /></svg>
+                          Alertas
+                        </span>
+                        <span class="app-screen__tab">
+                          <svg viewBox="0 0 22 22"><path d="M3.67 18.33V9.17m0 9.16h5.5m-5.5 0h-.92m6.42 0V3.67m0 14.66h5.5m0 0v-6.41m0 6.41h4.58" /></svg>
+                          Historial
+                        </span>
+                        <span class="app-screen__home"></span>
+                      </div>
+                    </div>
+                  </figure>
+
+                  <div class="app-panel app-panel--alert mist">
+                    <p class="app-panel__head"><span class="app-panel__title">Alerta activa</span> <span class="app-panel__time">08:15</span></p>
+                    <svg class="app-panel__map" viewBox="0 0 382 190" aria-hidden="true" focusable="false">
+                      <rect width="382" height="190" rx="16" fill="#fffdf7" fill-opacity="0.08" />
+                      <path d="M0 52H382M104 0V190M276 0V190M0 136H382M180 52 104 108.6M180 52l96-19L382 12M67.2 136 0 186" fill="none" stroke="#fffdf7" stroke-opacity="0.26" stroke-width="7" />
+                      <circle cx="182" cy="96" r="26" fill="#f3885f" fill-opacity="0.22" />
+                      <circle cx="182" cy="96" r="11" fill="#f3885f" />
+                      <circle cx="182" cy="96" r="4" fill="#fffdf7" />
+                      <path d="M190.5 92.2 303 41.3" fill="none" stroke="#f0b65a" stroke-width="2.5" stroke-dasharray="6.2 6.2" />
+                      <rect x="294" y="24" width="30" height="30" rx="8" fill="#fffdf7" />
+                      <path d="M309 30v18m-9-9h18" fill="none" stroke="#a63d22" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <p class="app-panel__status">Pulso 124 lpm. Clínica a 600 m.</p>
+                    <p class="app-panel__caption">Sale dónde está, qué pasó y qué centro de salud queda cerca.</p>
+                  </div>
+
+                  <div class="app-panel app-panel--history mist">
+                    <p class="app-panel__head"><span class="app-panel__title">Pulso en reposo</span> <span class="app-panel__range">Últimos 7 días</span></p>
+                    <svg class="app-panel__chart" viewBox="0 0 382 124" aria-hidden="true" focusable="false">
+                      <g transform="translate(-16 0)">
+                        <rect x="34" y="20" width="346" height="60" rx="8" fill="#f0b65a" fill-opacity="0.12" />
+                        <path d="M34 6H380M34 50H380M34 94H380" fill="none" stroke="#fffdf7" stroke-opacity="0.16" stroke-width="1.5" />
+                        <path d="M52 66 104 46l52 14 52-24 52 18 52-26 52 14" fill="none" stroke="#f0b65a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <g fill="#f0b65a">
+                          <circle cx="52" cy="66" r="4" /><circle cx="104" cy="46" r="4" /><circle cx="156" cy="60" r="4" />
+                          <circle cx="208" cy="36" r="4" /><circle cx="260" cy="54" r="4" /><circle cx="312" cy="28" r="4" />
+                        </g>
+                        <circle cx="364" cy="42" r="7" fill="#fffdf7" />
+                      </g>
+                    </svg>
+                    <p class="app-panel__days" aria-hidden="true"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></p>
+                    <p class="app-panel__status">Entre 68 y 74 lpm toda la semana.</p>
+                    <p class="app-panel__caption">El historial por semanas se le puede compartir a la doctora.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel band" id="pulsera" aria-labelledby="band-title">
+              <div class="band__media">
+                <img
+                  class="band__photo"
+                  src="assets/images/web/band-use-1280.webp"
+                  srcset="assets/images/web/band-use-1280.webp 1280w, assets/images/web/band-use-2560.webp 2560w"
+                  sizes="100vw"
+                  alt="Una muñeca con la pulsera AllinBand de correa tejida negra descansa sobre una manta andina."
+                  width="2560"
+                  height="1707"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="panel__scrim"></div>
+              <div class="band__media band__overlay">
+                <ul class="band__callouts" aria-label="Partes de la pulsera">
+                  <li class="band__callout band__callout--strap"><span class="band__line" aria-hidden="true"></span><span class="band__chip mist">Correa tejida y ajustable</span></li>
+                  <li class="band__callout band__callout--light"><span class="band__line" aria-hidden="true"></span><span class="band__chip mist">Luz de estado</span></li>
+                </ul>
+              </div>
+              <p class="panel__notice">Imagen ilustrativa.</p>
+
+              <div class="panel__flow">
+                <h2 class="panel__title" id="band-title">Pensada para todos los días</h2>
+                <p class="panel__intro">Una correa tejida, un módulo de sensores y una luz de estado.</p>
+              </div>
+            </section>
+          </div>
+
+          <!-- Pulse progress along the journey; drawn only in horizontal mode -->
+          <div class="journey__progress" aria-hidden="true">
+            <span class="journey__rail"></span>
+            <span class="journey__fill"></span>
+            <svg class="journey__head" viewBox="0 0 80 24" focusable="false">
+              <path d="M0 12 6 16 14 1 22 22 29 12H74.4" fill="none" stroke="#f0b65a" stroke-width="2" stroke-linejoin="round" />
+              <circle cx="74.4" cy="12" r="5" fill="#f0b65a" />
+            </svg>
           </div>
         </div>
       </div>
-    </section>
+      <!-- journey:end -->
 
-    <!-- ========================================
-       CÓMO FUNCIONA — Timeline
-       ======================================== -->
-    <section class="section-alt" id="como-funciona">
-      <div class="container">
-        <div class="section-header">
-          <span class="badge">Simple y automático</span>
-          <h2 class="section-title">
-            Usa tu pulsera como siempre. Nosotros vigilamos por ti.
-          </h2>
-          <p class="section-subtitle">
-            Sin apps complicadas: la pulsera trabaja sola, 24/7. Detección
-            inteligente y ayuda inmediata cuando la necesitas.
-          </p>
+      <!-- sections-bottom:start -->
+      <section class="goals" id="metas" aria-labelledby="goals-title" data-reveal>
+        <div class="bloom bloom--warm goals__bloom goals__bloom--warm" aria-hidden="true"></div>
+        <div class="bloom bloom--moss goals__bloom goals__bloom--moss" aria-hidden="true"></div>
+        <div class="bloom bloom--mist goals__bloom goals__bloom--mist" aria-hidden="true"></div>
+        <canvas class="shader shader--mist goals__mist" data-shader="mist" aria-hidden="true"></canvas>
+        <svg class="goals__rings" viewBox="0 0 2040 2040" aria-hidden="true" focusable="false">
+          <g fill="none" stroke="#f0b65a" stroke-width="1.5">
+            <circle class="goals__ring" pathLength="1" cx="1020" cy="1020" r="779.25" stroke-opacity="0.12" />
+            <circle class="goals__ring" pathLength="1" cx="1020" cy="1020" r="899.25" stroke-opacity="0.085" />
+            <circle class="goals__ring" pathLength="1" cx="1020" cy="1020" r="1019.25" stroke-opacity="0.05" />
+          </g>
+        </svg>
+        <picture class="goals__band">
+          <source media="(max-width: 47.99rem)" srcset="assets/images/web/band-side-800.webp" />
+          <img src="assets/images/web/band-side-1600.webp" alt="Pulsera AllinBand vista de lado, con el botón y la luz del módulo. Imagen ilustrativa." width="1600" height="1600" loading="lazy" />
+        </picture>
+        <picture class="goals__grass goals__grass--mid">
+          <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-mid-1280.webp" />
+          <img src="assets/images/web/grass-mid-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+        </picture>
+        <picture class="goals__grass goals__grass--near">
+          <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-near-1280.webp" />
+          <img src="assets/images/web/grass-near-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+        </picture>
+        <div class="seam seam--top" aria-hidden="true"></div>
+        <div class="seam seam--bottom" aria-hidden="true"></div>
+
+        <div class="goals__head">
+          <h2 class="goals__title reveal" id="goals-title">Metas de diseño</h2>
+          <p class="goals__lead reveal">Son objetivos del concepto, no resultados medidos.</p>
         </div>
 
-        <div class="how-it-works-content">
-          <div class="how-it-works-image reveal">
-            <img
-              src="assets/images/adultos-mayores-sonriendo.png"
-              alt="Pareja de adultos mayores felices y saludables usando AllinBand"
-              width="600"
-              height="600"
-              loading="lazy"
-            />
+        <!-- Dot positions follow the band's right edge (Log L7), in Figma frame pixels -->
+        <ul class="goals__list">
+          <li class="goal" style="--i: 0; --dx: 260.48; --mx: 14.64">
+            <span class="goal__mark" aria-hidden="true"></span>
+            <strong class="goal__value">24&nbsp;h</strong>
+            <span class="goal__leader" aria-hidden="true"></span>
+            <span class="goal__label">Batería por carga</span>
+          </li>
+          <li class="goal" style="--i: 1; --dx: 311.56; --mx: 87.92">
+            <span class="goal__mark" aria-hidden="true"></span>
+            <strong class="goal__value">5&nbsp;s o menos</strong>
+            <span class="goal__leader" aria-hidden="true"></span>
+            <span class="goal__label">Aviso a tus contactos</span>
+          </li>
+          <li class="goal" style="--i: 2; --dx: 287.55; --mx: 148.55">
+            <span class="goal__mark" aria-hidden="true"></span>
+            <strong class="goal__value">99,5&nbsp;%</strong>
+            <span class="goal__leader" aria-hidden="true"></span>
+            <span class="goal__label">Servicio disponible</span>
+          </li>
+          <li class="goal" style="--i: 3; --dx: 292; --mx: 136.74">
+            <span class="goal__mark" aria-hidden="true"></span>
+            <strong class="goal__value">IPX7</strong>
+            <span class="goal__leader" aria-hidden="true"></span>
+            <span class="goal__label">Lavarse, ducharse, lluvia</span>
+          </li>
+          <li class="goal" style="--i: 4; --dx: 291.36; --mx: 133.61">
+            <span class="goal__mark" aria-hidden="true"></span>
+            <strong class="goal__value">Cifrados</strong>
+            <span class="goal__leader" aria-hidden="true"></span>
+            <span class="goal__label">Datos protegidos con AES-256</span>
+          </li>
+          <li class="goal" style="--i: 5; --dx: 273.32; --mx: 101.15">
+            <span class="goal__mark" aria-hidden="true"></span>
+            <strong class="goal__value">PIN o huella</strong>
+            <span class="goal__leader" aria-hidden="true"></span>
+            <span class="goal__label">Acceso a la app</span>
+          </li>
+          <li class="goal" style="--i: 6; --dx: 240.13; --mx: 27.24">
+            <span class="goal__mark" aria-hidden="true"></span>
+            <strong class="goal__value">Android 10+ e iOS 14+</strong>
+            <span class="goal__leader" aria-hidden="true"></span>
+            <span class="goal__label">Celulares compatibles</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="limits" id="limites" aria-labelledby="limits-title">
+        <!-- With motion the stage sticks while the cards lift one by one (js/sections.js); otherwise a plain list -->
+        <div class="limits__stage">
+          <picture class="limits__photo">
+            <source media="(max-width: 47.99rem)" srcset="assets/images/web/landscape-1280.webp" />
+            <img src="assets/images/web/landscape-2560.webp" alt="" width="2560" height="1707" loading="lazy" />
+          </picture>
+          <div class="limits__scrim" aria-hidden="true"></div>
+          <picture class="limits__grass limits__grass--mid">
+            <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-mid-1280.webp" />
+            <img src="assets/images/web/grass-mid-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+          </picture>
+          <picture class="limits__grass limits__grass--near">
+            <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-near-1280.webp" />
+            <img src="assets/images/web/grass-near-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+          </picture>
+          <div class="limits__scrim-left" aria-hidden="true"></div>
+          <div class="seam seam--top" aria-hidden="true"></div>
+          <div class="seam seam--bottom" aria-hidden="true"></div>
+
+          <div class="limits__head" data-reveal>
+            <h2 class="limits__title reveal" id="limits-title">Lo que no puede hacer</h2>
+            <p class="limits__lead reveal">Ser honestos también es parte del diseño.</p>
           </div>
 
-          <div class="how-it-works-steps">
-            <div class="step reveal">
-              <div class="step-number">1</div>
-              <div class="step-content">
-                <h3 class="step-title">Monitorea</h3>
-                <p class="step-description">
-                  La pulsera mide continuamente tu frecuencia cardíaca, saturación
-                  de oxígeno y temperatura. Sin que tengas que hacer nada.
-                </p>
+          <ul class="limits__list" data-reveal>
+            <li class="limit mist">
+              <p class="limit__index">1 de 3</p>
+              <div class="limit__copy">
+                <h3 class="limit__title">Sin vigilar mientras carga</h3>
+                <p class="limit__text">Mientras carga no está en tu muñeca, así que no te vigila.</p>
               </div>
-            </div>
-
-            <div class="step reveal">
-              <div class="step-number">2</div>
-              <div class="step-content">
-                <h3 class="step-title">Detecta</h3>
-                <p class="step-description">
-                  Machine Learning analiza tus patrones personales y detecta
-                  anomalías críticas antes de que se conviertan en emergencias.
-                </p>
+            </li>
+            <li class="limit mist">
+              <p class="limit__index">2 de 3</p>
+              <div class="limit__copy">
+                <h3 class="limit__title">Necesita conexión</h3>
+                <p class="limit__text">Para avisar a tus contactos usa tu celular por Bluetooth, así que debe estar cerca, a unos 10 metros.</p>
               </div>
-            </div>
-
-            <div class="step reveal">
-              <div class="step-number">3</div>
-              <div class="step-content">
-                <h3 class="step-title">Activa ayuda</h3>
-                <p class="step-description">
-                  Alerta en la pulsera, notificaciones a tu red de contactos con
-                  tus datos y ubicación, y conexión automática con servicios de
-                  emergencia.
-                </p>
+            </li>
+            <li class="limit mist">
+              <p class="limit__index">3 de 3</p>
+              <div class="limit__copy">
+                <h3 class="limit__title">No es un médico</h3>
+                <p class="limit__text">No diagnostica ni reemplaza a un médico. En una emergencia evidente, llama tú a los servicios de emergencia.</p>
               </div>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- ========================================
-       BENEFICIOS PARA PACIENTES
-       ======================================== -->
-    <section id="beneficios" class="section-with-background">
-      <div class="container">
-        <div class="benefits-intro">
-          <h2 class="section-title text-gradient">
-            Vive con libertad, protegido en todo momento
-          </h2>
-          <p class="section-subtitle">
-            Diseñado para personas con condiciones de riesgo y adultos mayores
-            que buscan mantener su independencia sin comprometer su seguridad.
-          </p>
+      <section class="faq" id="preguntas" aria-labelledby="faq-title">
+        <div class="bloom bloom--warm faq__bloom faq__bloom--warm" aria-hidden="true"></div>
+        <div class="bloom bloom--moss faq__bloom faq__bloom--moss" aria-hidden="true"></div>
+        <canvas class="shader shader--mist faq__mist" data-shader="mist" aria-hidden="true"></canvas>
+        <picture class="faq__band">
+          <source media="(max-width: 47.99rem)" srcset="assets/images/web/band-800.webp" />
+          <img src="assets/images/web/band-1600.webp" alt="" width="1600" height="1600" loading="lazy" />
+        </picture>
+        <picture class="faq__grass faq__grass--mid">
+          <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-mid-1280.webp" />
+          <img src="assets/images/web/grass-mid-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+        </picture>
+        <picture class="faq__grass faq__grass--near">
+          <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-near-1280.webp" />
+          <img src="assets/images/web/grass-near-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+        </picture>
+        <div class="faq__scrim" aria-hidden="true"></div>
+        <div class="seam seam--top" aria-hidden="true"></div>
+        <div class="seam seam--bottom" aria-hidden="true"></div>
+
+        <h2 class="faq__title" id="faq-title" data-reveal><span class="reveal">Lo que la gente pregunta</span></h2>
+
+        <div class="faq__list" data-reveal>
+          <details class="faq__item mist reveal" open>
+            <summary class="faq__q">¿Qué pasa si es una falsa alarma?<svg class="faq__chevron" viewBox="0 0 22 22" width="22" height="22" aria-hidden="true" focusable="false"><path d="M5.5 8.25 11 13.75l5.5-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></summary>
+            <p class="faq__a">La pulsera te avisa primero a ti, con sonido y luz, y te pregunta si estás bien. Tienes unos segundos para responder; si lo haces, no se avisa a nadie.</p>
+          </details>
+          <details class="faq__item mist reveal">
+            <summary class="faq__q">¿Tengo que tener el celular siempre cerca?<svg class="faq__chevron" viewBox="0 0 22 22" width="22" height="22" aria-hidden="true" focusable="false"><path d="M5.5 8.25 11 13.75l5.5-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></summary>
+            <p class="faq__a">Para vigilar tu pulso, no: la pulsera detecta una anomalía por sí sola, sin internet. Para avisar a otros, sí: se conecta por Bluetooth a tu celular, a unos 10 metros como mínimo, y usa sus datos móviles para enviar la alerta.</p>
+          </details>
+          <details class="faq__item mist reveal">
+            <summary class="faq__q">¿Cuánto dura la batería?<svg class="faq__chevron" viewBox="0 0 22 22" width="22" height="22" aria-hidden="true" focusable="false"><path d="M5.5 8.25 11 13.75l5.5-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></summary>
+            <p class="faq__a">El objetivo de diseño es que funcione 24 horas seguidas con una sola carga. Mientras carga no te vigila, por eso conviene hacerlo en un momento tranquilo y acompañado.</p>
+          </details>
+          <details class="faq__item mist reveal">
+            <summary class="faq__q">¿Se puede mojar?<svg class="faq__chevron" viewBox="0 0 22 22" width="22" height="22" aria-hidden="true" focusable="false"><path d="M5.5 8.25 11 13.75l5.5-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></summary>
+            <p class="faq__a">El diseño apunta a la norma IPX7, pensada para aguantar hasta 1 metro de agua durante 30 minutos. La idea es que puedas lavarte las manos, ducharte o salir con lluvia.</p>
+          </details>
+          <details class="faq__item mist reveal">
+            <summary class="faq__q">¿Cómo aprende de mí?<svg class="faq__chevron" viewBox="0 0 22 22" width="22" height="22" aria-hidden="true" focusable="false"><path d="M5.5 8.25 11 13.75l5.5-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></summary>
+            <p class="faq__a">Con tus propias respuestas. Si una alerta era falsa y respondes que estás bien, se vuelve más tolerante; si pides ayuda, se vuelve más sensible. Así se ajusta a tu cuerpo con el tiempo.</p>
+          </details>
+          <details class="faq__item mist reveal">
+            <summary class="faq__q">¿A quién le avisa?<svg class="faq__chevron" viewBox="0 0 22 22" width="22" height="22" aria-hidden="true" focusable="false"><path d="M5.5 8.25 11 13.75l5.5-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></summary>
+            <p class="faq__a">Si no respondes, avisa al mismo tiempo a un centro de salud y a tu primer contacto. Si tu primer contacto no responde en 10 segundos, avisa al siguiente. Cuando alguien confirma que va en camino, los demás también lo saben.</p>
+          </details>
+          <details class="faq__item mist reveal">
+            <summary class="faq__q">¿Dónde la puedo comprar?<svg class="faq__chevron" viewBox="0 0 22 22" width="22" height="22" aria-hidden="true" focusable="false"><path d="M5.5 8.25 11 13.75l5.5-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></summary>
+            <p class="faq__a">En ningún lado: AllinBand es un proyecto académico y no se vende. Esta página presenta la idea.</p>
+          </details>
         </div>
+      </section>
+      <!-- sections-bottom:end -->
+    </main>
 
-        <div class="features-grid">
-          <article class="card card--violet reveal">
-            <div class="card-icon card-icon--primary">
-              <i class="fi fi-sr-shield-check"></i>
-            </div>
-            <h3 class="card-title">Monitoreo pasivo 24/7</h3>
-            <p class="card-description">
-              La pulsera nunca descansa. Registra tus signos vitales de forma
-              continua y silenciosa, sin interrumpir tu día a día.
-            </p>
-          </article>
+    <footer class="closing" id="proyecto" aria-labelledby="project-title">
+      <picture class="closing__layer closing__landscape">
+        <source media="(max-width: 47.99rem)" srcset="assets/images/web/landscape-1280.webp" />
+        <img src="assets/images/web/landscape-2560.webp" alt="" width="2560" height="1707" loading="lazy" />
+      </picture>
+      <div class="closing__layer closing__scrim"></div>
+      <div class="closing__layer closing__scrim-copy"></div>
+      <div class="seam seam--top" aria-hidden="true"></div>
 
-          <article class="card card--cyan reveal">
-            <div class="card-icon card-icon--cyan">
-              <i class="fi fi-sr-bell-ring"></i>
-            </div>
-            <h3 class="card-title">Alerta local inmediata</h3>
-            <p class="card-description">
-              Si algo va mal, tu pulsera te avisa con sonido y vibración. Tienes
-              el control para cancelar falsas alarmas.
-            </p>
-          </article>
-
-          <article class="card card--warm reveal">
-            <div class="card-icon card-icon--secondary">
-              <i class="fi fi-sr-life-ring"></i>
-            </div>
-            <h3 class="card-title">Ayuda automática</h3>
-            <p class="card-description">
-              Aunque no puedas responder, el sistema contacta a tus familiares y
-              servicios de emergencia con tu ubicación exacta.
-            </p>
-          </article>
-
-          <article class="card card--violet reveal">
-            <div class="card-icon card-icon--primary">
-              <i class="fi fi-sr-chart-histogram"></i>
-            </div>
-            <h3 class="card-title">Historial para tu médico</h3>
-            <p class="card-description">
-              Accede a tus datos históricos desde la app. Comparte tendencias
-              con tu doctor para un seguimiento más preciso.
-            </p>
-          </article>
-
-          <article class="card card--cyan reveal">
-            <div class="card-icon card-icon--cyan">
-              <i class="fi fi-sr-marker"></i>
-            </div>
-            <h3 class="card-title">Centros de salud cercanos</h3>
-            <p class="card-description">
-              Encuentra rápidamente hospitales, clínicas y centros de atención
-              en tu área si necesitas acudir personalmente.
-            </p>
-          </article>
-
-          <article class="card card--warm reveal">
-            <div class="card-icon card-icon--secondary">
-              <i class="fi fi-sr-brain"></i>
-            </div>
-            <h3 class="card-title">Alertas personalizadas con IA</h3>
-            <p class="card-description">
-              El sistema aprende de ti. Los umbrales de alerta se ajustan a tus
-              patrones únicos, reduciendo falsas alarmas.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================
-       BENEFICIOS PARA CUIDADORES
-       ======================================== -->
-    <section class="section-alt" id="beneficios-cuidadores">
-      <div class="container">
-        <div class="benefits-intro">
-          <span class="badge badge--success">Para familiares y cuidadores</span>
-          <h2 class="section-title">
-            Tranquilidad con información en tiempo real
-          </h2>
-          <p class="section-subtitle">
-            Si algo pasa, te avisamos de inmediato con la información que
-            necesitas: señal vital y ubicación.
-          </p>
-        </div>
-
-        <div class="features-grid">
-          <article class="card card--violet reveal">
-            <div class="card-icon card-icon--primary">
-              <i class="fi fi-sr-smartphone"></i>
-            </div>
-            <h3 class="card-title">Notificaciones automáticas</h3>
-            <p class="card-description">
-              Recibe alertas instantáneas cuando ocurre una emergencia. Sin
-              necesidad de estar llamando constantemente.
-            </p>
-          </article>
-
-          <article class="card card--cyan reveal">
-            <div class="card-icon card-icon--cyan">
-              <i class="fi fi-sr-heart"></i>
-            </div>
-            <h3 class="card-title">Datos vitales en emergencias</h3>
-            <p class="card-description">
-              Visualiza signos vitales actuales, tipo de anomalía y última
-              ubicación conocida para tomar decisiones informadas.
-            </p>
-          </article>
-
-          <article class="card card--warm reveal">
-            <div class="card-icon card-icon--secondary">
-              <i class="fi fi-sr-users-alt"></i>
-            </div>
-            <h3 class="card-title">Red jerarquizada de contactos</h3>
-            <p class="card-description">
-              Si no acusas recibo de la alerta, el sistema escala
-              automáticamente al siguiente contacto. Nadie se queda sin ayuda.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================
-       CARACTERÍSTICAS DE LA APP
-       ======================================== -->
-    <section id="caracteristicas">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">
-            App completa para pacientes y cuidadores
-          </h2>
-          <p class="section-subtitle">
-            Consulta el historial cuando quieras y coordina mejor con el médico.
-          </p>
-        </div>
-
-        <div class="features-grid">
-          <article class="card card--violet reveal">
-            <div class="card-icon card-icon--primary">
-              <i class="fi fi-sr-bolt"></i>
-            </div>
-            <h3 class="card-title">Panel en tiempo real</h3>
-            <p class="card-description">
-              Visualiza los signos vitales actuales del paciente. Actualización
-              continua para supervisión proactiva.
-            </p>
-          </article>
-
-          <article class="card card--cyan reveal">
-            <div class="card-icon card-icon--cyan">
-              <i class="fi fi-sr-chart-line-up"></i>
-            </div>
-            <h3 class="card-title">Historial y tendencias</h3>
-            <p class="card-description">
-              Accede a registros históricos por períodos. Identifica patrones y
-              comparte reportes con profesionales de la salud.
-            </p>
-          </article>
-
-          <article class="card card--warm reveal">
-            <div class="card-icon card-icon--secondary">
-              <i class="fi fi-sr-map-marker"></i>
-            </div>
-            <h3 class="card-title">Geolocalización en emergencias</h3>
-            <p class="card-description">
-              En una alerta activa, ve la ubicación exacta del paciente y
-              encuentra centros de salud cercanos en el mapa.
-            </p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================
-       TECNOLOGÍA Y PRIVACIDAD — Stats + Trust
-       ======================================== -->
-    <section class="section-primary" id="tecnologia">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">
-            Tecnología avanzada con privacidad garantizada
-          </h2>
-          <p class="section-subtitle">
-            Cumplimos con los más altos estándares de seguridad y protección de
-            datos personales.
-          </p>
-        </div>
-
-        <!-- Stats -->
-        <div class="stats-grid">
-          <div class="stat-item reveal">
-            <div class="stat-value">
-              <span data-count="24">24</span><span class="stat-unit">h</span>
-            </div>
-            <div class="stat-label">Batería por carga</div>
-            <div class="stat-detail">Uso continuo con monitoreo activo</div>
-          </div>
-
-          <div class="stat-item reveal">
-            <div class="stat-value">
-              <span data-count="5">≤5</span><span class="stat-unit">s</span>
-            </div>
-            <div class="stat-label">Latencia de notificación</div>
-            <div class="stat-detail">Desde detección hasta alerta a contactos</div>
-          </div>
-
-          <div class="stat-item reveal">
-            <div class="stat-value">
-              <span data-count="99.5">99.5</span><span class="stat-unit">%</span>
-            </div>
-            <div class="stat-label">Disponibilidad</div>
-            <div class="stat-detail">Infraestructura confiable en la nube</div>
-          </div>
-        </div>
-
-        <!-- Trust row -->
-        <div class="trust-row">
-          <div class="trust-item reveal">
-            <div class="trust-icon">
-              <i class="fi fi-sr-lock"></i>
-            </div>
-            <div class="trust-text">Cifrado de datos en transmisión y almacenamiento</div>
-          </div>
-
-          <div class="trust-item reveal">
-            <div class="trust-icon">
-              <i class="fi fi-sr-shield-check"></i>
-            </div>
-            <div class="trust-text">Autenticación por PIN o biometría</div>
-          </div>
-
-          <div class="trust-item reveal">
-            <div class="trust-icon">
-              <i class="fi fi-sr-mobile-button"></i>
-            </div>
-            <div class="trust-text">Android 10+ e iOS 14+ con Bluetooth LE</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================
-       FAQ
-       ======================================== -->
-    <section class="section-alt" id="faq">
-      <div class="container">
-        <div class="section-header">
-          <h2 class="section-title">Preguntas frecuentes</h2>
-          <p class="section-subtitle">Resolvemos tus dudas sobre AllinBand</p>
-        </div>
-
-        <div class="faq-list">
-          <div class="faq-item">
-            <button class="faq-question" aria-expanded="false" aria-controls="faq-1">
-              <span>¿Qué pasa si la alerta es una falsa alarma?</span>
-              <span class="faq-icon">▼</span>
-            </button>
-            <div class="faq-answer" id="faq-1" role="region">
-              <div class="faq-answer-content">
-                <p>
-                  Cuando la pulsera detecta una anomalía, primero te alerta
-                  localmente con sonido y vibración. Tienes un tiempo de gracia
-                  para cancelar la alerta directamente desde la pulsera antes de
-                  que se notifique a tus contactos. Esto previene falsas alarmas
-                  y te da el control total.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question" aria-expanded="false" aria-controls="faq-2">
-              <span>¿Necesito tener siempre el móvil cerca?</span>
-              <span class="faq-icon">▼</span>
-            </button>
-            <div class="faq-answer" id="faq-2" role="region">
-              <div class="faq-answer-content">
-                <p>
-                  No necesariamente. La pulsera almacena datos localmente y
-                  puede funcionar de forma autónoma. Sin embargo, para enviar
-                  notificaciones en tiempo real a tus contactos y servicios de
-                  emergencia, necesita conexión Bluetooth con tu smartphone o
-                  estar en rango de una red WiFi configurada.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question" aria-expanded="false" aria-controls="faq-3">
-              <span>¿Cuánto dura la batería?</span>
-              <span class="faq-icon">▼</span>
-            </button>
-            <div class="faq-answer" id="faq-3" role="region">
-              <div class="faq-answer-content">
-                <p>
-                  La autonomía de AllinBand es de hasta 24 horas de uso continuo
-                  con monitoreo activo. Recibirás notificaciones cuando la batería
-                  esté por debajo del 20% para que puedas cargarla. La carga
-                  completa toma aproximadamente 2 horas.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question" aria-expanded="false" aria-controls="faq-4">
-              <span>¿Es resistente al agua?</span>
-              <span class="faq-icon">▼</span>
-            </button>
-            <div class="faq-answer" id="faq-4" role="region">
-              <div class="faq-answer-content">
-                <p>
-                  AllinBand cuenta con certificación IPX7, lo que significa
-                  que es resistente a inmersión en agua hasta 1 metro de
-                  profundidad durante 30 minutos. Puedes lavarte las manos,
-                  ducharte o usarla bajo la lluvia sin problemas.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question" aria-expanded="false" aria-controls="faq-5">
-              <span>¿Cómo funciona la personalización con Machine Learning?</span>
-              <span class="faq-icon">▼</span>
-            </button>
-            <div class="faq-answer" id="faq-5" role="region">
-              <div class="faq-answer-content">
-                <p>
-                  Durante las primeras semanas de uso, AllinBand recopila tus
-                  patrones únicos de signos vitales. Nuestro sistema de Machine
-                  Learning analiza estos datos y ajusta los umbrales de alerta
-                  específicamente para ti, reduciendo falsas alarmas y mejorando
-                  la precisión de detección de anomalías reales.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-question" aria-expanded="false" aria-controls="faq-6">
-              <span>¿Puedo agregar múltiples contactos de emergencia?</span>
-              <span class="faq-icon">▼</span>
-            </button>
-            <div class="faq-answer" id="faq-6" role="region">
-              <div class="faq-answer-content">
-                <p>
-                  Sí, puedes configurar una red jerarquizada de hasta 5
-                  contactos de emergencia. Si el contacto primario no acusa
-                  recibo de la alerta en un tiempo determinado, el sistema
-                  escala automáticamente al siguiente contacto en la lista,
-                  garantizando que siempre haya respuesta.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================
-       CTA FINAL
-       ======================================== -->
-    <section class="cta-section" id="contacto">
-      <div class="container">
-        <h2 class="cta-title">Únete al piloto de AllinBand</h2>
-        <p class="text-lg mb-8" style="color: var(--text-body);">
-          Completa el formulario y nos pondremos en contacto contigo para
-          integrar AllinBand en tu día a día.
-        </p>
-
-        <form class="cta-form" id="contactForm" aria-label="Formulario de contacto">
-          <div class="form-group">
-            <label for="name" class="form-label">Nombre completo *</label>
-            <input type="text" id="name" name="name" class="form-input" required aria-required="true" />
-          </div>
-
-          <div class="form-group">
-            <label for="email" class="form-label">Correo electrónico *</label>
-            <input type="email" id="email" name="email" class="form-input" required aria-required="true" />
-          </div>
-
-          <div class="form-group">
-            <label for="phone" class="form-label">Teléfono</label>
-            <input type="tel" id="phone" name="phone" class="form-input" />
-          </div>
-
-          <div class="form-group">
-            <label for="role" class="form-label">Soy *</label>
-            <select id="role" name="role" class="form-select" required aria-required="true">
-              <option value="">Selecciona una opción</option>
-              <option value="patient">Paciente</option>
-              <option value="caregiver">Cuidador/Familiar</option>
-              <option value="both">Ambos</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label for="message" class="form-label">Mensaje (opcional)</label>
-            <textarea id="message" name="message" class="form-textarea" placeholder="Cuéntanos sobre tu situación o necesidades específicas"></textarea>
-          </div>
-
-          <button type="submit" class="btn btn-primary btn-lg w-full">
-            Solicitar información
-          </button>
-
-          <p class="text-sm mt-4" style="color: var(--text-muted);">
-            * Campos obligatorios. Tus datos están protegidos según nuestra
-            política de privacidad.
-          </p>
-        </form>
-      </div>
-    </section>
-
-    <!-- ========================================
-       FOOTER
-       ======================================== -->
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-section">
-            <h3>AllinBand</h3>
+      <section class="project">
+        <div class="project__text" data-reveal>
+          <h2 class="project__title reveal" id="project-title">Quién está detrás</h2>
+          <div class="project__copy reveal">
             <p>
-              Una solución de <strong>Vivessence</strong> para transformar el
-              cuidado de la salud mediante tecnología wearable inteligente.
+              Somos cuatro estudiantes de Ingeniería de Software de la UPC. Creamos AllinBand en el curso Arquitectura de Computadoras, ciclo 2025-II, con el docente José Gustavo Espinoza Landa. El código de esta página está abierto.
             </p>
-          </div>
-
-          <div class="footer-section">
-            <h3>Enlaces</h3>
-            <nav class="footer-links" aria-label="Enlaces del pie de página">
-              <a href="#como-funciona" class="footer-link">Cómo funciona</a>
-              <a href="#beneficios" class="footer-link">Beneficios</a>
-              <a href="#caracteristicas" class="footer-link">Características</a>
-              <a href="#faq" class="footer-link">FAQ</a>
-              <a href="#contacto" class="footer-link">Contacto</a>
-            </nav>
-          </div>
-
-          <div class="footer-section">
-            <h3>Legal</h3>
-            <nav class="footer-links" aria-label="Enlaces legales">
-              <a href="#" class="footer-link">Política de Privacidad</a>
-              <a href="#" class="footer-link">Términos de Uso</a>
-              <a href="#" class="footer-link">Cookies</a>
-              <a href="#" class="footer-link">Contacto</a>
-            </nav>
+            <a class="project__repo" href="https://github.com/trinity-bytes/allin-band" rel="noopener">github.com/trinity-bytes/allin-band</a>
           </div>
         </div>
 
-        <div class="footer-bottom">
-          <p>&copy; 2025 Vivessence - AllinBand. Todos los derechos reservados. Proyecto académico.</p>
-        </div>
+        <ul class="team" aria-label="Equipo" data-reveal>
+          <li class="member reveal">
+            <img src="assets/images/web/tamara-640.webp" alt="" width="640" height="640" loading="lazy" />
+            <p class="member__caption"><span class="member__name">Tamara Guzman</span><span class="member__role">Ideas y creatividad</span></p>
+          </li>
+          <li class="member reveal">
+            <img src="assets/images/web/mariana-640.webp" alt="" width="640" height="640" loading="lazy" />
+            <p class="member__caption"><span class="member__name">Mariana Morocho</span><span class="member__role">Organización y comunicación</span></p>
+          </li>
+          <li class="member reveal">
+            <img src="assets/images/web/fabrizio-640.webp" alt="" width="640" height="640" loading="lazy" />
+            <p class="member__caption"><span class="member__name">Fabrizio Santi</span><span class="member__role">Análisis de datos y usuarios</span></p>
+          </li>
+          <li class="member reveal">
+            <img src="assets/images/web/jahat-640.webp" alt="" width="640" height="640" loading="lazy" />
+            <p class="member__caption"><span class="member__name">Jahat Trinidad</span><span class="member__role">Desarrollo y experiencia</span></p>
+          </li>
+        </ul>
+      </section>
+
+      <p class="closing__wordmark" aria-hidden="true">AllinBand</p>
+
+      <picture class="closing__layer closing__grass-mid">
+        <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-mid-1280.webp" />
+        <img src="assets/images/web/grass-mid-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+      </picture>
+      <picture class="closing__layer closing__grass-near">
+        <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-near-1280.webp" />
+        <img src="assets/images/web/grass-near-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+      </picture>
+      <div class="closing__layer closing__scrim-bottom"></div>
+
+      <div class="footer">
+        <p>© 2025 Vivessence. Proyecto académico sin fines comerciales. Imágenes ilustrativas.</p>
+        <p class="footer__right">
+          <span>Arquitectura de Computadoras, UPC</span>
+          <a class="footer__top" href="#inicio">Volver arriba</a>
+        </p>
       </div>
     </footer>
 
-    <!-- Back to Top Button -->
-    <button
-      id="backToTop"
-      class="btn btn-primary"
-      aria-label="Volver arriba"
-      style="position: fixed; bottom: 30px; right: 30px; z-index: 999; padding: 12px; border-radius: 50%; display: none; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);"
-    >
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 15l-6-6-6 6" />
-      </svg>
-    </button>
-
-    <!-- JavaScript -->
     <script src="js/main.js"></script>
-    <script src="js/animations.js"></script>
-    <script src="js/form.js"></script>
+    <script src="js/hero.js"></script>
+    <script src="js/sections.js"></script>
+    <script src="js/shaders.js"></script>
+    <script src="js/journey.js"></script>
+    <script src="js/closing.js"></script>
   </body>
 </html>

@@ -1,185 +1,190 @@
 /**
- * AllinBand — JavaScript Principal
- * Lógica general de navegación y comportamiento
+ * AllinBand — Navigation
+ * Disclosure ticker, mobile menu, mist band after scrolling and active section.
  */
 
 (function () {
   "use strict";
 
-  // ========================================
-  // MOBILE MENU TOGGLE
-  // ========================================
-  const navToggle = document.getElementById("navToggle");
-  const navMenu = document.getElementById("navMenu");
+  var navbar = document.querySelector(".navbar");
+  var toggle = document.getElementById("navToggle");
+  var menu = document.getElementById("navMenu");
+  var links = Array.prototype.slice.call(menu.querySelectorAll(".nav__link"));
+  var root = document.documentElement;
 
-  if (navToggle && navMenu) {
-    navToggle.addEventListener("click", function () {
-      const isExpanded = navToggle.getAttribute("aria-expanded") === "true";
+  // Ticker: the text in the HTML stays the only copy exposed to assistive
+  // technology. Under reduced motion, or at a large browser font, it stays static
+  var moves =
+    root.classList.contains("motion") && !window.matchMedia("(max-width: 19.99em)").matches;
 
-      navMenu.classList.toggle("active");
-      navToggle.setAttribute("aria-expanded", !isExpanded);
-    });
-
-    // Cerrar menú al hacer click en un enlace
-    const navLinks = navMenu.querySelectorAll("a");
-    navLinks.forEach((link) => {
-      link.addEventListener("click", function () {
-        navMenu.classList.remove("active");
-        navToggle.setAttribute("aria-expanded", "false");
-      });
-    });
+  function fillTicker(ticker, text) {
+    var track = ticker.querySelector(".ticker__track");
+    var copies = track.children.length ? 7 : 8;
+    for (var i = 0; i < copies; i += 1) {
+      var copy = document.createElement("p");
+      copy.textContent = text;
+      copy.setAttribute("aria-hidden", "true");
+      track.appendChild(copy);
+    }
+    ticker.classList.add("is-moving");
   }
 
-  // ========================================
-  // SMOOTH SCROLL
-  // ========================================
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    anchor.addEventListener("click", function (e) {
-      const targetId = this.getAttribute("href");
+  var heroTicker = document.querySelector(".hero__ticker");
+  var disclosure = document.querySelector(".hero__disclosure");
 
-      // Ignorar si es solo "#"
-      if (targetId === "#") {
-        e.preventDefault();
-        return;
-      }
+  if (moves) {
+    fillTicker(heroTicker, disclosure.textContent);
+    // Focusable so the keyboard can pause it too
+    heroTicker.tabIndex = 0;
+    heroTicker.setAttribute("role", "group");
+    heroTicker.setAttribute("aria-label", "Aviso del proyecto");
 
-      const targetElement = document.querySelector(targetId);
+    if ("IntersectionObserver" in window) {
+      new IntersectionObserver(function (entries) {
+        heroTicker.classList.toggle("is-away", !entries[0].isIntersecting);
+      }).observe(heroTicker);
+    }
+  }
 
-      if (targetElement) {
-        e.preventDefault();
+  // The menu repeats the disclosure on screen; the hero copy is the one exposed
+  var menuTicker = document.createElement("div");
+  menuTicker.className = "ticker nav__ticker is-away";
+  menuTicker.setAttribute("aria-hidden", "true");
+  menuTicker.innerHTML = '<div class="ticker__track"></div>';
+  if (moves) {
+    fillTicker(menuTicker, disclosure.textContent);
+  } else {
+    menuTicker.firstChild.textContent = disclosure.textContent;
+  }
+  menu.appendChild(menuTicker);
 
-        const navbarHeight = document.querySelector(".navbar").offsetHeight;
-        const targetPosition = targetElement.offsetTop - navbarHeight;
+  // Everything behind the menu leaves the tab order while it is open
+  var behind = Array.prototype.slice.call(document.querySelectorAll(".skip-link, main, .closing"));
+  var desktop = window.matchMedia("(min-width: 64rem)");
+  var CLOSE_MS = 200;
+  var closeTimer = 0;
 
-        window.scrollTo({
-          top: targetPosition,
-          behavior: "smooth",
-        });
-      }
+  function menuIsOpen() {
+    return toggle.getAttribute("aria-expanded") === "true";
+  }
+
+  function setMenu(open, instant) {
+    window.clearTimeout(closeTimer);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.textContent = open ? "Cerrar" : "Menú";
+    menu.classList.toggle("is-open", open);
+    menuTicker.classList.toggle("is-away", !open);
+    root.classList.toggle("menu-open", open);
+    behind.forEach(function (el) {
+      el.inert = open;
     });
-  });
 
-  // ========================================
-  // NAVBAR SCROLL EFFECT
-  // ========================================
-  const navbar = document.querySelector(".navbar");
-  let lastScroll = 0;
-
-  window.addEventListener("scroll", function () {
-    const currentScroll = window.pageYOffset;
-
-    // Agregar sombra al hacer scroll
-    if (currentScroll > 50) {
-      navbar.style.boxShadow = "var(--shadow-lg)";
+    if (open) {
+      menu.classList.add("is-live");
+      menu.scrollTop = 0;
+      navbar.classList.add("is-menu-open");
+    } else if (instant || !root.classList.contains("motion")) {
+      navbar.classList.remove("is-menu-open");
     } else {
-      navbar.style.boxShadow = "var(--shadow-sm)";
-    }
-
-    lastScroll = currentScroll;
-  });
-
-  // ========================================
-  // NAVBAR ACTIVE SECTION INDICATOR
-  // ========================================
-  const indicator = document.querySelector(".navbar-indicator");
-  const navLinks = document.querySelectorAll(".navbar-link[data-section]");
-  const sections = document.querySelectorAll("section[id]");
-
-  function updateIndicator() {
-    let currentSection = "";
-    const scrollPos = window.scrollY + 200;
-
-    // Detectar sección actual
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop;
-      const sectionHeight = section.offsetHeight;
-
-      if (scrollPos >= sectionTop && scrollPos < sectionTop + sectionHeight) {
-        currentSection = section.getAttribute("id");
-      }
-    });
-
-    // Actualizar línea indicadora
-    navLinks.forEach((link) => {
-      link.classList.remove("active");
-
-      if (link.getAttribute("data-section") === currentSection) {
-        link.classList.add("active");
-
-        // Posicionar la línea
-        const linkRect = link.getBoundingClientRect();
-        const menuRect = link.closest(".navbar-menu").getBoundingClientRect();
-
-        indicator.style.width = linkRect.width + "px";
-        indicator.style.left = linkRect.left - menuRect.left + "px";
-        indicator.classList.add("visible");
-      }
-    });
-
-    // Ocultar si no hay sección activa
-    if (!currentSection) {
-      indicator.classList.remove("visible");
+      // The navbar blur comes back only after the fade, or it would clip the menu
+      closeTimer = window.setTimeout(function () {
+        navbar.classList.remove("is-menu-open");
+      }, CLOSE_MS);
     }
   }
 
-  // Ejecutar en scroll, load y resize
-  window.addEventListener("scroll", updateIndicator);
-  window.addEventListener("load", updateIndicator);
-  window.addEventListener("resize", updateIndicator);
-
-  // ========================================
-  // FAQ ACCORDION
-  // ========================================
-  const faqItems = document.querySelectorAll(".faq-item");
-
-  faqItems.forEach((item) => {
-    const question = item.querySelector(".faq-question");
-
-    question.addEventListener("click", function () {
-      const isActive = item.classList.contains("active");
-
-      // Cerrar todos los items
-      faqItems.forEach((otherItem) => {
-        otherItem.classList.remove("active");
-        otherItem
-          .querySelector(".faq-question")
-          .setAttribute("aria-expanded", "false");
-      });
-
-      // Toggle el item clickeado
-      if (!isActive) {
-        item.classList.add("active");
-        question.setAttribute("aria-expanded", "true");
-      }
-    });
+  toggle.addEventListener("click", function () {
+    setMenu(!menuIsOpen());
   });
 
-  // ========================================
-  // BACK TO TOP
-  // ========================================
+  menu.addEventListener("click", function (event) {
+    if (event.target.closest("a")) setMenu(false);
+  });
 
-  const backToTopButton = document.getElementById("backToTop");
-
-  if (backToTopButton) {
-    window.addEventListener("scroll", function () {
-      if (window.pageYOffset > 300) {
-        backToTopButton.style.display = "inline-flex";
-      } else {
-        backToTopButton.style.display = "none";
+  function keepFocusInside(event) {
+    var items = Array.prototype.filter.call(
+      navbar.querySelectorAll("a[href], button"),
+      function (item) {
+        return item.getClientRects().length > 0;
       }
-    });
-
-    backToTopButton.addEventListener("click", function () {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    });
+    );
+    var first = items[0];
+    var last = items[items.length - 1];
+    var active = document.activeElement;
+    if (items.indexOf(active) < 0) {
+      event.preventDefault();
+      first.focus();
+    } else if (event.shiftKey && active === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && active === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 
-  // ========================================
-  // CONSOLE LOG (DESARROLLO)
-  // ========================================
-  console.log("✅ AllinBand - JavaScript cargado correctamente");
-  console.log("🏥 Vivessence © 2025");
+  document.addEventListener("keydown", function (event) {
+    if (!menuIsOpen()) return;
+    if (event.key === "Escape") {
+      setMenu(false);
+      toggle.focus();
+    } else if (event.key === "Tab") {
+      keepFocusInside(event);
+    }
+  });
+
+  function closeOnDesktop() {
+    if (desktop.matches && menuIsOpen()) setMenu(false, true);
+  }
+
+  if (desktop.addEventListener) desktop.addEventListener("change", closeOnDesktop);
+
+  // Open text over the sky; the mist band only once the page has moved
+  function syncNavbar() {
+    navbar.classList.toggle("is-scrolled", window.scrollY > 8);
+  }
+
+  var ticking = false;
+  window.addEventListener(
+    "scroll",
+    function () {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(function () {
+        ticking = false;
+        syncNavbar();
+      });
+    },
+    { passive: true }
+  );
+  syncNavbar();
+
+  // Active section: the one crossing a small area below the navbar, at the
+  // horizontal center so a journey panel counts only once it fills the screen
+  var linkBySection = {};
+  links.forEach(function (link) {
+    linkBySection[link.getAttribute("href").slice(1)] = link;
+  });
+
+  function setActive(id) {
+    links.forEach(function (link) {
+      link.removeAttribute("aria-current");
+    });
+    if (linkBySection[id]) linkBySection[id].setAttribute("aria-current", "true");
+  }
+
+  if ("IntersectionObserver" in window) {
+    var spy = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-30% -49% -65% -49%" }
+    );
+
+    document.querySelectorAll("main section[id], footer[id]").forEach(function (section) {
+      spy.observe(section);
+    });
+  }
 })();

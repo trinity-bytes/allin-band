@@ -1,0 +1,345 @@
+/**
+ * AllinBand — Who is behind it, and the site footer
+ * The landscape returns at the end; the wordmark sits behind the grass.
+ */
+
+.closing {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--forest-900);
+}
+
+.closing__layer {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.closing__layer img {
+  width: 100%;
+  height: 100%;
+}
+
+.closing__landscape {
+  inset: 0;
+}
+
+.closing__landscape img {
+  object-fit: cover;
+  object-position: 50% 55%;
+}
+
+.closing__scrim {
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(14, 26, 20, 0.96),
+    rgba(11, 22, 16, 0.42) 50%,
+    rgba(11, 22, 16, 0.3)
+  );
+}
+
+.closing__scrim-copy {
+  inset: 0 0 auto;
+  z-index: 1;
+  height: 63%;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 22, 16, 0.6),
+    rgba(11, 22, 16, 0.5) 70%,
+    rgba(11, 22, 16, 0)
+  );
+}
+
+/* Joint with the FAQ: over the landscape and its scrims, under the copy */
+.closing {
+  --seam-z: 1;
+}
+
+.closing__grass-mid {
+  left: -4.17%;
+  bottom: -2.78vw;
+  z-index: 3;
+  width: 108.33%;
+  aspect-ratio: 3;
+}
+
+.closing__grass-near {
+  left: -12.5%;
+  bottom: -11.1vw;
+  z-index: 4;
+  width: 125%;
+  aspect-ratio: 3;
+}
+
+.closing__scrim-bottom {
+  inset: auto 0 0;
+  z-index: 5;
+  height: 14.4rem;
+  background: linear-gradient(to bottom, rgba(11, 22, 16, 0), rgba(11, 22, 16, 0.92));
+}
+
+.project {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 30.375rem);
+  gap: var(--gap-8);
+  padding: 3.5rem var(--gutter) 0;
+}
+
+.project__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--gap-8);
+}
+
+.project__title {
+  max-width: 41.25rem;
+  margin-top: 0.5rem;
+  font-size: var(--display-xl);
+}
+
+.project__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-3);
+  max-width: 40rem;
+  font-size: var(--text-lg);
+  line-height: 1.45;
+}
+
+.project__repo {
+  font-weight: 600;
+  color: var(--amber);
+  text-decoration: none;
+}
+
+.project__repo:hover {
+  text-decoration: underline;
+}
+
+.team {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem;
+  padding: 0;
+  list-style: none;
+}
+
+.member {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border-radius: var(--radius-photo);
+  background-color: var(--forest-800);
+}
+
+.member img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.member__caption {
+  position: absolute;
+  inset: auto 0.625rem 0.625rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0.5rem 0.625rem 0.625rem 0.75rem;
+  line-height: 1.2;
+  background-color: var(--mist-strong);
+  border-radius: var(--radius-mist);
+}
+
+.member__name {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.member__role {
+  font-size: var(--text-sm);
+}
+
+/* Decorative wordmark: the brand is already named in the navbar */
+.closing__wordmark {
+  position: relative;
+  z-index: 2;
+  margin-top: -1.875rem;
+  padding-inline-start: calc(var(--gutter) + 0.3vw);
+  font-family: var(--font-display);
+  font-size: 24.44vw;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.footer {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--gap-3) var(--gap-8);
+  padding: clamp(2rem, 4.4vw, 4rem) var(--gutter) 2rem;
+  font-size: var(--text-sm);
+}
+
+.footer__right {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--gap-3) 1.75rem;
+}
+
+.footer__top {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.footer__top:hover {
+  text-decoration: underline;
+}
+
+/* 1060 px tall at 1440 (S25): the wordmark rises under the team photos and
+   the footer follows it closely, so the top of the section stays in view */
+@media (min-width: 64rem) {
+  .closing__wordmark {
+    margin-top: -2.625rem;
+    line-height: 1.33;
+  }
+
+  /* Nature/Caption on the 236 px photos, so the role stays on one line */
+  .member__role {
+    font-size: 0.875rem;
+    line-height: 1.36;
+  }
+
+  /* The 44 px "Volver arriba" target sets the row height */
+  .footer {
+    padding-top: 1.875rem;
+    padding-bottom: 1.125rem;
+  }
+}
+
+@media (max-width: 63.99rem) {
+  .project {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .team {
+    max-width: 37.5rem;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .project {
+    gap: var(--gap-6);
+    padding-top: 3rem;
+  }
+
+  .project__text {
+    gap: var(--gap-4);
+  }
+
+  .project__title {
+    font-size: clamp(2.5rem, 11.8vw, 3.5rem);
+    line-height: 1.02;
+  }
+
+  .project__copy {
+    gap: 0.625rem;
+    font-size: var(--text-base);
+  }
+
+  .team {
+    gap: 0.75rem;
+  }
+
+  .member {
+    aspect-ratio: 173 / 226;
+  }
+
+  .member__caption {
+    inset: auto 0.375rem 0.375rem;
+    padding: 0.25rem 0.375rem 0.375rem 0.5rem;
+  }
+
+  .member__name {
+    font-size: 1rem;
+  }
+
+  .member__role {
+    font-size: 0.875rem;
+  }
+
+  .closing__wordmark {
+    margin-top: 3rem;
+    padding-inline-start: 0.8rem;
+    font-size: 24.6vw;
+  }
+
+  .closing__grass-mid {
+    left: -108%;
+    bottom: 3.75rem;
+    width: 308%;
+  }
+
+  .closing__grass-near {
+    left: -133%;
+    bottom: -6.25rem;
+    width: 385%;
+  }
+
+  .closing__scrim-bottom {
+    height: 12.5rem;
+    background: linear-gradient(to bottom, rgba(11, 22, 16, 0), rgba(11, 22, 16, 0.94));
+  }
+
+  /* Room between wordmark and footer so the grass sits as in the mobile frame */
+  .footer {
+    padding-top: 7.75rem;
+    padding-bottom: var(--gap-6);
+    font-size: 0.875rem;
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Motion (js/closing.js)
+ * Desktop: scroll-linked and pointer depth, written as `transform`.
+ * Touch: one reveal through `translate`, so the two never fight.
+ * ------------------------------------------------------------- */
+
+/* Bleed so the lifted and drifting landscape never shows its edge */
+.motion .closing__landscape {
+  inset: -1rem -1rem -7rem;
+}
+
+.closing--depth :is(.closing__landscape, .closing__wordmark, .closing__grass-mid, .closing__grass-near) {
+  will-change: transform;
+}
+
+.motion .closing:not(.closing--depth) .closing__wordmark {
+  translate: 0 32%;
+  transition: translate 1400ms var(--ease-out);
+}
+
+.motion .closing:not(.closing--depth) .closing__grass-near {
+  translate: 0 -5.25rem;
+  transition: translate 1400ms var(--ease-out);
+}
+
+.motion .closing--in:not(.closing--depth) :is(.closing__wordmark, .closing__grass-near) {
+  translate: 0 0;
+}

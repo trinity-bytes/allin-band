@@ -1,191 +1,76 @@
 /**
- * AllinBand — Sistema de Variables de Diseño
- * Dark Premium Health Tech
+ * AllinBand — Tokens
+ * Nature and care: dark forest ground, warm white text, one amber accent.
+ * Surfaces are "mist" (bruma): a moss veil with blur, used only over photos.
  */
 
 :root {
-  /* ========================================
-     DARK THEME SURFACES
-     ======================================== */
+  /* Ground */
+  --forest-950: #0b1610;
+  --forest-900: #0e1a14;
+  --forest-800: #17241c;
+  --forest-700: #1f3327;
+  --moss: #576b5c;
 
-  --bg-deep: #0b0f1a;
-  --bg-surface: #111827;
-  --bg-surface-alt: #1f2937;
-  --bg-elevated: #1a2332;
+  /* Ink */
+  --paper: #fffdf7;
+  --paper-soft: #f6f1e6;
+  --amber: #f0b65a;
 
-  /* ========================================
-     COLORES DE MARCA
-     ======================================== */
+  /* Mist surfaces: no border, no shadow, no gradient */
+  --mist-rgb: 35, 50, 41;
+  --mist: rgba(var(--mist-rgb), 0.56);
+  --mist-strong: rgba(var(--mist-rgb), 0.8);
+  --mist-soft: rgba(var(--mist-rgb), 0.42);
+  --mist-blur: 32px;
+  --rule: rgba(255, 253, 247, 0.24);
 
-  --color-primary: #8b5cf6;
-  --color-primary-light: #a78bfa;
-  --color-primary-dark: #7c3aed;
-  --color-primary-alpha: rgba(139, 92, 246, 0.15);
+  /* Section joints: forest ground fading on a smoothstep curve, never two stops */
+  --seam-stops:
+    rgba(14, 26, 20, 1) 0%, rgba(14, 26, 20, 0.957) 12.5%, rgba(14, 26, 20, 0.844) 25%,
+    rgba(14, 26, 20, 0.684) 37.5%, rgba(14, 26, 20, 0.5) 50%, rgba(14, 26, 20, 0.316) 62.5%,
+    rgba(14, 26, 20, 0.156) 75%, rgba(14, 26, 20, 0.043) 87.5%, rgba(14, 26, 20, 0) 100%;
+  --seam-top: linear-gradient(to bottom, var(--seam-stops));
+  --seam-bottom: linear-gradient(to top, var(--seam-stops));
+  --seam-left: linear-gradient(to right, var(--seam-stops));
+  --seam-right: linear-gradient(to left, var(--seam-stops));
 
-  --color-cyan: #06b6d4;
-  --color-cyan-light: #22d3ee;
-  --color-cyan-dark: #0891b2;
-  --color-cyan-alpha: rgba(6, 182, 212, 0.12);
+  /* Type: Host Grotesk speaks, Atkinson is read without effort */
+  --font-display: "Host Grotesk", "Trebuchet MS", sans-serif;
+  --font-body: "Atkinson Hyperlegible Next", Verdana, sans-serif;
 
-  --color-violet: #8b5cf6;
-  --color-violet-light: #a78bfa;
-  --color-violet-dark: #6d28d9;
-  --color-violet-alpha: rgba(139, 92, 246, 0.12);
+  --text-sm: 1rem;
+  --text-base: 1.125rem;
+  --text-md: 1.1875rem;
+  --text-lg: clamp(1.125rem, 1rem + 0.45vw, 1.375rem);
+  --display-xl: clamp(2.875rem, 1.6rem + 5.4vw, 7rem);
 
-  --color-secondary: #10b981;
-  --color-secondary-light: #34d399;
-  --color-secondary-dark: #059669;
-  --color-secondary-alpha: rgba(16, 185, 129, 0.12);
+  /* Space */
+  --gap-1: 0.25rem;
+  --gap-2: 0.5rem;
+  --gap-3: 0.75rem;
+  --gap-4: 1rem;
+  --gap-6: 1.5rem;
+  --gap-8: 2rem;
+  --gap-12: 3rem;
+  --gutter: clamp(1rem, 3.33vw, 3rem);
 
-  --color-accent: #f59e0b;
-  --color-accent-light: #fbbf24;
-  --color-accent-dark: #d97706;
-  --color-accent-ink: #111827;
+  /* Shape */
+  --radius-pill: 999px;
+  --radius-chip: 0.875rem;
+  --radius-mist: 1rem;
+  --radius-photo: 1.5rem;
 
-  /* ========================================
-     TEXTOS
-     ======================================== */
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  --text-primary: #f9fafb;
-  --text-body: #d1d5db;
-  --text-muted: #9ca3af;
+  /* Navbar row: 24px from the top plus a 44px row on desktop */
+  --nav-h: 4.25rem;
+}
 
-  /* ========================================
-     BORDES Y GLOW
-     ======================================== */
-
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-medium: rgba(255, 255, 255, 0.12);
-  --focus-ring: #c4b5fd;
-
-  --glow-violet: rgba(139, 92, 246, 0.25);
-  --glow-cyan: rgba(6, 182, 212, 0.15);
-  --glow-warm: rgba(245, 158, 11, 0.2);
-
-  /* ========================================
-     TIPOGRAFÍA
-     ======================================== */
-
-  --font-display: 'Space Grotesk', 'Poppins', system-ui, sans-serif;
-  --font-primary: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', monospace;
-
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
-  --text-6xl: 3.75rem;
-
-  --font-light: 300;
-  --font-normal: 400;
-  --font-medium: 500;
-  --font-semibold: 600;
-  --font-bold: 700;
-  --font-extrabold: 800;
-
-  --leading-tight: 1.2;
-  --leading-snug: 1.3;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.625;
-
-  --tracking-tight: -0.025em;
-  --tracking-normal: 0;
-  --tracking-wide: 0.025em;
-
-  /* ========================================
-     ESPACIADO
-     ======================================== */
-
-  --space-1: 0.25rem;
-  --space-2: 0.5rem;
-  --space-3: 0.75rem;
-  --space-4: 1rem;
-  --space-5: 1.25rem;
-  --space-6: 1.5rem;
-  --space-8: 2rem;
-  --space-10: 2.5rem;
-  --space-12: 3rem;
-  --space-16: 4rem;
-  --space-20: 5rem;
-  --space-24: 6rem;
-  --space-32: 8rem;
-
-  /* ========================================
-     LAYOUT
-     ======================================== */
-
-  --container-max-width: 1280px;
-  --container-padding: var(--space-6);
-  --section-padding-y: var(--space-24);
-  --section-padding-y-mobile: var(--space-16);
-
-  /* ========================================
-     BORDES Y RADIOS
-     ======================================== */
-
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 0.75rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 1.5rem;
-  --radius-full: 9999px;
-
-  --border-width: 1px;
-  --border-width-2: 2px;
-  --border-width-4: 4px;
-
-  /* ========================================
-     SOMBRAS
-     ======================================== */
-
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
-  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-
-  --elevation-1: 0 2px 4px rgba(0, 0, 0, 0.3);
-  --elevation-2: 0 4px 8px rgba(0, 0, 0, 0.4);
-  --elevation-3: 0 8px 16px rgba(0, 0, 0, 0.5);
-
-  /* ========================================
-     TRANSICIONES
-     ======================================== */
-
-  --transition-fast: 150ms ease-in-out;
-  --transition-base: 250ms ease-in-out;
-  --transition-slow: 350ms ease-in-out;
-
-  --ease-in: cubic-bezier(0.4, 0, 1, 1);
-  --ease-out: cubic-bezier(0, 0, 0.2, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
-
-  /* ========================================
-     Z-INDEX
-     ======================================== */
-
-  --z-negative: -1;
-  --z-base: 0;
-  --z-dropdown: 1000;
-  --z-sticky: 1020;
-  --z-fixed: 1030;
-  --z-modal-backdrop: 1040;
-  --z-modal: 1050;
-  --z-popover: 1060;
-  --z-tooltip: 1070;
-
-  /* ========================================
-     BREAKPOINTS
-     ======================================== */
-
-  --breakpoint-sm: 640px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1280px;
-  --breakpoint-2xl: 1536px;
+@media (max-width: 47.99rem) {
+  :root {
+    --nav-h: 3.875rem;
+  }
 }

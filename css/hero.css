@@ -1,0 +1,478 @@
+/**
+ * AllinBand — Hero
+ * Layers, back to front: landscape, sky depth, headline, band,
+ * grass mid, grass near, bottom scrim, callouts, copy.
+ * Layer geometry follows the 1440 x 900 desktop frame and the 390 x 844 mobile frame.
+ */
+
+.hero {
+  --title-top: calc(var(--nav-h) + 1.75rem);
+  --h1: clamp(2.5rem, 8.89vw, 8rem);
+  --band: min(50vw, 80svh);
+  --band-top: calc(var(--title-top) + var(--h1) * 0.39);
+  --ticker-h: 2.75rem;
+
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100svh;
+  min-height: max(100svh, 36rem);
+  overflow: hidden;
+  background-color: var(--moss);
+}
+
+.hero__layer {
+  position: absolute;
+  pointer-events: none;
+}
+
+.hero__layer img {
+  width: 100%;
+  height: 100%;
+}
+
+.hero__landscape {
+  inset: 0;
+  z-index: 0;
+}
+
+.hero__landscape img {
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+
+.hero__sky {
+  inset: 0 0 auto;
+  z-index: 1;
+  height: 62%;
+  background: linear-gradient(
+    to bottom,
+    rgba(11, 22, 16, 0.86),
+    rgba(11, 22, 16, 0.5) 45%,
+    rgba(11, 22, 16, 0)
+  );
+}
+
+.hero__title {
+  position: relative;
+  z-index: 2;
+  padding: var(--title-top) var(--gutter) 0;
+  font-size: var(--h1);
+  letter-spacing: -0.04em;
+  text-align: center;
+}
+
+.hero__band {
+  top: var(--band-top);
+  left: 50%;
+  z-index: 3;
+  width: var(--band);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+}
+
+.hero__band img {
+  object-fit: contain;
+}
+
+/* Grass strips are 3:1; their bottoms sit just past the frame edge */
+.hero__grass-mid {
+  left: -4.17%;
+  bottom: -1.39vw;
+  z-index: 4;
+  width: 108.33%;
+  aspect-ratio: 3;
+}
+
+.hero__grass-near {
+  left: -12.5%;
+  bottom: -9.03vw;
+  z-index: 5;
+  width: 125%;
+  aspect-ratio: 3;
+}
+
+.hero__scrim {
+  inset: auto 0 0;
+  z-index: 6;
+  height: 42%;
+  background: linear-gradient(
+    to bottom,
+    rgba(31, 51, 39, 0),
+    rgba(31, 51, 39, 0.62) 42%,
+    rgba(31, 51, 39, 0.86)
+  );
+}
+
+/* Callouts share the band box: positions are fractions of the 720 px band */
+.hero__callouts {
+  top: var(--band-top);
+  left: 50%;
+  z-index: 7;
+  display: none;
+  width: var(--band);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+}
+
+.hero__lines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.callout {
+  position: absolute;
+  padding: 0.625rem 1rem;
+  font-size: clamp(1rem, 0.4rem + 0.85vw, 1.125rem);
+  font-weight: 500;
+  line-height: 1.25;
+  border-radius: var(--radius-chip);
+}
+
+.callout--a {
+  left: 97.2%;
+  top: 33.3%;
+  width: 13.67em;
+}
+
+.callout--b {
+  left: 97.2%;
+  top: 46.7%;
+  white-space: nowrap;
+}
+
+.callout--c {
+  right: 108.1%;
+  top: 50.6%;
+  white-space: nowrap;
+}
+
+.hero__bottom {
+  position: relative;
+  z-index: 8;
+  grid-row: 3;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--gap-6);
+  padding: var(--gap-8) var(--gutter) calc(var(--ticker-h) + 2.25rem);
+}
+
+.hero__intro {
+  max-width: 25rem;
+  font-size: var(--text-md);
+  line-height: 1.4;
+}
+
+.hero__cta {
+  margin-top: var(--gap-6);
+  padding: 1rem 1.75rem;
+}
+
+/* Joint to the next section, under the ticker */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 6;
+  height: var(--seam-v);
+  background: var(--seam-bottom);
+  pointer-events: none;
+}
+
+.hero__ticker-slot {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 9;
+  display: flex;
+  align-items: flex-end;
+  height: 100svh;
+  pointer-events: none;
+}
+
+.hero__ticker {
+  flex: 1;
+  min-width: 0;
+  pointer-events: auto;
+}
+
+/* Static text wraps, so the copy keeps room for more lines */
+html:not(.motion) .hero {
+  --ticker-h: 4.5rem;
+}
+
+/* Shorter than the hero: the copy goes below the ticker instead of under it */
+@media (max-height: 35.99rem) {
+  .hero {
+    min-height: calc(100svh + 15rem);
+  }
+}
+
+@media (min-width: 80rem) {
+  .hero__callouts {
+    display: block;
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .hero {
+    --title-top: calc(var(--nav-h) + 1.625rem);
+    --h1: min(4rem, 16.4vw);
+    --band: min(100vw, 52svh);
+    --band-top: calc(var(--title-top) + var(--h1) * 1.625);
+  }
+
+  .hero__sky {
+    height: 51%;
+    background: linear-gradient(
+      to bottom,
+      rgba(11, 22, 16, 0.88),
+      rgba(11, 22, 16, 0.52) 50%,
+      rgba(11, 22, 16, 0)
+    );
+  }
+
+  .hero__title {
+    padding-inline: var(--gutter);
+    text-align: left;
+  }
+
+  .hero__grass-mid {
+    left: -128%;
+    bottom: 9%;
+    width: 359%;
+  }
+
+  .hero__grass-near {
+    display: none;
+  }
+
+  .hero__scrim {
+    height: max(41%, 22rem);
+    background: linear-gradient(
+      to bottom,
+      rgba(11, 22, 16, 0),
+      rgba(11, 22, 16, 0.72) 34%,
+      rgba(11, 22, 16, 0.92)
+    );
+  }
+
+  .hero__bottom {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--gap-4);
+    padding-bottom: calc(var(--ticker-h) + 1.75rem);
+  }
+
+  .hero__intro {
+    font-size: 1.0625rem;
+  }
+
+  .hero__cta {
+    margin-top: var(--gap-6);
+    padding: 0.8125rem 1.25rem;
+    font-size: 1.0625rem;
+  }
+
+  .hero {
+    --ticker-h: 2.5rem;
+  }
+
+  html:not(.motion) .hero {
+    --ticker-h: 7rem;
+  }
+}
+
+/* Large browser text on a phone: the layers stop overlapping and the page
+   flows, with the disclosure first so it stays in the first viewport */
+@media (max-width: 19.99em) {
+  .hero {
+    --title-top: 1rem;
+    --band: 70vw;
+
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero__bottom {
+    display: contents;
+  }
+
+  .hero__bottom > * {
+    position: relative;
+    z-index: 8;
+  }
+
+  .hero__ticker-slot {
+    position: relative;
+    z-index: 8;
+    order: -1;
+    height: auto;
+    margin: var(--gap-2) var(--gutter) 0;
+  }
+
+  .hero__ticker {
+    padding: 0.625rem 0.875rem;
+    border-radius: var(--radius-mist);
+  }
+
+  .hero__band {
+    position: relative;
+    top: auto;
+    left: auto;
+    align-self: center;
+    margin-top: var(--gap-4);
+    transform: none;
+  }
+
+  .hero__bottom > div {
+    padding: var(--gap-4) var(--gutter) var(--gap-6);
+  }
+}
+
+/* ---------------------------------------------------------------
+ * Motion
+ * Staged entrance once the first images are decoded, then depth:
+ * js/hero.js writes `transform` on each layer wrapper for scroll and
+ * pointer parallax, while the entrance animates `translate`, `scale`
+ * and `opacity` on the inner elements, so both compose.
+ * Without JS, or with reduced motion, nothing here applies.
+ * ------------------------------------------------------------- */
+
+.hero__word {
+  display: inline-block;
+}
+
+.hero__line {
+  stroke-dasharray: 1;
+}
+
+.hero__dot {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* Bleed so pointer drift never shows the frame edge */
+.motion .hero__landscape {
+  inset: -1.5rem;
+}
+
+.motion .hero__landscape,
+.motion .hero__title,
+.motion .hero__band,
+.motion .hero__grass-mid,
+.motion .hero__grass-near,
+.motion .hero__callouts {
+  will-change: transform;
+}
+
+/* Waiting for decode: hidden, with a failsafe in case the script never runs */
+.motion .hero:not(.hero--play) :is(
+  .hero__landscape img,
+  .hero__word,
+  .hero__band img,
+  .hero__grass-mid img,
+  .hero__grass-near img,
+  .hero__callouts,
+  .hero__bottom > *,
+  .hero__ticker
+) {
+  opacity: 0;
+  animation: hero-failsafe 1ms 3s forwards;
+}
+
+.motion .hero--play .hero__landscape img {
+  animation: hero-landscape 1600ms var(--ease-out) both;
+}
+
+.motion .hero--play .hero__word {
+  animation: hero-rise 1000ms var(--ease-out) both;
+  animation-delay: calc(200ms + var(--i, 0) * 70ms);
+}
+
+.motion .hero--play .hero__word:nth-child(2) { --i: 1; }
+.motion .hero--play .hero__word:nth-child(3) { --i: 2; }
+.motion .hero--play .hero__word:nth-child(4) { --i: 3; }
+.motion .hero--play .hero__word:nth-child(5) { --i: 4; }
+
+.motion .hero--play .hero__band img {
+  animation: hero-band 1400ms var(--ease-out) 450ms both;
+}
+
+.motion .hero--play .hero__grass-mid img {
+  animation: hero-grass 1500ms var(--ease-out) 250ms both;
+  --from: 14%;
+}
+
+.motion .hero--play .hero__grass-near img {
+  animation: hero-grass 1500ms var(--ease-out) 150ms both;
+  --from: 22%;
+}
+
+.motion .hero--play .hero__dot {
+  animation: hero-dot 420ms var(--ease-out) both;
+  animation-delay: calc(1300ms + var(--i, 0) * 150ms);
+}
+
+.motion .hero--play .hero__line {
+  animation: hero-draw 650ms var(--ease-in-out) both;
+  animation-delay: calc(1400ms + var(--i, 0) * 150ms);
+}
+
+.motion .hero--play .callout {
+  animation: hero-chip 600ms var(--ease-out) both;
+  animation-delay: calc(1800ms + var(--i, 0) * 150ms);
+}
+
+.motion .hero--play :is(.hero__dot, .hero__line, .callout):nth-of-type(2) { --i: 1; }
+.motion .hero--play :is(.hero__dot, .hero__line, .callout):nth-of-type(3) { --i: 2; }
+
+.motion .hero--play .hero__bottom > * {
+  animation: hero-rise 900ms var(--ease-out) both;
+  animation-delay: calc(950ms + var(--i, 0) * 120ms);
+}
+
+.motion .hero--play .hero__ticker {
+  animation: hero-fade 900ms var(--ease-out) 1070ms both;
+}
+
+@keyframes hero-failsafe {
+  to { opacity: 1; }
+}
+
+@keyframes hero-landscape {
+  from { opacity: 0; scale: 1.08; }
+}
+
+@keyframes hero-rise {
+  from { opacity: 0; translate: 0 0.6em; }
+}
+
+@keyframes hero-fade {
+  from { opacity: 0; }
+}
+
+@keyframes hero-band {
+  from { opacity: 0; translate: 0 16%; scale: 0.92; }
+}
+
+@keyframes hero-grass {
+  from { translate: 0 var(--from); }
+}
+
+@keyframes hero-dot {
+  from { scale: 0; }
+}
+
+@keyframes hero-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes hero-chip {
+  from { opacity: 0; translate: 0.75rem 0; }
+}
