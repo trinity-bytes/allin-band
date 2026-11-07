@@ -146,6 +146,156 @@ const tests = {
     assert.deepEqual(r.links, ['#como-funciona', '#app', '#pulsera', '#limites', '#preguntas']);
     await context.close();
   },
+  'the mobile menu fills the screen with numbered links and the ticker': async browser => {
+    const { context, page } = await open(browser, [390, 844]);
+    await page.waitForTimeout(300);
+    await page.locator('#navToggle').click();
+    await page.waitForTimeout(500);
+    const nav = await box(page, '#navMenu');
+    assert(nav.top <= 0 && nav.left <= 0 && nav.right >= 390 && nav.bottom >= 844, JSON.stringify(nav));
+    const r = await page.evaluate(() => ({
+      expanded: document.getElementById('navToggle').getAttribute('aria-expanded'),
+      label: document.getElementById('navToggle').textContent.trim(),
+      size: parseFloat(getComputedStyle(document.querySelector('.nav__link')).fontSize),
+      number: getComputedStyle(document.querySelector('.nav__link'), '::before').content,
+      ticker: Boolean(document.querySelector('#navMenu .ticker.is-moving[aria-hidden="true"]')),
+      demo: document.querySelector('.nav__demo').getBoundingClientRect().width,
+    }));
+    assert.equal(r.expanded, 'true');
+    assert.equal(r.label, 'Cerrar');
+    assert(r.size >= 40, `large links, ${r.size}`);
+    assert.match(r.number, /counter|0?1/);
+    assert(r.ticker, 'the menu carries the ticker');
+    assert(r.demo >= 340, 'full width demo button');
+    await context.close();
+  },
+
+  'the mobile menu opens softly in under 400 ms': async browser => {
+    const { context, page } = await open(browser, [390, 844]);
+    await page.waitForTimeout(300);
+    await page.locator('#navToggle').click();
+    const r = await page.evaluate(() => {
+      const nav = document.getElementById('navMenu');
+      const running = document.getAnimations().filter(a => a.effect.target && nav.contains(a.effect.target) && a.transitionProperty);
+      return {
+        count: running.length,
+        end: Math.max(0, ...running.map(a => a.effect.getComputedTiming().endTime)),
+        props: Array.from(new Set(running.map(a => a.transitionProperty))),
+      };
+    });
+    assert(r.count >= 6, `nav and links animate, ${r.count}`);
+    assert(r.end <= 400, `ends at ${r.end}`);
+    assert(r.props.every(prop => ['opacity', 'translate', 'visibility'].includes(prop)), r.props.join());
+    await context.close();
+
+    const calm = await open(browser, [390, 844], { reducedMotion: 'reduce' });
+    await calm.page.locator('#navToggle').click();
+    const moving = await calm.page.evaluate(() => document.getAnimations().filter(a => a.transitionProperty).length);
+    assert.equal(moving, 0, 'nothing animates under reduced motion');
+    await calm.context.close();
+  },
+
+  'the mobile menu holds scroll and focus, and Esc gives focus back': async browser => {
+    const { context, page } = await open(browser, [390, 844]);
+    await page.waitForTimeout(300);
+    await jump(page, 400);
+    await page.locator('#navToggle').focus();
+    await page.keyboard.press('Enter');
+    await page.waitForTimeout(450);
+    await page.mouse.move(195, 700);
+    await page.mouse.wheel(0, 900);
+    await page.waitForTimeout(200);
+    assert.equal(await page.evaluate(() => Math.round(window.scrollY)), 400, 'the page stays put');
+
+    for (let i = 0; i < 12; i += 1) {
+      await page.keyboard.press('Tab');
+      const inside = await page.evaluate(() => Boolean(document.activeElement.closest('.navbar')));
+      assert(inside, `Tab ${i + 1} left the menu`);
+    }
+    for (let i = 0; i < 3; i += 1) {
+      await page.keyboard.press('Shift+Tab');
+      assert(await page.evaluate(() => Boolean(document.activeElement.closest('.navbar'))), 'Shift+Tab left the menu');
+    }
+
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(450);
+    const r = await page.evaluate(() => ({
+      expanded: document.getElementById('navToggle').getAttribute('aria-expanded'),
+      focus: document.activeElement.id,
+      visibility: getComputedStyle(document.getElementById('navMenu')).visibility,
+      inert: document.querySelector('main').inert,
+    }));
+    assert.deepEqual(r, { expanded: 'false', focus: 'navToggle', visibility: 'hidden', inert: false });
+    await page.mouse.wheel(0, 300);
+    await page.waitForTimeout(400);
+    assert(await page.evaluate(() => window.scrollY > 400), 'the page scrolls again');
+    await context.close();
+  },
+
+  'the current link in the menu follows the active section': async browser => {
+    const { context, page } = await open(browser, [390, 844]);
+    await jump(page, await sectionTop(page, 'preguntas'));
+    await page.waitForTimeout(300);
+    await page.locator('#navToggle').click();
+    await page.waitForTimeout(450);
+    const r = await page.evaluate(() => {
+      const current = document.querySelector('.nav__link[aria-current="true"]');
+      const other = document.querySelector('.nav__link:not([aria-current])');
+      return {
+        href: current && current.getAttribute('href'),
+        color: current && getComputedStyle(current).color,
+        other: getComputedStyle(other).color,
+      };
+    });
+    assert.equal(r.href, '#preguntas');
+    assert.equal(r.color, 'rgb(240, 182, 90)');
+    assert.notEqual(r.other, r.color);
+    await context.close();
+  },
+
+  'a menu link closes the menu and reaches its section': async browser => {
+    const { context, page } = await open(browser, [390, 844]);
+    await page.waitForTimeout(300);
+    await page.locator('#navToggle').click();
+    await page.waitForTimeout(450);
+    await page.locator('.nav__link[href="#limites"]').click();
+    await page.waitForTimeout(1800);
+    const r = await page.evaluate(() => ({
+      expanded: document.getElementById('navToggle').getAttribute('aria-expanded'),
+      top: document.getElementById('limites').getBoundingClientRect().top,
+    }));
+    assert.equal(r.expanded, 'false');
+    assert(Math.abs(r.top) < 120, `the section is at ${r.top}`);
+    await context.close();
+  },
+
+  'the menu scrolls on short screens and closes on desktop': async browser => {
+    const { context, page } = await open(browser, [844, 390]);
+    await page.waitForTimeout(300);
+    await page.locator('#navToggle').click();
+    await page.waitForTimeout(450);
+    const r = await page.evaluate(() => {
+      const nav = document.getElementById('navMenu');
+      nav.scrollTop = nav.scrollHeight;
+      const demo = document.querySelector('.nav__demo').getBoundingClientRect();
+      return { overflow: getComputedStyle(nav).overflowY, tall: nav.scrollHeight > nav.clientHeight, demoBottom: demo.bottom };
+    });
+    assert.equal(r.overflow, 'auto');
+    assert(r.tall, 'the content is taller than the screen');
+    assert(r.demoBottom <= 390, `the demo button is reachable, ${r.demoBottom}`);
+
+    await page.setViewportSize({ width: 1200, height: 800 });
+    await page.waitForTimeout(500);
+    const after = await page.evaluate(() => ({
+      expanded: document.getElementById('navToggle').getAttribute('aria-expanded'),
+      label: document.getElementById('navToggle').textContent.trim(),
+      overflow: getComputedStyle(document.documentElement).overflowY,
+      inert: document.querySelector('main').inert,
+      position: getComputedStyle(document.getElementById('navMenu')).position,
+    }));
+    assert.deepEqual(after, { expanded: 'false', label: 'Menú', overflow: 'visible', inert: false, position: 'static' });
+    await context.close();
+  },
 };
 
 (async () => {

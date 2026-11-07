@@ -46,15 +46,51 @@
     }
   }
 
+  // The menu repeats the disclosure on screen; the hero copy is the one exposed
+  var menuTicker = document.createElement("div");
+  menuTicker.className = "ticker nav__ticker is-away";
+  menuTicker.setAttribute("aria-hidden", "true");
+  menuTicker.innerHTML = '<div class="ticker__track"></div>';
+  if (moves) {
+    fillTicker(menuTicker, disclosure.textContent);
+  } else {
+    menuTicker.firstChild.textContent = disclosure.textContent;
+  }
+  menu.appendChild(menuTicker);
+
+  // Everything behind the menu leaves the tab order while it is open
+  var behind = Array.prototype.slice.call(document.querySelectorAll(".skip-link, main, .closing"));
+  var desktop = window.matchMedia("(min-width: 64rem)");
+  var CLOSE_MS = 200;
+  var closeTimer = 0;
+
   function menuIsOpen() {
     return toggle.getAttribute("aria-expanded") === "true";
   }
 
-  function setMenu(open) {
+  function setMenu(open, instant) {
+    window.clearTimeout(closeTimer);
     toggle.setAttribute("aria-expanded", String(open));
     toggle.textContent = open ? "Cerrar" : "Menú";
     menu.classList.toggle("is-open", open);
-    syncNavbar();
+    menuTicker.classList.toggle("is-away", !open);
+    root.classList.toggle("menu-open", open);
+    behind.forEach(function (el) {
+      el.inert = open;
+    });
+
+    if (open) {
+      menu.classList.add("is-live");
+      menu.scrollTop = 0;
+      navbar.classList.add("is-menu-open");
+    } else if (instant || !root.classList.contains("motion")) {
+      navbar.classList.remove("is-menu-open");
+    } else {
+      // The navbar blur comes back only after the fade, or it would clip the menu
+      closeTimer = window.setTimeout(function () {
+        navbar.classList.remove("is-menu-open");
+      }, CLOSE_MS);
+    }
   }
 
   toggle.addEventListener("click", function () {
@@ -65,20 +101,47 @@
     if (event.target.closest("a")) setMenu(false);
   });
 
+  function keepFocusInside(event) {
+    var items = Array.prototype.filter.call(
+      navbar.querySelectorAll("a[href], button"),
+      function (item) {
+        return item.getClientRects().length > 0;
+      }
+    );
+    var first = items[0];
+    var last = items[items.length - 1];
+    var active = document.activeElement;
+    if (items.indexOf(active) < 0) {
+      event.preventDefault();
+      first.focus();
+    } else if (event.shiftKey && active === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && active === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
   document.addEventListener("keydown", function (event) {
-    if (event.key === "Escape" && menuIsOpen()) {
+    if (!menuIsOpen()) return;
+    if (event.key === "Escape") {
       setMenu(false);
       toggle.focus();
+    } else if (event.key === "Tab") {
+      keepFocusInside(event);
     }
   });
 
-  document.addEventListener("pointerdown", function (event) {
-    if (menuIsOpen() && !event.target.closest(".navbar")) setMenu(false);
-  });
+  function closeOnDesktop() {
+    if (desktop.matches && menuIsOpen()) setMenu(false, true);
+  }
+
+  if (desktop.addEventListener) desktop.addEventListener("change", closeOnDesktop);
 
   // Open text over the sky; the mist band only once the page has moved
   function syncNavbar() {
-    navbar.classList.toggle("is-scrolled", window.scrollY > 8 || menuIsOpen());
+    navbar.classList.toggle("is-scrolled", window.scrollY > 8);
   }
 
   var ticking = false;
