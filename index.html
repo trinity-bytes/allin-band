@@ -344,7 +344,7 @@
                 <ol class="steps">
                   <li class="step">
                     <p class="step__title">Te pregunta a ti primero</p>
-                    <p class="step__text">Tu pulsera suena, se ilumina y te pregunta en su pantalla.</p>
+                    <p class="step__text">Tu pulsera suena, se ilumina y te pregunta si estás bien.</p>
                   </li>
                   <li class="step">
                     <p class="step__title">Si estás bien, cancelas</p>
@@ -480,6 +480,7 @@
                 <div class="app__layout">
                   <figure class="phone phone--app app__phone">
                     <figcaption class="visually-hidden">Pantalla de ejemplo de la app para la familia.</figcaption>
+                    <p class="app__tag mist">Concepto, datos de ejemplo</p>
                     <div class="phone__screen app-screen">
                       <span class="phone__island"></span>
                       <p class="app-screen__clock">20:10</p>
@@ -509,7 +510,6 @@
                         </div>
                         <dl class="app-screen__vitals">
                           <div><dt>Oxígeno</dt> <dd>97 %</dd></div>
-                          <div><dt>Promedio de hoy</dt> <dd>74 lpm</dd></div>
                         </dl>
                         <dl class="app-screen__rows">
                           <div><dt>Ubicación</dt> <dd>En casa</dd></div>
@@ -555,14 +555,16 @@
                   <div class="app-panel app-panel--history mist">
                     <p class="app-panel__head"><span class="app-panel__title">Pulso en reposo</span> <span class="app-panel__range">Últimos 7 días</span></p>
                     <svg class="app-panel__chart" viewBox="0 0 382 124" aria-hidden="true" focusable="false">
-                      <rect x="34" y="20" width="346" height="60" rx="8" fill="#f0b65a" fill-opacity="0.12" />
-                      <path d="M34 6H380M34 50H380M34 94H380" fill="none" stroke="#fffdf7" stroke-opacity="0.16" stroke-width="1.5" />
-                      <path d="M52 66 104 46l52 14 52-24 52 18 52-26 52 14" fill="none" stroke="#f0b65a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
-                      <g fill="#f0b65a">
-                        <circle cx="52" cy="66" r="4" /><circle cx="104" cy="46" r="4" /><circle cx="156" cy="60" r="4" />
-                        <circle cx="208" cy="36" r="4" /><circle cx="260" cy="54" r="4" /><circle cx="312" cy="28" r="4" />
+                      <g transform="translate(-16 0)">
+                        <rect x="34" y="20" width="346" height="60" rx="8" fill="#f0b65a" fill-opacity="0.12" />
+                        <path d="M34 6H380M34 50H380M34 94H380" fill="none" stroke="#fffdf7" stroke-opacity="0.16" stroke-width="1.5" />
+                        <path d="M52 66 104 46l52 14 52-24 52 18 52-26 52 14" fill="none" stroke="#f0b65a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+                        <g fill="#f0b65a">
+                          <circle cx="52" cy="66" r="4" /><circle cx="104" cy="46" r="4" /><circle cx="156" cy="60" r="4" />
+                          <circle cx="208" cy="36" r="4" /><circle cx="260" cy="54" r="4" /><circle cx="312" cy="28" r="4" />
+                        </g>
+                        <circle cx="364" cy="42" r="7" fill="#fffdf7" />
                       </g>
-                      <circle cx="364" cy="42" r="7" fill="#fffdf7" />
                     </svg>
                     <p class="app-panel__days" aria-hidden="true"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></p>
                     <p class="app-panel__status">Entre 68 y 74 lpm toda la semana.</p>
@@ -597,7 +599,7 @@
 
               <div class="panel__flow">
                 <h2 class="panel__title" id="band-title">Pensada para todos los días</h2>
-                <p class="panel__intro">Una correa tejida, una pantalla pequeña y una luz de estado.</p>
+                <p class="panel__intro">Una correa tejida, un módulo de sensores y una luz de estado.</p>
               </div>
             </section>
           </div>
