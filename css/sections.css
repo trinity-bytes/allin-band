@@ -243,6 +243,14 @@
     object-position: 100% 50%;
   }
 
+  /* The light ends with the photo (L40) */
+  .emergency__rays,
+  .emergency__rays.is-live {
+    inset: 0 0 auto;
+    height: 26.25rem;
+    mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  }
+
   .emergency__scrim {
     height: 26.375rem;
     background: linear-gradient(to bottom, rgba(14, 26, 20, 0.86), rgba(14, 26, 20, 0.3) 45%, var(--forest-900));

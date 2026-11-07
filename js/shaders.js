@@ -25,20 +25,21 @@
     "void main() { uv = p * 0.5 + 0.5; gl_Position = vec4(p, 0.0, 1.0); }";
 
   // Three shafts from the window on the right, slanting left as they fall
-  // (across 40 % of the width at any aspect); brighter near the window, fading as
+  // at one angle on every screen, as wide as on a phone and with crisp edges; brighter near the window, fading as
   // they fall. Each one breathes and sways on its own slow clock
   var RAYS =
     "precision mediump float;" +
     "varying vec2 uv;" +
     "uniform vec2 size;" +
     "uniform float time;" +
+    "uniform float unit;" +
     "float shaft(vec2 px, float x0, float width, float phase) {" +
-    "  vec2 dir = normalize(vec2(-0.4 * size.x / size.y, -1.0));" +
+    "  vec2 dir = normalize(vec2(-0.62, -1.0));" +
     "  vec2 origin = vec2((x0 + 0.03 * sin(time * 0.23 + phase)) * size.x, size.y);" +
     "  vec2 d = px - origin;" +
     "  float across = abs(d.x * dir.y - d.y * dir.x);" +
-    "  float w = width * size.x;" +
-    "  float body = 1.0 - smoothstep(w * 0.25, w, across);" +
+    "  float w = width * min(size.x, 400.0 * unit);" +
+    "  float body = 1.0 - smoothstep(w * 0.45, w, across);" +
     "  float breathe = 0.6 + 0.4 * sin(time * 0.55 + phase + px.y / size.y * 2.4);" +
     "  float along = d.x * dir.x + d.y * dir.y;" +
     "  float dust = 0.82 + 0.18 * sin(along / size.y * 26.0 - time * 0.9 + phase) * sin(across / w * 5.0 + time * 0.4);" +
@@ -113,6 +114,7 @@
       gl: gl,
       size: gl.getUniformLocation(program, "size"),
       time: gl.getUniformLocation(program, "time"),
+      unit: gl.getUniformLocation(program, "unit"),
       visible: false,
       frame: 0,
       last: 0,
@@ -143,6 +145,8 @@
     var gl = fill.gl;
     gl.uniform2f(fill.size, fill.canvas.width, fill.canvas.height);
     gl.uniform1f(fill.time, (now - fill.start) / 1000);
+    // Canvas pixels per CSS pixel, so a shader can size things on screen
+    gl.uniform1f(fill.unit, fill.canvas.width / Math.max(1, fill.canvas.clientWidth));
     gl.clearColor(0, 0, 0, 0);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
