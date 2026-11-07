@@ -18,7 +18,7 @@
     <meta property="og:title" content="AllinBand: la pulsera que primero te pregunta a ti" />
     <meta
       property="og:description"
-      content="Concepto de pulsera inteligente. Prueba una alerta y decide qué pasa. Proyecto académico de Vivessence, UPC 2025."
+      content="Concepto de pulsera inteligente que te pregunta si estás bien antes de avisar a tu familia. Proyecto académico de Vivessence, UPC 2025."
     />
     <meta property="og:image" content="https://trinity-bytes.github.io/allin-band/assets/images/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
@@ -66,8 +66,8 @@
 
         <nav class="nav" id="navMenu" aria-label="Secciones">
           <a class="nav__link" href="#como-funciona">Cómo funciona</a>
-          <a class="nav__link" href="#pulsera">La pulsera</a>
           <a class="nav__link" href="#app">La app</a>
+          <a class="nav__link" href="#pulsera">La pulsera</a>
           <a class="nav__link" href="#limites">Límites</a>
           <a class="nav__link" href="#preguntas">Preguntas</a>
           <a class="btn nav__demo" href="#tu-decides">Probar el demo</a>
@@ -127,9 +127,15 @@
             </p>
             <a class="btn hero__cta" href="#como-funciona">Ver cómo funciona</a>
           </div>
-          <p class="hero__disclosure mist">
-            Prototipo académico de Vivessence, UPC 2025. No es un dispositivo médico ni está a la venta. Imágenes ilustrativas.
-          </p>
+        </div>
+
+        <!-- The slot is one screen tall, so the ticker closes the first viewport even when the hero is taller -->
+        <div class="hero__ticker-slot">
+          <div class="hero__ticker ticker">
+            <div class="ticker__track">
+              <p class="hero__disclosure">Prototipo académico de Vivessence, UPC 2025. No es un dispositivo médico ni está a la venta. Imágenes ilustrativas.</p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -140,6 +146,9 @@
           <img src="assets/images/web/chair-2560.webp" alt="Silla de madera con una manta junto a una ventana, en una casa en silencio." width="2560" height="1707" loading="lazy" />
         </picture>
         <div class="emergency__scrim" aria-hidden="true"></div>
+        <canvas class="shader shader--rays emergency__rays" data-shader="rays" aria-hidden="true"></canvas>
+        <div class="seam seam--top" aria-hidden="true"></div>
+        <div class="seam seam--bottom" aria-hidden="true"></div>
 
         <div class="emergency__head" data-reveal>
           <h2 class="emergency__title reveal" id="emergency-title">Una emergencia no avisa</h2>
@@ -629,7 +638,10 @@
 
       <!-- sections-bottom:start -->
       <section class="goals" id="metas" aria-labelledby="goals-title" data-reveal>
-        <div class="goals__glow" aria-hidden="true"></div>
+        <div class="bloom bloom--warm goals__bloom goals__bloom--warm" aria-hidden="true"></div>
+        <div class="bloom bloom--moss goals__bloom goals__bloom--moss" aria-hidden="true"></div>
+        <div class="bloom bloom--mist goals__bloom goals__bloom--mist" aria-hidden="true"></div>
+        <canvas class="shader shader--mist goals__mist" data-shader="mist" aria-hidden="true"></canvas>
         <svg class="goals__rings" viewBox="0 0 2040 2040" aria-hidden="true" focusable="false">
           <g fill="none" stroke="#f0b65a" stroke-width="1.5">
             <circle class="goals__ring" pathLength="1" cx="1020" cy="1020" r="779.25" stroke-opacity="0.12" />
@@ -649,7 +661,8 @@
           <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-near-1280.webp" />
           <img src="assets/images/web/grass-near-2560.webp" alt="" width="2560" height="853" loading="lazy" />
         </picture>
-        <div class="goals__scrim" aria-hidden="true"></div>
+        <div class="seam seam--top" aria-hidden="true"></div>
+        <div class="seam seam--bottom" aria-hidden="true"></div>
 
         <div class="goals__head">
           <h2 class="goals__title reveal" id="goals-title">Metas de diseño</h2>
@@ -704,44 +717,60 @@
       </section>
 
       <section class="limits" id="limites" aria-labelledby="limits-title">
-        <picture class="limits__photo">
-          <source media="(max-width: 47.99rem)" srcset="assets/images/web/landscape-1280.webp" />
-          <img src="assets/images/web/landscape-2560.webp" alt="" width="2560" height="1707" loading="lazy" />
-        </picture>
-        <div class="limits__scrim" aria-hidden="true"></div>
-        <picture class="limits__grass limits__grass--mid">
-          <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-mid-1280.webp" />
-          <img src="assets/images/web/grass-mid-2560.webp" alt="" width="2560" height="853" loading="lazy" />
-        </picture>
-        <picture class="limits__grass limits__grass--near">
-          <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-near-1280.webp" />
-          <img src="assets/images/web/grass-near-2560.webp" alt="" width="2560" height="853" loading="lazy" />
-        </picture>
-        <div class="limits__scrim-text" aria-hidden="true"></div>
+        <!-- With motion the stage sticks while the cards lift one by one (js/sections.js); otherwise a plain list -->
+        <div class="limits__stage">
+          <picture class="limits__photo">
+            <source media="(max-width: 47.99rem)" srcset="assets/images/web/landscape-1280.webp" />
+            <img src="assets/images/web/landscape-2560.webp" alt="" width="2560" height="1707" loading="lazy" />
+          </picture>
+          <div class="limits__scrim" aria-hidden="true"></div>
+          <picture class="limits__grass limits__grass--mid">
+            <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-mid-1280.webp" />
+            <img src="assets/images/web/grass-mid-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+          </picture>
+          <picture class="limits__grass limits__grass--near">
+            <source media="(max-width: 47.99rem)" srcset="assets/images/web/grass-near-1280.webp" />
+            <img src="assets/images/web/grass-near-2560.webp" alt="" width="2560" height="853" loading="lazy" />
+          </picture>
+          <div class="limits__scrim-left" aria-hidden="true"></div>
+          <div class="seam seam--top" aria-hidden="true"></div>
+          <div class="seam seam--bottom" aria-hidden="true"></div>
 
-        <div class="limits__head" data-reveal>
-          <h2 class="limits__title reveal" id="limits-title">Lo que no puede hacer</h2>
-          <p class="limits__lead reveal">Ser honestos también es parte del diseño.</p>
+          <div class="limits__head" data-reveal>
+            <h2 class="limits__title reveal" id="limits-title">Lo que no puede hacer</h2>
+            <p class="limits__lead reveal">Ser honestos también es parte del diseño.</p>
+          </div>
+
+          <ul class="limits__list" data-reveal>
+            <li class="limit mist">
+              <p class="limit__index">1 de 3</p>
+              <div class="limit__copy">
+                <h3 class="limit__title">Sin vigilar mientras carga</h3>
+                <p class="limit__text">Mientras carga no está en tu muñeca, así que no te vigila.</p>
+              </div>
+            </li>
+            <li class="limit mist">
+              <p class="limit__index">2 de 3</p>
+              <div class="limit__copy">
+                <h3 class="limit__title">Necesita conexión</h3>
+                <p class="limit__text">Para avisar a tus contactos usa tu celular por Bluetooth, así que debe estar cerca, a unos 10 metros.</p>
+              </div>
+            </li>
+            <li class="limit mist">
+              <p class="limit__index">3 de 3</p>
+              <div class="limit__copy">
+                <h3 class="limit__title">No es un médico</h3>
+                <p class="limit__text">No diagnostica ni reemplaza a un médico. En una emergencia evidente, llama tú a los servicios de emergencia.</p>
+              </div>
+            </li>
+          </ul>
         </div>
-
-        <ul class="limits__list" data-reveal>
-          <li class="limit mist reveal">
-            <h3 class="limit__title">Sin vigilar mientras carga</h3>
-            <p class="limit__text">Mientras carga no está en tu muñeca, así que no te vigila.</p>
-          </li>
-          <li class="limit mist reveal">
-            <h3 class="limit__title">Necesita conexión</h3>
-            <p class="limit__text">Para avisar a tus contactos usa tu celular por Bluetooth, así que debe estar cerca, a unos 10 metros.</p>
-          </li>
-          <li class="limit mist reveal">
-            <h3 class="limit__title">No es un médico</h3>
-            <p class="limit__text">No diagnostica ni reemplaza a un médico. En una emergencia evidente, llama tú a los servicios de emergencia.</p>
-          </li>
-        </ul>
       </section>
 
       <section class="faq" id="preguntas" aria-labelledby="faq-title">
-        <div class="faq__glow" aria-hidden="true"></div>
+        <div class="bloom bloom--warm faq__bloom faq__bloom--warm" aria-hidden="true"></div>
+        <div class="bloom bloom--moss faq__bloom faq__bloom--moss" aria-hidden="true"></div>
+        <canvas class="shader shader--mist faq__mist" data-shader="mist" aria-hidden="true"></canvas>
         <picture class="faq__band">
           <source media="(max-width: 47.99rem)" srcset="assets/images/web/band-800.webp" />
           <img src="assets/images/web/band-1600.webp" alt="" width="1600" height="1600" loading="lazy" />
@@ -755,13 +784,15 @@
           <img src="assets/images/web/grass-near-2560.webp" alt="" width="2560" height="853" loading="lazy" />
         </picture>
         <div class="faq__scrim" aria-hidden="true"></div>
+        <div class="seam seam--top" aria-hidden="true"></div>
+        <div class="seam seam--bottom" aria-hidden="true"></div>
 
         <h2 class="faq__title" id="faq-title" data-reveal><span class="reveal">Lo que la gente pregunta</span></h2>
 
         <div class="faq__list" data-reveal>
           <details class="faq__item mist reveal" open>
             <summary class="faq__q">¿Qué pasa si es una falsa alarma?<svg class="faq__chevron" viewBox="0 0 22 22" width="22" height="22" aria-hidden="true" focusable="false"><path d="M5.5 8.25 11 13.75l5.5-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></summary>
-            <p class="faq__a">La pulsera te avisa primero a ti, con sonido, luz y un mensaje en su pantalla. Tienes unos segundos para responder que estás bien; si lo haces, no se avisa a nadie.</p>
+            <p class="faq__a">La pulsera te avisa primero a ti, con sonido y luz, y te pregunta si estás bien. Tienes unos segundos para responder; si lo haces, no se avisa a nadie.</p>
           </details>
           <details class="faq__item mist reveal">
             <summary class="faq__q">¿Tengo que tener el celular siempre cerca?<svg class="faq__chevron" viewBox="0 0 22 22" width="22" height="22" aria-hidden="true" focusable="false"><path d="M5.5 8.25 11 13.75l5.5-5.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg></summary>
@@ -799,11 +830,12 @@
       </picture>
       <div class="closing__layer closing__scrim"></div>
       <div class="closing__layer closing__scrim-copy"></div>
+      <div class="seam seam--top" aria-hidden="true"></div>
 
       <section class="project">
-        <div class="project__text">
-          <h2 class="project__title" id="project-title">Quién está detrás</h2>
-          <div class="project__copy">
+        <div class="project__text" data-reveal>
+          <h2 class="project__title reveal" id="project-title">Quién está detrás</h2>
+          <div class="project__copy reveal">
             <p>
               Somos cuatro estudiantes de Ingeniería de Software de la UPC. Creamos AllinBand en el curso Arquitectura de Computadoras, ciclo 2025-II, con el docente José Gustavo Espinoza Landa. El código de esta página está abierto.
             </p>
@@ -811,20 +843,20 @@
           </div>
         </div>
 
-        <ul class="team" aria-label="Equipo">
-          <li class="member">
+        <ul class="team" aria-label="Equipo" data-reveal>
+          <li class="member reveal">
             <img src="assets/images/web/tamara-640.webp" alt="" width="640" height="640" loading="lazy" />
             <p class="member__caption"><span class="member__name">Tamara Guzman</span><span class="member__role">Ideas y creatividad</span></p>
           </li>
-          <li class="member">
+          <li class="member reveal">
             <img src="assets/images/web/mariana-640.webp" alt="" width="640" height="640" loading="lazy" />
             <p class="member__caption"><span class="member__name">Mariana Morocho</span><span class="member__role">Organización y comunicación</span></p>
           </li>
-          <li class="member">
+          <li class="member reveal">
             <img src="assets/images/web/fabrizio-640.webp" alt="" width="640" height="640" loading="lazy" />
             <p class="member__caption"><span class="member__name">Fabrizio Santi</span><span class="member__role">Análisis de datos y usuarios</span></p>
           </li>
-          <li class="member">
+          <li class="member reveal">
             <img src="assets/images/web/jahat-640.webp" alt="" width="640" height="640" loading="lazy" />
             <p class="member__caption"><span class="member__name">Jahat Trinidad</span><span class="member__role">Desarrollo y experiencia</span></p>
           </li>
@@ -855,6 +887,7 @@
     <script src="js/main.js"></script>
     <script src="js/hero.js"></script>
     <script src="js/sections.js"></script>
+    <script src="js/shaders.js"></script>
     <script src="js/journey.js"></script>
     <script src="js/closing.js"></script>
   </body>

@@ -17,6 +17,8 @@ function hiddenText(ids) {
       if (!node.textContent.trim()) continue;
       const el = node.parentElement;
       if (el.closest('svg, [aria-hidden="true"]')) continue;
+      // Stacked limit cards show one at a time by design; tests/round2-page.cjs covers them
+      if (el.closest('.is-stacked .limit')) continue;
       const rect = el.getBoundingClientRect();
       const label = `#${id} "${node.textContent.trim().slice(0, 40)}"`;
       if (rect.width === 0 || rect.height === 0) problems.push(`${label} has no box`);

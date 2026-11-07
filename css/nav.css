@@ -86,6 +86,11 @@
   font-size: var(--text-sm);
 }
 
+/* Only the mobile menu shows it; this beats `.ticker.is-moving` in base.css */
+.navbar .nav__ticker {
+  display: none;
+}
+
 @media (max-width: 63.99rem) {
   .brand {
     font-size: 1.3125rem;
@@ -119,38 +124,162 @@
     --title-top: 1.75rem;
   }
 
+  /* The bar above takes part of the first screen */
+  html:not(.js) .hero__ticker-slot {
+    height: calc(100svh - 9.5rem);
+  }
+
+  html:not(.js) .hero__bottom {
+    padding-bottom: calc(var(--ticker-h) + 11.5rem);
+  }
+
   .nav {
     flex-wrap: wrap;
     gap: 0 var(--gap-6);
   }
 
+  /* Full-screen menu. The brand and Cerrar stay above it; `.is-menu-open` drops
+     the navbar blur, which would otherwise contain this fixed layer */
+  .brand,
+  .js .nav-toggle {
+    position: relative;
+    z-index: 2;
+  }
+
+  .navbar.is-menu-open {
+    background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .navbar.is-menu-open .navbar__row {
+    padding-block: 1.5rem 0.5rem;
+  }
+
   .js .nav {
-    position: absolute;
-    inset: 100% var(--gutter) auto;
-    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1;
     flex-direction: column;
+    flex-wrap: nowrap;
     align-items: stretch;
     gap: 0;
-    padding: var(--gap-2) var(--gap-4) var(--gap-4);
-    background-color: rgba(var(--mist-rgb), 0.9);
-    -webkit-backdrop-filter: blur(var(--mist-blur));
-    backdrop-filter: blur(var(--mist-blur));
-    border-radius: var(--radius-mist);
+    padding-top: calc(var(--nav-h) + 2.25rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    visibility: hidden;
+    opacity: 0;
+    background-color: var(--forest-900);
+    counter-reset: nav;
   }
 
   .js .nav.is-open {
-    display: flex;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  /* Loaded on the first open only; on phones both images are already cached */
+  .js .nav.is-live::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background:
+      url("../assets/images/web/grass-mid-1280.webp") center bottom -10rem / 87.5rem auto no-repeat,
+      linear-gradient(to bottom, rgba(11, 22, 16, 0.94), rgba(11, 22, 16, 0.8)),
+      url("../assets/images/web/landscape-1280.webp") center / cover no-repeat;
   }
 
   .js .nav__link {
-    min-height: 3rem;
-    font-size: var(--text-base);
+    flex: none;
+    align-items: baseline;
+    gap: 0.75rem;
+    min-height: 4.5625rem;
+    margin-inline: var(--gutter);
+    padding-block: 0.75rem 0.5rem;
+    font-family: var(--font-display);
+    font-size: min(2.75rem, 11.5vw);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    border-bottom: 1px solid var(--rule);
+    counter-increment: nav;
+  }
+
+  .js .nav__link::before {
+    content: counter(nav, decimal-leading-zero) / "";
+    flex: none;
+    min-width: 1.25rem;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: var(--amber);
+  }
+
+  .js .nav__link:hover,
+  .js .nav__link[aria-current="true"] {
+    text-decoration: none;
+  }
+
+  .js .nav__link[aria-current="true"] {
+    color: var(--amber);
+    border-bottom-color: var(--amber);
   }
 
   .js .nav__demo {
-    margin-top: var(--gap-3);
-    min-height: 3rem;
+    flex: none;
+    min-height: 3.625rem;
+    margin: 1.75rem var(--gutter) 1.5rem;
   }
+
+  .js .nav__ticker {
+    position: sticky;
+    bottom: 0;
+    display: block;
+    flex: none;
+    margin-top: auto;
+  }
+
+  .js .nav__ticker.is-moving {
+    display: flex;
+  }
+
+  /* Opens with a staggered rise, closes in one quick fade */
+  .motion .nav {
+    transition:
+      opacity 180ms var(--ease-out),
+      visibility 0s linear 180ms;
+  }
+
+  .motion .nav.is-open {
+    transition: opacity 240ms var(--ease-out);
+  }
+
+  .motion .nav > :is(.nav__link, .nav__demo) {
+    opacity: 0;
+    translate: 0 0.75rem;
+    transition:
+      opacity 140ms var(--ease-out),
+      translate 140ms var(--ease-out);
+  }
+
+  .motion .nav.is-open > :is(.nav__link, .nav__demo) {
+    opacity: 1;
+    translate: 0 0;
+    transition-duration: 220ms;
+    transition-delay: calc(40ms + var(--n, 0) * 24ms);
+  }
+
+  .nav > :nth-child(2) { --n: 1; }
+  .nav > :nth-child(3) { --n: 2; }
+  .nav > :nth-child(4) { --n: 3; }
+  .nav > :nth-child(5) { --n: 4; }
+  .nav > :nth-child(6) { --n: 5; }
+}
+
+html.menu-open {
+  overflow: hidden;
 }
 
 /* Large browser text on a phone: a fixed bar would cover the page, so it flows */

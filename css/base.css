@@ -17,6 +17,17 @@
   font-display: swap;
 }
 
+/* Height of the vertical section joints; the curve itself is --seam-top and --seam-bottom */
+:root {
+  --seam-v: 96px;
+}
+
+@media (max-width: 47.99rem) {
+  :root {
+    --seam-v: 64px;
+  }
+}
+
 /* Percent based: respects the font size chosen in the browser */
 html {
   font-size: 100%;
@@ -132,8 +143,97 @@ strong {
   transform: scale(0.97);
 }
 
+/* Disclosure ticker. Static text that wraps by default; js/main.js adds the
+   aria-hidden copies and `is-moving` only when motion is allowed */
+.ticker {
+  padding: 0.625rem var(--gutter);
+  font-size: var(--text-sm);
+  line-height: 1.4;
+  background-color: var(--mist-strong);
+  -webkit-backdrop-filter: blur(var(--mist-blur));
+  backdrop-filter: blur(var(--mist-blur));
+}
+
+.ticker.is-moving {
+  display: flex;
+  align-items: center;
+  height: 2.75rem;
+  padding: 0;
+  overflow: hidden;
+}
+
+.ticker.is-moving:focus-visible {
+  outline-offset: -3px;
+  box-shadow: none;
+}
+
+.ticker.is-moving .ticker__track {
+  display: flex;
+  flex: none;
+  width: max-content;
+  animation: ticker-loop 72s linear infinite;
+}
+
+.ticker.is-moving .ticker__track > * {
+  flex: none;
+  padding-inline-start: 1.75rem;
+  white-space: nowrap;
+}
+
+.ticker.is-moving .ticker__track > *::after {
+  content: "·" / "";
+  margin-inline-start: 1.75rem;
+}
+
+.ticker.is-moving:hover .ticker__track,
+.ticker.is-moving:focus .ticker__track,
+.ticker.is-away .ticker__track {
+  animation-play-state: paused;
+}
+
+/* Eight equal copies: moving by half lands on an identical frame */
+@keyframes ticker-loop {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (max-width: 47.99rem) {
+  .ticker.is-moving {
+    height: 2.5rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+/* Section joints: a short fade into the forest ground on the eased --seam-*
+   stops, never a visible line. Each section sets --seam-z and, where its
+   joint needs more room, --seam-h (L30, L32) */
+.seam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: var(--seam-z, 0);
+  height: var(--seam-h, 96px);
+  pointer-events: none;
+}
+
+.seam--top {
+  top: 0;
+  background-image: var(--seam-top);
+}
+
+.seam--bottom {
+  bottom: 0;
+  background-image: var(--seam-bottom);
+}
+
+@media (max-width: 47.99rem) {
+  .seam {
+    height: 64px;
   }
 }
