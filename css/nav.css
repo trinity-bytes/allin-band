@@ -86,7 +86,8 @@
   font-size: var(--text-sm);
 }
 
-.nav__ticker {
+/* Only the mobile menu shows it; this beats `.ticker.is-moving` in base.css */
+.navbar .nav__ticker {
   display: none;
 }
 

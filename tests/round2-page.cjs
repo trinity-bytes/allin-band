@@ -190,7 +190,8 @@ const tests = {
 
     const calm = await open(browser, [390, 844], { reducedMotion: 'reduce' });
     await calm.page.locator('#navToggle').click();
-    const moving = await calm.page.evaluate(() => document.getAnimations().filter(a => a.transitionProperty).length);
+    // reset.css shortens every transition to 0.01 ms under reduced motion; those do not count
+    const moving = await calm.page.evaluate(() => document.getAnimations().filter(a => a.transitionProperty && a.effect.getComputedTiming().duration > 1).length);
     assert.equal(moving, 0, 'nothing animates under reduced motion');
     await calm.context.close();
   },
@@ -296,6 +297,21 @@ const tests = {
     assert.deepEqual(after, { expanded: 'false', label: 'Menú', overflow: 'visible', inert: false, position: 'static' });
     await context.close();
   },
+  'the desktop navbar keeps one row and no menu ticker': async browser => {
+    for (const size of [[1440, 900], [1024, 768]]) {
+      const { context, page } = await open(browser, size);
+      await jump(page, 1200);
+      await page.waitForTimeout(300);
+      const r = await page.evaluate(() => ({
+        ticker: document.querySelector('.nav__ticker').getClientRects().length,
+        lines: Array.from(document.querySelectorAll('.nav__link')).map(link => link.getClientRects().length),
+      }));
+      assert.equal(r.ticker, 0, `${size.join('x')}: the menu ticker shows`);
+      assert(r.lines.every(n => n === 1), `${size.join('x')}: links wrap, ${r.lines}`);
+      await context.close();
+    }
+  },
+
   'the light shaders draw only while their section is in view': async browser => {
     const context = await browser.newContext({ viewport: { width: 1440, height: 900 }, deviceScaleFactor: 2 });
     await context.addInitScript(() => {
