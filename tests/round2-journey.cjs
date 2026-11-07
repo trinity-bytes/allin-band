@@ -83,6 +83,8 @@ const tests = {
     const { context, page } = await open(browser, { width: 1440, height: 900 });
     assert.equal(await page.textContent('#pulsera .panel__intro'), 'Una correa tejida, un módulo de sensores y una luz de estado.');
     assert.equal(await page.textContent('#tu-decides .step__text'), 'Tu pulsera suena, se ilumina y te pregunta si estás bien.');
+    const journey = await page.textContent('.journey');
+    assert(!/su pantalla|pantalla (pequeña|de la pulsera)|OLED/i.test(journey), 'the journey never mentions a screen on the band');
     await context.close();
   },
 
