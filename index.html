@@ -221,6 +221,399 @@
       <!-- sections-top:end -->
 
       <!-- journey:start -->
+      <!-- Sections 03 to 07. Desktop with motion: a horizontal journey driven by vertical scroll (js/journey.js). Everything else: stacked. -->
+      <div class="journey">
+        <div class="journey__stage">
+          <div class="journey__track">
+            <section class="panel morning" id="como-funciona" aria-labelledby="morning-title">
+              <img
+                class="panel__photo"
+                src="assets/images/web/morning-1280.webp"
+                srcset="assets/images/web/morning-1280.webp 1280w, assets/images/web/morning-2560.webp 2560w"
+                sizes="100vw"
+                alt="Una mujer andina camina con bastón por un sendero de montaña al amanecer."
+                width="2560"
+                height="1707"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="panel__scrim"></div>
+
+              <div class="panel__flow">
+                <h2 class="panel__title" id="morning-title">Una mañana cualquiera</h2>
+                <p class="panel__intro">La pulsera mide sola y compara cada dato con tus días normales. Solo te habla cuando algo no cuadra.</p>
+
+                <div class="moments">
+                  <div class="moment is-active" id="moment-0630" role="tabpanel" aria-labelledby="moment-tab-0630" data-bpm="62" data-period="400" data-shape="1">
+                    <p class="moment__when">06:30 · Dormiste bien</p>
+                    <div class="moment__reading">
+                      <p class="readout"><span class="readout__value">62</span> <abbr class="readout__unit" title="latidos por minuto">lpm</abbr></p>
+                      <p class="moment__status">Pulso estable</p>
+                    </div>
+                    <div class="moment__message mist">
+                      <p class="moment__step">Mide, sin que hagas nada</p>
+                      <p class="moment__text">Buenos días. Pasaste la noche con el pulso, el oxígeno y la temperatura normales.</p>
+                    </div>
+                  </div>
+                  <div class="moment" id="moment-0740" role="tabpanel" aria-labelledby="moment-tab-0740" data-bpm="96" data-period="220" data-shape="0.9">
+                    <p class="moment__when">07:40 · Caminata rápida</p>
+                    <div class="moment__reading">
+                      <p class="readout"><span class="readout__value">96</span> <abbr class="readout__unit" title="latidos por minuto">lpm</abbr></p>
+                      <p class="moment__status">Más rápido, y normal para ti</p>
+                    </div>
+                    <div class="moment__message mist">
+                      <p class="moment__step">Compara con tus días normales</p>
+                      <p class="moment__text">Caminaste rápido y el pulso subió. Para ti eso es normal, así que no hago nada.</p>
+                    </div>
+                  </div>
+                  <div class="moment moment--alert" id="moment-0814" role="tabpanel" aria-labelledby="moment-tab-0814" data-bpm="124" data-period="128" data-shape="0.72">
+                    <p class="moment__when">08:14 · Pulso alto en reposo</p>
+                    <div class="moment__reading">
+                      <p class="readout"><span class="readout__value">124</span> <abbr class="readout__unit" title="latidos por minuto">lpm</abbr></p>
+                      <p class="moment__status">Fuera de tu normal</p>
+                    </div>
+                    <div class="moment__message mist">
+                      <p class="moment__step">Pregunta antes de avisar</p>
+                      <p class="moment__text">Llevas 10 minutos en reposo con el pulso alto. Eso no es habitual en ti. ¿Estás bien?</p>
+                    </div>
+                  </div>
+
+                  <!-- Flat baseline; the rate shows only in the spacing between beats -->
+                  <div class="ecg" data-bpm="62" aria-hidden="true">
+                    <svg class="ecg__svg" viewBox="0 0 1440 200" preserveAspectRatio="xMaxYMid slice" focusable="false">
+                      <defs>
+                        <linearGradient id="ecg-paper" class="ecg__fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1250" y2="0">
+                          <stop offset="0" stop-color="#fffdf7" stop-opacity="0.08" />
+                          <stop offset="0.5" stop-color="#fffdf7" stop-opacity="0.7" />
+                          <stop offset="1" stop-color="#fffdf7" />
+                        </linearGradient>
+                        <linearGradient id="ecg-amber" class="ecg__fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1250" y2="0">
+                          <stop offset="0" stop-color="#f0b65a" stop-opacity="0.08" />
+                          <stop offset="0.5" stop-color="#f0b65a" stop-opacity="0.7" />
+                          <stop offset="1" stop-color="#f0b65a" />
+                        </linearGradient>
+                      </defs>
+                      <path class="ecg__trace is-shown" pathLength="1" stroke="url(#ecg-paper)" d="M0 120H168C177.333 109.333 186.667 109.333 196 120H206L212 134L224 16L236 166L246 120C258 104 270.667 104 284 120H568C577.333 109.333 586.667 109.333 596 120H606L612 134L624 16L636 166L646 120C658 104 670.667 104 684 120H968C977.333 109.333 986.667 109.333 996 120H1006L1012 134L1024 16L1036 166L1046 120C1058 104 1070.67 104 1084 120H1250" />
+                      <path class="ecg__trace" pathLength="1" stroke="url(#ecg-paper)" d="M0 120H1250" />
+                      <path class="ecg__comet" pathLength="1" d="M0 120H168C177.333 109.333 186.667 109.333 196 120H206L212 134L224 16L236 166L246 120C258 104 270.667 104 284 120H568C577.333 109.333 586.667 109.333 596 120H606L612 134L624 16L636 166L646 120C658 104 670.667 104 684 120H968C977.333 109.333 986.667 109.333 996 120H1006L1012 134L1024 16L1036 166L1046 120C1058 104 1070.67 104 1084 120H1250" />
+                      <circle class="ecg__halo" cx="1250" cy="120" r="16" />
+                      <circle class="ecg__dot" cx="1250" cy="120" r="6" />
+                    </svg>
+                  </div>
+
+                  <div class="moments__tabs" role="tablist" aria-label="Momentos de la mañana">
+                    <button class="moments__tab" type="button" role="tab" id="moment-tab-0630" aria-controls="moment-0630" aria-selected="true">
+                      <span class="moments__time">06:30</span>
+                      <span class="moments__label">Dormiste bien</span>
+                      <span class="moments__progress" aria-hidden="true"><span class="moments__fill"></span></span>
+                    </button>
+                    <button class="moments__tab" type="button" role="tab" id="moment-tab-0740" aria-controls="moment-0740" aria-selected="false" tabindex="-1">
+                      <span class="moments__time">07:40</span>
+                      <span class="moments__label">Caminata rápida</span>
+                      <span class="moments__progress" aria-hidden="true"><span class="moments__fill"></span></span>
+                    </button>
+                    <button class="moments__tab" type="button" role="tab" id="moment-tab-0814" aria-controls="moment-0814" aria-selected="false" tabindex="-1">
+                      <span class="moments__time">08:14</span>
+                      <span class="moments__label">Pulso alto en reposo</span>
+                      <span class="moments__progress" aria-hidden="true"><span class="moments__fill"></span></span>
+                    </button>
+                  </div>
+                </div>
+
+                <p class="panel__note">Datos de ejemplo: nombres, valores y tiempos son ficticios. Imagen ilustrativa.</p>
+              </div>
+            </section>
+
+            <section class="panel decide" id="tu-decides" aria-labelledby="decide-title">
+              <img
+                class="panel__photo decide__photo"
+                src="assets/images/web/portrait-1280.webp"
+                srcset="assets/images/web/portrait-1280.webp 1280w, assets/images/web/portrait-2560.webp 2560w"
+                sizes="100vw"
+                alt="Una mujer mayor andina sonríe mientras mira a lo lejos."
+                width="2560"
+                height="1707"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="panel__scrim"></div>
+              <p class="panel__notice">Imagen ilustrativa.</p>
+
+              <div class="panel__flow">
+                <h2 class="panel__title" id="decide-title">Tú decides primero</h2>
+                <ol class="steps">
+                  <li class="step">
+                    <p class="step__title">Te pregunta a ti primero</p>
+                    <p class="step__text">Tu pulsera suena y vibra, y lo ves en tu celular.</p>
+                  </li>
+                  <li class="step">
+                    <p class="step__title">Si estás bien, cancelas</p>
+                    <p class="step__text">Nadie se entera. Sigues con tu día.</p>
+                  </li>
+                  <li class="step step--alert">
+                    <p class="step__title">Si no respondes, avisa</p>
+                    <p class="step__text">Tus contactos, en orden, con tus datos.</p>
+                  </li>
+                </ol>
+
+                <figure class="phone decide__phone">
+                  <figcaption class="visually-hidden">Pantalla de ejemplo: aviso de la pulsera en el celular.</figcaption>
+                  <div class="phone__screen">
+                    <picture class="phone__wallpaper">
+                      <source media="(max-width: 47.99rem)" srcset="assets/images/web/landscape-1280.webp" />
+                      <img src="assets/images/web/landscape-2560.webp" alt="" width="2560" height="1707" loading="lazy" decoding="async" />
+                    </picture>
+                    <div class="phone__dim"></div>
+                    <span class="phone__island"></span>
+                    <p class="phone__date">Martes 7 de noviembre</p>
+                    <p class="phone__clock">08:14</p>
+                    <div class="notice mist">
+                      <div class="notice__head">
+                        <svg class="notice__icon" viewBox="0 0 34 34" aria-hidden="true" focusable="false">
+                          <rect width="34" height="34" rx="9" fill="#f0b65a" />
+                          <path d="M5 18H11L13.5 11L17 24L20 15L21.5 18H29" fill="none" stroke="#17241c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="notice__app"><span>AllinBand</span> <span class="notice__when">ahora</span></p>
+                      </div>
+                      <p class="notice__title">¿Estás bien?</p>
+                      <p class="notice__text">Tu pulso sigue alto en reposo. Si no respondes en unos segundos, aviso a tus contactos.</p>
+                      <div class="notice__actions">
+                        <span class="notice__action notice__action--primary">Estoy bien</span>
+                        <span class="notice__action">No puedo responder</span>
+                      </div>
+                    </div>
+                  </div>
+                </figure>
+              </div>
+            </section>
+
+            <section class="panel family" id="aviso" aria-labelledby="family-title">
+              <div class="panel__flow">
+                <h2 class="panel__title" id="family-title">Si no respondes,<br /> tu familia lo sabe</h2>
+                <p class="panel__intro">Tu centro de salud y tu primer contacto reciben tus datos y dónde estás. Si nadie confirma, la alerta sigue.</p>
+                <ol class="chain" aria-label="Orden de aviso de ejemplo">
+                  <li class="chain__item chain__item--now">
+                    <span class="chain__avatar" aria-hidden="true">A</span>
+                    <p class="chain__copy"><span class="chain__name">Ana, hija</span> <span class="chain__state">Avisando ahora</span></p>
+                  </li>
+                  <li class="chain__item">
+                    <span class="chain__avatar" aria-hidden="true">L</span>
+                    <p class="chain__copy"><span class="chain__name">Luis, hijo</span> <span class="chain__state">A los 10 s, si Ana no confirma</span></p>
+                  </li>
+                  <li class="chain__item">
+                    <span class="chain__avatar" aria-hidden="true">C</span>
+                    <p class="chain__copy"><span class="chain__name">Centro de salud</span> <span class="chain__state">Avisado junto con Ana</span></p>
+                  </li>
+                </ol>
+                <p class="panel__note family__note">Tú eliges el orden. Participantes de ejemplo.</p>
+              </div>
+
+              <div class="family__media">
+                <img
+                  class="family__photo"
+                  src="assets/images/web/family-900.webp"
+                  srcset="assets/images/web/family-900.webp 900w, assets/images/web/family-1600.webp 1600w"
+                  sizes="(min-width: 64rem) 60vw, 100vw"
+                  alt="Una mujer mira su celular en casa y sonríe."
+                  width="1600"
+                  height="2000"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div class="family__blend"></div>
+                <p class="panel__notice">Imagen ilustrativa.</p>
+
+                <figure class="phone family__phone">
+                  <figcaption class="visually-hidden">Pantalla de ejemplo: aviso que recibe tu familia.</figcaption>
+                  <div class="phone__screen">
+                    <img
+                      class="phone__wallpaper phone__wallpaper--portrait"
+                      src="assets/images/web/portrait-1280.webp"
+                      srcset="assets/images/web/portrait-1280.webp 1280w, assets/images/web/portrait-2560.webp 2560w"
+                      sizes="100vw"
+                      alt=""
+                      width="2560"
+                      height="1707"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <div class="phone__dim phone__dim--deep"></div>
+                    <span class="phone__island"></span>
+                    <p class="phone__date">Martes 7 de noviembre</p>
+                    <p class="phone__clock">08:15</p>
+                    <div class="notice mist">
+                      <div class="notice__head">
+                        <svg class="notice__icon" viewBox="0 0 34 34" aria-hidden="true" focusable="false">
+                          <rect width="34" height="34" rx="9" fill="#f0b65a" />
+                          <path d="M5 18H11L13.5 11L17 24L20 15L21.5 18H29" fill="none" stroke="#17241c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <p class="notice__app"><span>AllinBand</span> <span class="notice__when">ahora</span></p>
+                      </div>
+                      <p class="notice__title">Mamá no respondió</p>
+                      <dl class="notice__vitals">
+                        <div><dt>Pulso</dt> <dd>124 lpm</dd></div>
+                        <div><dt>Oxígeno</dt> <dd>91 %</dd></div>
+                        <div><dt>Temp.</dt> <dd>37,2 °C</dd></div>
+                      </dl>
+                      <p class="notice__text">Pulso alto en reposo. Clínica a 600 m.</p>
+                      <div class="notice__actions notice__actions--row">
+                        <span class="notice__action notice__action--primary">Confirmar</span>
+                        <span class="notice__action">Llamar</span>
+                      </div>
+                    </div>
+                  </div>
+                </figure>
+              </div>
+            </section>
+
+            <section class="panel app" id="app" aria-labelledby="app-title">
+              <picture class="panel__photo">
+                <source media="(max-width: 47.99rem)" srcset="assets/images/web/landscape-1280.webp" />
+                <img src="assets/images/web/landscape-2560.webp" alt="" width="2560" height="1707" loading="lazy" decoding="async" />
+              </picture>
+              <div class="panel__scrim"></div>
+
+              <div class="panel__flow">
+                <h2 class="panel__title" id="app-title">Tu familia sabe cómo estás</h2>
+                <p class="panel__intro">Desde la app ven tu pulso, tus alertas y tu historial, sin tener que llamarte. Pantallas de concepto con datos de ejemplo: la app no existe todavía.</p>
+
+                <div class="app__layout">
+                  <figure class="phone phone--app app__phone">
+                    <figcaption class="visually-hidden">Pantalla de ejemplo de la app para la familia.</figcaption>
+                    <div class="phone__screen app-screen">
+                      <span class="phone__island"></span>
+                      <p class="app-screen__clock">20:10</p>
+                      <svg class="app-screen__status" viewBox="0 0 52 14" aria-hidden="true" focusable="false">
+                        <g fill="#fffdf7">
+                          <rect x="0" y="9" width="3" height="5" rx="1" />
+                          <rect x="5" y="6" width="3" height="8" rx="1" />
+                          <rect x="10" y="3" width="3" height="11" rx="1" />
+                          <rect x="15" y="0" width="3" height="14" rx="1" />
+                          <rect x="28" y="3.5" width="15" height="7" rx="1.5" />
+                        </g>
+                        <rect x="26" y="1.5" width="22" height="11" rx="3" fill="none" stroke="#fffdf7" stroke-opacity="0.6" />
+                        <rect x="49.5" y="5" width="2" height="4" rx="1" fill="#fffdf7" fill-opacity="0.6" />
+                      </svg>
+
+                      <div class="app-screen__content">
+                        <div class="app-screen__who">
+                          <span class="app-screen__avatar" aria-hidden="true">M</span>
+                          <p><span class="app-screen__name">Mamá</span> <span class="app-screen__seen">Última lectura hace 1 min</span></p>
+                        </div>
+                        <div class="app-screen__pulse">
+                          <p class="app-screen__bpm">72 lpm</p>
+                          <p class="app-screen__pill">Todo normal</p>
+                          <svg class="app-screen__ecg" viewBox="0 0 260 64" aria-hidden="true" focusable="false">
+                            <path d="M0 40H46.8L50.4 48L57.6 8L64.8 58L70.8 40C78 33.3 85.6 33.3 93.6 40H134.8L138.4 48L145.6 8L152.8 58L158.8 40C166 33.3 173.6 33.3 181.6 40H222.8L226.4 48L233.6 8L240.8 58L246.8 40C252 35.2 256.5 34 260 35.4" fill="none" stroke="#f0b65a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                          </svg>
+                        </div>
+                        <dl class="app-screen__vitals">
+                          <div><dt>Oxígeno</dt> <dd>97 %</dd></div>
+                          <div><dt>Temperatura</dt> <dd>36,5 °C</dd></div>
+                        </dl>
+                        <dl class="app-screen__rows">
+                          <div><dt>Ubicación</dt> <dd>En casa</dd></div>
+                          <div><dt>Contactos de aviso</dt> <dd>3 personas</dd></div>
+                          <div><dt>Batería de la pulsera</dt> <dd>82 %</dd></div>
+                          <div><dt>Última alerta</dt> <dd>Ninguna hoy</dd></div>
+                        </dl>
+                      </div>
+
+                      <div class="app-screen__tabs" aria-hidden="true">
+                        <span class="app-screen__tab is-current">
+                          <svg viewBox="0 0 22 22"><path d="M2.75 10.08 11 2.75l8.25 7.33v8.25a.92.92 0 0 1-.92.92h-4.58v-6.42h-5.5v6.42H3.67a.92.92 0 0 1-.92-.92Z" /></svg>
+                          Hoy
+                        </span>
+                        <span class="app-screen__tab">
+                          <svg viewBox="0 0 22 22"><path d="M9.17 19.25a1.83 1.83 0 0 0 3.66 0M5.5 8.25a5.5 5.5 0 0 1 11 0c0 6.42 2.75 7.33 2.75 7.33H2.75S5.5 14.67 5.5 8.25Z" /></svg>
+                          Alertas
+                        </span>
+                        <span class="app-screen__tab">
+                          <svg viewBox="0 0 22 22"><path d="M3.67 18.33V9.17m0 9.16h5.5m-5.5 0h-.92m6.42 0V3.67m0 14.66h5.5m0 0v-6.41m0 6.41h4.58" /></svg>
+                          Historial
+                        </span>
+                        <span class="app-screen__home"></span>
+                      </div>
+                    </div>
+                  </figure>
+
+                  <div class="app-panel app-panel--alert mist">
+                    <p class="app-panel__head"><span class="app-panel__title">Alerta activa</span> <span class="app-panel__time">08:15</span></p>
+                    <svg class="app-panel__map" viewBox="0 0 382 190" aria-hidden="true" focusable="false">
+                      <rect width="382" height="190" rx="16" fill="#fffdf7" fill-opacity="0.08" />
+                      <path d="M0 52H382M104 0V190M276 0V190M0 136H382M180 52 104 108.6M180 52l96-19L382 12M67.2 136 0 186" fill="none" stroke="#fffdf7" stroke-opacity="0.26" stroke-width="7" />
+                      <circle cx="182" cy="96" r="26" fill="#f3885f" fill-opacity="0.22" />
+                      <circle cx="182" cy="96" r="11" fill="#f3885f" />
+                      <circle cx="182" cy="96" r="4" fill="#fffdf7" />
+                      <path d="M190.5 92.2 303 41.3" fill="none" stroke="#f0b65a" stroke-width="2.5" stroke-dasharray="6.2 6.2" />
+                      <rect x="294" y="24" width="30" height="30" rx="8" fill="#fffdf7" />
+                      <path d="M309 30v18m-9-9h18" fill="none" stroke="#a63d22" stroke-width="3" stroke-linecap="round" />
+                    </svg>
+                    <p class="app-panel__status">Pulso 124 lpm. Clínica a 600 m.</p>
+                    <p class="app-panel__caption">Sale dónde está, qué pasó y qué centro de salud queda cerca.</p>
+                  </div>
+
+                  <div class="app-panel app-panel--history mist">
+                    <p class="app-panel__head"><span class="app-panel__title">Pulso en reposo</span> <span class="app-panel__range">Últimos 7 días</span></p>
+                    <svg class="app-panel__chart" viewBox="0 0 382 124" aria-hidden="true" focusable="false">
+                      <rect x="34" y="20" width="346" height="60" rx="8" fill="#f0b65a" fill-opacity="0.12" />
+                      <path d="M34 6H380M34 50H380M34 94H380" fill="none" stroke="#fffdf7" stroke-opacity="0.16" stroke-width="1.5" />
+                      <path d="M52 66 104 46l52 14 52-24 52 18 52-26 52 14" fill="none" stroke="#f0b65a" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+                      <g fill="#f0b65a">
+                        <circle cx="52" cy="66" r="4" /><circle cx="104" cy="46" r="4" /><circle cx="156" cy="60" r="4" />
+                        <circle cx="208" cy="36" r="4" /><circle cx="260" cy="54" r="4" /><circle cx="312" cy="28" r="4" />
+                      </g>
+                      <circle cx="364" cy="42" r="7" fill="#fffdf7" />
+                    </svg>
+                    <p class="app-panel__days" aria-hidden="true"><span>L</span><span>M</span><span>M</span><span>J</span><span>V</span><span>S</span><span>D</span></p>
+                    <p class="app-panel__status">Entre 68 y 74 lpm toda la semana.</p>
+                    <p class="app-panel__caption">El historial por semanas se le puede compartir a la doctora.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel band" id="pulsera" aria-labelledby="band-title">
+              <div class="band__media">
+                <img
+                  class="band__photo"
+                  src="assets/images/web/band-use-1280.webp"
+                  srcset="assets/images/web/band-use-1280.webp 1280w, assets/images/web/band-use-2560.webp 2560w"
+                  sizes="100vw"
+                  alt="Una muñeca con la pulsera AllinBand de correa tejida negra descansa sobre una manta andina."
+                  width="2560"
+                  height="1707"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="panel__scrim"></div>
+              <div class="band__media band__overlay">
+                <ul class="band__callouts" aria-label="Partes de la pulsera">
+                  <li class="band__callout band__callout--strap"><span class="band__line" aria-hidden="true"></span><span class="band__chip mist">Correa tejida y ajustable</span></li>
+                  <li class="band__callout band__callout--light"><span class="band__line" aria-hidden="true"></span><span class="band__chip mist">Luz de estado</span></li>
+                </ul>
+              </div>
+              <p class="panel__notice">Imagen ilustrativa.</p>
+
+              <div class="panel__flow">
+                <h2 class="panel__title" id="band-title">Pensada para todos los días</h2>
+                <p class="panel__intro">Sin pantalla que mirar: una correa, un botón y una sola luz de estado.</p>
+              </div>
+            </section>
+          </div>
+
+          <!-- Pulse progress along the journey; drawn only in horizontal mode -->
+          <div class="journey__progress" aria-hidden="true">
+            <span class="journey__rail"></span>
+            <span class="journey__fill"></span>
+            <svg class="journey__head" viewBox="0 0 80 24" focusable="false">
+              <path d="M0 12 6 16 14 1 22 22 29 12H74.4" fill="none" stroke="#f0b65a" stroke-width="2" stroke-linejoin="round" />
+              <circle cx="74.4" cy="12" r="5" fill="#f0b65a" />
+            </svg>
+          </div>
+        </div>
+      </div>
       <!-- journey:end -->
 
       <!-- sections-bottom:start -->
