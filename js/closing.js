@@ -1,0 +1,3 @@
+/**
+ * AllinBand — Closing motion
+ */

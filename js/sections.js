@@ -1,0 +1,3 @@
+/**
+ * AllinBand — Vertical sections behavior
+ */

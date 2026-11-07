@@ -19,18 +19,20 @@ Design source: Figma file IEIOIHCnxY7dYDObgHVwAi, page "Redesign / Hero v2" (21:
 - S10. Facts from the report: band alerts first with sound and vibration, the phone also shows it, the phone is the Bluetooth bridge at about 10 m; health center and first contact are notified together, next contact after 10 s. Goals: 5 s, 99,5 %, 24 h, AES-256, PIN or biometrics, Android 10+ and iOS 14+. Keep the academic disclosure in the first viewport; nothing reads as a certified or real medical device.
 - S11. Copy, sources and team as in Figma. Team: Tamara Guzman, Mariana Morocho, Fabrizio Santi, Jahat Trinidad. Student codes never appear on the page.
 - S12. Images: use assets/images/web with srcset; lazy-load below the first screen; "Imagen ilustrativa" on generated images. The old 2 MB limit is replaced by a per-screen budget, proposed: first screen about 1.25 MB desktop, 0.3 MB mobile; whole page about 2.5 MB desktop, 0.93 MB mobile. Assumption: user has not confirmed this budget.
+- S14. Closing motion: "en secciones como el footer (o seccion final) se podria aprovechr la superposicon del pastito con el texto para aplicar un parallax o animacion. quedaria bien en mi opionnio y paovechariamos los recursos que tenemos". Same rules as S5: desktop with fine pointer, static on touch, nothing under reduced motion.
 - S13. Keep from the previous work: content visible without JS, no personal data, keyboard access, reflow at large text, AA contrast measured in browser at 1440, 1366, 1024, 820, 390, 360.
 
 ## Tasks
 
 - [x] T0 assets inline: 24 responsive WebP files in assets/images/web. Commit b0f25e4. Upscaled PNG and original JPEG sources moved to ../allin-band-sources, outside the repo.
 - [x] T1 S2 S3 S4 inline: tokens, fonts (self-host Host Grotesk), base styles, navbar, footer. Also the static hero layers and callouts, because the navbar is designed over the hero sky. Commit 2fdbecd.
-- [ ] T2 S1 S5 S10 S11 S12 inline: middle sections structure and copy, hero motion (static layers already done in T1).
-- [ ] T3 S6 S7 inline: pulse component and horizontal journey.
-- [ ] T4 S8 S9 inline: goals curve, limits, FAQ, closing.
+- [x] T2a S5 inline: hero motion. Commit 7e3e1e5.
+- [ ] T2b+T4 S1 S8 S9 S10 S11 S12 delegated (writer B, worktree): sections 02, 08, 09, 10 in css/sections.css, js/sections.js, markers sections-top and sections-bottom.
+- [ ] T3 S1 S6 S7 S10 S11 S12 delegated (writer A, worktree): sections 03 to 07, pulse and horizontal journey in css/journey.css, js/journey.js, marker journey.
+- [ ] T6 S14 inline: closing grass and wordmark parallax in js/closing.js and css/closing.css.
 - [ ] T5 S13: browser verification at all sizes, regression tests, docs and DESIGN.md update.
 
-Route evidence: one page across shared files, so no Writer trigger; inline. Risk to review at T3: item 6, browser behavior with little automated coverage.
+Route evidence: the user asked for subagents (L13). Writer trigger (a): two independent units, each several files and well over 100 lines, with disjoint surfaces; index.html is shared, so each writer works in an isolated worktree and edits only between its markers. The parent merges, runs the seam check and owns T6 and T5. Risk to review at T3: item 6, browser behavior with little automated coverage.
 
 ## Log
 
@@ -46,4 +48,6 @@ Route evidence: one page across shared files, so no Writer trigger; inline. Risk
 - L10 (2026-11-06) T1 done. Old chat page removed (chat.css, sections.css, demo.js, Bricolage font). New css/nav.css, hero.css, closing.css. Checked in the browser over http at 1440x900, 1366x768, 1024x768, 390x844 and 360x640: no horizontal scroll, no console errors; closing measured 1212 px desktop (frame 1210) and 1209 px mobile (frame 1214). Callouts appear only from 80rem, because at 1024 the left chip touched the edge. No-JS mobile: the navbar flows above the hero. tests/skip-link.cjs PASS. tests/reflow.cjs PASS with the full Chromium binary (CHROMIUM_PATH=~/.cache/ms-playwright/chromium-1248/chrome-linux64/chrome); the headless shell ignores the font preference and fails at the base commit too. Its FAQ check has nothing to test until T4. Known gaps: nav anchors and "Probar el demo" (#tu-decides) point to sections built in T2-T4; mobile intro copy keeps "AllinBand es el concepto" (the Figma mobile frame starts with "El concepto"); favicon, og-image and its alt text still belong to the chat page; band-cutout.webp is no longer used. Contrast not measured yet (T5).
 - L11 (2026-11-06) "queda bien pero no olvides las animaciones, efectos de parallax y otras cosas que prometiste en el momento del diseño de la landing". Shell approved visually over Tailscale. Motion promised in design (Engram design/hero-references): staged entrance and pointer-driven layered depth from the first 8 s of the Pyko video; no three.js. Order: hero motion first (T2a), then middle sections (T2b), pulse and horizontal journey (T3).
 - L12 (2026-11-06) T2a hero motion: staged entrance after the landscape and band decode (1.2 s cap); words rise one by one, band rises and scales, grass climbs, dots pop, leader lines draw with stroke-dashoffset, chips slide in, copy fades up. Desktop with hover and fine pointer: scroll drift and pointer depth per layer, band tilts up to 7 deg. Checked over http at 1440x900: play class set, band and grass transforms follow the pointer and the scroll, no errors. Reduced motion: no motion class, words opacity 1, no transforms. Touch at 390: entrance plays, layers stay static. With hero.js blocked, the 3 s failsafe shows the content. skip-link and reflow tests PASS.
-- Next: T2b middle sections.
+- L13 (2026-11-06) "va. dale implementa todo. usa subagentes  y las herramientas que necesites.  una sigerencia es que en secciones como el footer (o seccion final) se podria aprovechr la superposicon del pastito con el texto para aplicar un parallax o animacion. quedaria bien en mi opionnio y paovechariamos los recursos que tenemos"
+- L14 Section ids fixed by the parent: 02 #emergencia, 03 #como-funciona, 04 #tu-decides, 05 #aviso, 06 #app, 07 #pulsera, 08 #metas, 09 #limites, 10 #preguntas. Assumption: "La pulsera" maps to 07 and "La app" to 06.
+- Next: launch writers A and B, then T6.
